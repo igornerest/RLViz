@@ -1,24 +1,41 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GridState : MonoBehaviour
 {
+    public TMP_Text policyText;
+    public TMP_Text utilityText;
     private Transform floorTransform;
 
-    private Position position;
-    
-    private float reward = -0.04f;
-
-    private bool isTerminalState = false;
-
-    private Dictionary<Action, List<Tuple<float, Position>>> probs = 
+    private Dictionary<Action, List<Tuple<float, Position>>> probs =
         new Dictionary<Action, List<Tuple<float, Position>>>();
 
-    public void EvaluateProbabilities(Dictionary<Deviation, float> deviationProbs, HashSet<Position> gridPositions)
+    public Position Position { get; private set; }
+
+    public float Reward { get; private set; }  = -0.04f;
+
+    public float Utility { get; private set; } = 0f;
+
+    public bool IsTerminal { get; private set; } =  false;
+
+    public void Start()
     {
-        Debug.Log(position);
+        //policyText = transform.Find("Canvas").transform.Find("PolicyText").GetComponent<TMP_Text>();
+        //utilityText = transform.Find("Canvas").transform.Find("UtilityText").GetComponent<TMP_Text>();
+    }
+
+    public void EvaluateProbabilities(Dictionary<Deviation, float> deviationProbs, Dictionary<Position, GridState> grid)
+    {
+        Debug.Log(this.Position);
+
+        if (this.IsTerminal)
+        {
+            Debug.Log("Terminal State. Exiting probability evaluation");
+            return;
+        }
 
         foreach (Action action in Enum.GetValues(typeof(Action))) {
             probs[action] = new List<Tuple<float, Position>>();
@@ -30,10 +47,10 @@ public class GridState : MonoBehaviour
 
                 Action deviatedAction = ActionExtensions.Deviate(action, deviation);
 
-                Position positionAfterAction = this.position.MoveWithAction(deviatedAction);
-                if (!gridPositions.Contains(positionAfterAction))
+                Position positionAfterAction = this.Position.MoveWithAction(deviatedAction);
+                if (!grid.ContainsKey(positionAfterAction))
                 {
-                    positionAfterAction = position;
+                    positionAfterAction = this.Position;
                 }
 
                 probs[action].Add(new Tuple<float, Position>(prob, positionAfterAction));
@@ -46,9 +63,29 @@ public class GridState : MonoBehaviour
         }
     }
 
+    public List<float> GetExpectedValuesFromUtility(Dictionary<Position, float> utilities)
+    {
+        var expectedVals = new List<float>();
+
+        foreach (List<Tuple<float, Position>> probPerDeviation in probs.Values)
+        {
+            float expectedVal = 0f;
+            foreach (Tuple<float, Position> prob in probPerDeviation)
+            {
+                float probability = prob.Item1;
+                Position pos = prob.Item2;
+
+                expectedVal += probability * utilities[pos];
+            }
+            expectedVals.Add(expectedVal);
+        }
+       
+        return expectedVals;
+    }
+
     public void SetFloorAtPosition(Position position, Transform floorPrefab)
     {
-        this.position = position;
+        this.Position = position;
 
         if (floorTransform == null)
         {
@@ -62,15 +99,21 @@ public class GridState : MonoBehaviour
 
     public void SetSuccessGoal()
     {
-        this.isTerminalState = true;
-        this.reward = 1f;
+        this.IsTerminal = true;
+        this.Reward = 1f;
         floorTransform.GetComponent<Renderer>().material.color = Color.green;
     }
 
     public void SetFailureGoal()
     {
-        this.isTerminalState = true;
-        this.reward = -1f;
+        this.IsTerminal = true;
+        this.Reward = -1f;
         floorTransform.GetComponent<Renderer>().material.color = Color.red;
+    }
+
+    public void UpdateUtility(float utility)
+    {
+        this.Utility = utility;
+        utilityText.text = utility.ToString();
     }
 }

@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RLManager : MonoBehaviour
 {
-    [SerializeField]
-    private Transform floorPrefab;
+    [SerializeField] private Transform floorPrefab;
 
-    private List<GridState> grid = new List<GridState>();
-    private HashSet<Position> gridPositions = new HashSet<Position>();
+    private Dictionary<Position, GridState> grid = new Dictionary<Position, GridState>();
 
     private Dictionary<Deviation, float> deviationProbs =
         new Dictionary<Deviation, float> {    
@@ -20,6 +19,8 @@ public class RLManager : MonoBehaviour
     void Start()
     {
         setMDP();
+
+        RLAlgorithms.valueIteration(grid, gamma: 0.9f, episilon: 0.001f);
     }
 
     void Update()
@@ -36,31 +37,30 @@ public class RLManager : MonoBehaviour
         {
             for (int j = 1; j <= columns; j++)
             {
-                var currPosition = (j, i);
+                Position position = new Position(j, i);
 
-                if (currPosition != (2, 2))
+                if (!position.Is(2, 2))
                 {
                     GridState gridState = new GridState();
-                    gridState.SetFloorAtPosition(new Position(j, i), floorPrefab);
-
-                    if (currPosition == (4, 3))
+                    gridState.SetFloorAtPosition(position, floorPrefab);
+      
+                    if (position.Is(4, 3))
                     {
                         gridState.SetSuccessGoal();
                     }
-                    else if (currPosition == (4, 2))
+                    else if (position.Is(4, 2))
                     {
                         gridState.SetFailureGoal();
                     }
 
-                    grid.Add(gridState);
-                    gridPositions.Add(new Position(j, i));
+                    grid[position] = gridState;
                 }
             }
         }
 
-        foreach (GridState gridState in grid)
+        foreach (GridState gridElem in grid.Values)
         {
-            gridState.EvaluateProbabilities(deviationProbs, gridPositions);
+            gridElem.EvaluateProbabilities(deviationProbs, grid);
         }
     }
 }

@@ -16,6 +16,11 @@ public class Position
         return new Vector3(this.X, 0, this.Y);
     }
 
+    public bool Is(int x, int y)
+    {
+        return this.X == x && this.Y == y;
+    }
+
     public Position MoveWithAction(Action action)
     {
         switch (action)
