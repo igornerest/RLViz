@@ -19,6 +19,16 @@ public class RLManager : MonoBehaviour
 
     void Start()
     {
+        setMDP();
+    }
+
+    void Update()
+    {
+        
+    }
+
+    private void setMDP()
+    {
         int rows = 3;
         int columns = 4;
 
@@ -26,10 +36,25 @@ public class RLManager : MonoBehaviour
         {
             for (int j = 1; j <= columns; j++)
             {
-                GridState gridState = new GridState();
-                gridState.SetFloorAtPosition(new Position(j, i), floorPrefab);
-                grid.Add(gridState);
-                gridPositions.Add(new Position(j, i));
+                var currPosition = (j, i);
+
+                if (currPosition != (2, 2))
+                {
+                    GridState gridState = new GridState();
+                    gridState.SetFloorAtPosition(new Position(j, i), floorPrefab);
+
+                    if (currPosition == (4, 3))
+                    {
+                        gridState.SetSuccessGoal();
+                    }
+                    else if (currPosition == (4, 2))
+                    {
+                        gridState.SetFailureGoal();
+                    }
+
+                    grid.Add(gridState);
+                    gridPositions.Add(new Position(j, i));
+                }
             }
         }
 
@@ -37,10 +62,5 @@ public class RLManager : MonoBehaviour
         {
             gridState.EvaluateProbabilities(deviationProbs, gridPositions);
         }
-    }
-
-    void Update()
-    {
-        
     }
 }

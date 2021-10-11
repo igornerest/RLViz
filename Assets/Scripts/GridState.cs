@@ -11,6 +11,8 @@ public class GridState : MonoBehaviour
     
     private float reward = -0.04f;
 
+    private bool isTerminalState = false;
+
     private Dictionary<Action, List<Tuple<float, Position>>> probs = 
         new Dictionary<Action, List<Tuple<float, Position>>>();
 
@@ -56,5 +58,19 @@ public class GridState : MonoBehaviour
         {
             floorTransform.position = position.getWorldPosition();
         }
+    }
+
+    public void SetSuccessGoal()
+    {
+        this.isTerminalState = true;
+        this.reward = 1f;
+        floorTransform.GetComponent<Renderer>().material.color = Color.green;
+    }
+
+    public void SetFailureGoal()
+    {
+        this.isTerminalState = true;
+        this.reward = -1f;
+        floorTransform.GetComponent<Renderer>().material.color = Color.red;
     }
 }
