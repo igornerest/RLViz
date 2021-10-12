@@ -8,7 +8,6 @@ public class GridState : MonoBehaviour
 {
     public TMP_Text policyText;
     public TMP_Text utilityText;
-    private Transform floorTransform;
 
     private Dictionary<Action, List<Tuple<float, Position>>> probs =
         new Dictionary<Action, List<Tuple<float, Position>>>();
@@ -86,29 +85,21 @@ public class GridState : MonoBehaviour
     public void SetFloorAtPosition(Position position, Transform floorPrefab)
     {
         this.Position = position;
-
-        if (floorTransform == null)
-        {
-            floorTransform = Instantiate(floorPrefab, position.getWorldPosition(), Quaternion.identity);
-        }
-        else
-        {
-            floorTransform.position = position.getWorldPosition();
-        }
+        transform.position = position.getWorldPosition();
     }
 
     public void SetSuccessGoal()
     {
         this.IsTerminal = true;
         this.Reward = 1f;
-        floorTransform.GetComponent<Renderer>().material.color = Color.green;
+        transform.GetComponent<Renderer>().material.color = Color.green;
     }
 
     public void SetFailureGoal()
     {
         this.IsTerminal = true;
         this.Reward = -1f;
-        floorTransform.GetComponent<Renderer>().material.color = Color.red;
+        transform.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public void UpdateUtility(float utility)

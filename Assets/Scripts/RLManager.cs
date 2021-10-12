@@ -41,7 +41,7 @@ public class RLManager : MonoBehaviour
 
                 if (!position.Is(2, 2))
                 {
-                    GridState gridState = new GridState();
+                    GridState gridState = Instantiate(floorPrefab, position.getWorldPosition(), Quaternion.identity).GetComponent<GridState>();
                     gridState.SetFloorAtPosition(position, floorPrefab);
       
                     if (position.Is(4, 3))
