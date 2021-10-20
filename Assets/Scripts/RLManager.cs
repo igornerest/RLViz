@@ -1,13 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class RLManager : MonoBehaviour
 {
     [SerializeField] private Transform floorPrefab;
 
-    private Dictionary<Position, GridState> grid = new Dictionary<Position, GridState>();
+    private MDP mdp = new MDP();
 
     private Dictionary<Deviation, float> deviationProbs =
         new Dictionary<Deviation, float> {    
@@ -16,17 +14,19 @@ public class RLManager : MonoBehaviour
             { Deviation.RIGHT,      0.1f }
         };
 
-    void Start()
+    private void Start()
     {
         setMDP();
 
-        RLAlgorithms.valueIteration(grid, gamma: 0.9f, episilon: 0.001f);
+        foreach (State state in mdp.getAllStates())
+        {
+            GridBlock gridBlock = Instantiate(floorPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
+            gridBlock.UpdateBlock(state);
+        }
+        
+        RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
     }
 
-    void Update()
-    {
-        
-    }
 
     private void setMDP()
     {
@@ -37,30 +37,18 @@ public class RLManager : MonoBehaviour
         {
             for (int j = 1; j <= columns; j++)
             {
-                Position position = new Position(j, i);
+                if ((j, i) == (2, 2))
+                    continue;
+                
+                bool isTerminal = ((j, i) == (4, 3) || (j, i) == (4, 2));
+                float terminalReward = (j, i) == (4, 3) ? 1f : -1f;
+                float reward = isTerminal ? terminalReward : -0.04f;
 
-                if (!position.Is(2, 2))
-                {
-                    GridState gridState = Instantiate(floorPrefab, position.getWorldPosition(), Quaternion.identity).GetComponent<GridState>();
-                    gridState.SetFloorAtPosition(position, floorPrefab);
-      
-                    if (position.Is(4, 3))
-                    {
-                        gridState.SetSuccessGoal();
-                    }
-                    else if (position.Is(4, 2))
-                    {
-                        gridState.SetFailureGoal();
-                    }
-
-                    grid[position] = gridState;
-                }
+                State state = new State(j, i, reward, isTerminal);
+                mdp.AddState(state);
             }
         }
 
-        foreach (GridState gridElem in grid.Values)
-        {
-            gridElem.EvaluateProbabilities(deviationProbs, grid);
-        }
+        mdp.EvaluateProbabilities(deviationProbs);
     }
 }
