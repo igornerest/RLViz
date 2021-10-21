@@ -12,6 +12,7 @@ public class GridBlock : MonoBehaviour
     private float reward;
     private float utility;
     private bool isTerminal;
+    private Action policy;
 
     public void Update()
     {
@@ -29,8 +30,10 @@ public class GridBlock : MonoBehaviour
         this.reward = state.Reward;
         this.isTerminal = state.IsTerminal;
         this.utility = state.Utility;
+        this.policy = state.Policy;
 
         transform.position = state.Position;
         utilityText.text = state.Utility.ToString();
+        policyText.text = state.Policy.ToString();
     }
 }

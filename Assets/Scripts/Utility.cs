@@ -18,7 +18,7 @@ public class Utility : IEnumerable
     {
         foreach (State state in states)
         {
-            uMap[state] = 0f;
+            uMap[state] = state.IsTerminal? state.Reward : 0f;
         }
     }
 
@@ -35,22 +35,38 @@ public class Utility : IEnumerable
         }
     }
 
-    public List<float> GetExpectedValues(State state)
+    public Tuple<float, Action> GetMaxExpectedValue(State state)
     {
-        var expectedVals = new List<float>();
+        float maxExpectedValue = float.NegativeInfinity;
+        Action bestAction = Action.UP;
 
-        Debug.Log("antes " + state);
-        foreach (List<Tuple<State, float>> nextLikelyStates in state.NextLikelyStates.Values)
+        foreach (Action currAction in state.NextLikelyStates.Keys)
         {
-            Debug.Log("dentro");
-            float expectedVal = 0f;
-            foreach (var (nextState, probability) in nextLikelyStates)
+            float currExpectedValue = 0f;
+            foreach (var (nextState, probability) in state.NextLikelyStates[currAction])
             {
-                expectedVal += probability * uMap[nextState];
+                currExpectedValue += probability * uMap[nextState];
             }
-            expectedVals.Add(expectedVal);
+
+            if (currExpectedValue > maxExpectedValue)
+            {
+                maxExpectedValue = currExpectedValue;
+                bestAction = currAction;
+            }
         }
 
-        return expectedVals;
+        return new Tuple<float, Action>(maxExpectedValue, bestAction); 
+    }
+
+    public override string ToString()
+    {
+        var sb = new System.Text.StringBuilder();
+
+        foreach (KeyValuePair<State, float> u in uMap)
+        {
+            sb.Append(u.Key + " " + u.Value + "\n");
+        }
+
+        return sb.ToString();
     }
 }

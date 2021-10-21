@@ -7,7 +7,9 @@ public class MDP
 {
     Dictionary<Vector3Int, State> grid = new Dictionary<Vector3Int, State>();
 
-    public Utility uMap;
+    public Utility uMap { private set; get; }
+
+    public Policy pMap { private set; get; }
 
     public void AddState(State state)
     {
@@ -26,6 +28,16 @@ public class MDP
         foreach (State state in grid.Values)
         {
             state.Utility = uMap[state];
+        }
+    }
+
+    public void UpdatePolicy(Policy pMap)
+    {
+        this.pMap = pMap;
+
+        foreach (State state in grid.Values)
+        {
+            state.Policy = pMap[state];
         }
     }
 

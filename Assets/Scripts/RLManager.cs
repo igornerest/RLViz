@@ -23,8 +23,9 @@ public class RLManager : MonoBehaviour
             GridBlock gridBlock = Instantiate(floorPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
             gridBlock.UpdateBlock(state);
         }
-        
-        RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
+
+        //RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
+        RLAlgorithms.policyIteration(mdp, gamma: 0.9f);
     }
 
 

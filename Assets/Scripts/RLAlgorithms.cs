@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using UnityEngine;
 
 public static class RLAlgorithms
 {
@@ -23,7 +24,7 @@ public static class RLAlgorithms
                 }
                 else
                 {
-                    float maxUtility = newUtility.GetExpectedValues(state).Max();
+                    var (maxUtility, _) = newUtility.GetMaxExpectedValue(state);
                     utility[state] = state.Reward + gamma * maxUtility;
                 }
 
@@ -32,5 +33,51 @@ public static class RLAlgorithms
         }
 
         mdp.UpdateUtility(utility);
+    }
+
+    public static void policyIteration(MDP mdp, float gamma)
+    {
+        
+        Utility utility = new Utility(mdp.getAllStates());
+        Policy policy = new Policy(mdp.getAllStates());
+
+        bool changed = true;
+        while (changed)
+        {
+            utility = policyEvaluation(mdp, policy, utility, gamma);
+            changed = false;
+
+            foreach (State state in mdp.getAllStates())
+            {
+                if (state.IsTerminal)
+                    continue;
+
+                var (uUtility, uAction) = utility.GetMaxExpectedValue(state);
+                var (pUtility, _)       = policy.GetMaxExpectedValue(state, utility);
+
+                if (uUtility > pUtility)
+                {
+                    policy[state] = uAction;
+                    changed = true;
+                }
+            }
+        }
+
+        mdp.UpdateUtility(utility);
+        mdp.UpdatePolicy(policy);
+    }
+
+    private static Utility policyEvaluation(MDP mdp, Policy policy, Utility utility, float gamma)
+    {
+        foreach (State state in mdp.getAllStates())
+        {
+            if (state.IsTerminal)
+                continue;
+
+            var (expectedValue ,_) = policy.GetMaxExpectedValue(state, utility);
+            utility[state] = state.Reward + gamma * expectedValue;
+        }
+
+        return utility;
     }
 }

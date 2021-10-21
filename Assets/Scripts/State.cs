@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +11,8 @@ public class State
     public float Reward { private set; get; }
 
     public float Utility { set; get; }
+
+    public Action Policy { set; get; }
 
     private Dictionary<Action, List<Tuple<State, float>>> nextLikelyStates =
         new Dictionary<Action, List<Tuple<State, float>>>();
