@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class State
 {
@@ -13,6 +14,8 @@ public class State
     public float Utility { set; get; }
 
     public Action Policy { set; get; }
+
+    private static Random random = new Random();
 
     private Dictionary<Action, List<Tuple<State, float>>> nextLikelyStates =
         new Dictionary<Action, List<Tuple<State, float>>>();
@@ -31,6 +34,26 @@ public class State
     public void UpdateNextLikelyStates(Action action, List<Tuple<State, float>> nextLikelyStates)
     {
         this.nextLikelyStates[action] = nextLikelyStates;
+    }
+
+    public State NextState(Policy policy)
+    {
+        double randomChoice = random.NextDouble();
+        double accProbability = 0;
+
+        Action action = policy[this];
+
+        foreach (var (nextState, probability) in NextLikelyStates[action])
+        {
+            accProbability += probability;
+
+            if (randomChoice <= accProbability)
+            {
+                return nextState;
+            }
+        }
+
+        throw new Exception("The sum of the probabilities of all outcomes is not equal to 1");
     }
 
     public Vector3Int GetPositionFromAction(Action action)

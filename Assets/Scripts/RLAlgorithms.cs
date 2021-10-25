@@ -67,6 +67,36 @@ public static class RLAlgorithms
         mdp.UpdatePolicy(policy);
     }
 
+    // For now, we will use a pre-calculated policy
+    // What if we get a random one at the beginning? 
+    public static void TimeDifference(MDP mdp, float alpha, float gamma)
+    {
+        Utility utility = new Utility(mdp.getAllStates());
+        
+        foreach (var state in mdp.getAllStates())
+        {
+            utility[state] = state.Reward;
+        }
+
+        for (int i = 0; i < 1000; i++)
+        {
+            State lastState = mdp.InitialState;
+            State currState = lastState.NextState(mdp.pMap);
+
+            while (!currState.IsTerminal)
+            {
+                utility[lastState] = utility[lastState] + alpha * (lastState.Reward + gamma * utility[currState] - utility[lastState]);
+                lastState = currState;
+                currState = currState.NextState(mdp.pMap);
+            }
+
+            // We still need to update the state prior to the terminal state
+            utility[lastState] = utility[lastState] + alpha * (lastState.Reward + gamma * utility[currState] - utility[lastState]);
+        }
+
+        mdp.UpdateUtility(utility);
+    }
+
     private static Utility policyEvaluation(MDP mdp, Policy policy, Utility utility, float gamma)
     {
         foreach (State state in mdp.getAllStates())

@@ -11,9 +11,16 @@ public class MDP
 
     public Policy pMap { private set; get; }
 
-    public void AddState(State state)
+    public State InitialState { private set; get;  }
+
+    public void AddState(State state, bool isInitial = false)
     {
         grid[state.Position] = state;
+
+        if (isInitial)
+        {
+            InitialState = state;
+        }
     }
 
     public List<State> getAllStates()

@@ -26,6 +26,7 @@ public class RLManager : MonoBehaviour
 
         //RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
         RLAlgorithms.policyIteration(mdp, gamma: 0.9f);
+        RLAlgorithms.TimeDifference(mdp, gamma: 0.9f, alpha: 0.1f);
     }
 
 
@@ -40,13 +41,14 @@ public class RLManager : MonoBehaviour
             {
                 if ((j, i) == (2, 2))
                     continue;
-                
+
+                bool isInitial = ((j, i) == (1, 1));
                 bool isTerminal = ((j, i) == (4, 3) || (j, i) == (4, 2));
                 float terminalReward = (j, i) == (4, 3) ? 1f : -1f;
                 float reward = isTerminal ? terminalReward : -0.04f;
 
                 State state = new State(j, i, reward, isTerminal);
-                mdp.AddState(state);
+                mdp.AddState(state, isInitial);
             }
         }
 
