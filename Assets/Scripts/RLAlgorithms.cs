@@ -72,7 +72,7 @@ public static class RLAlgorithms
     public static void TimeDifference(MDP mdp, float alpha, float gamma)
     {
         Utility utility = new Utility(mdp.getAllStates());
-        
+
         foreach (var state in mdp.getAllStates())
         {
             utility[state] = state.Reward;
@@ -81,13 +81,13 @@ public static class RLAlgorithms
         for (int i = 0; i < 1000; i++)
         {
             State lastState = mdp.InitialState;
-            State currState = lastState.NextState(mdp.pMap);
+            State currState = lastState.NextState(mdp.pMap[lastState]);
 
             while (!currState.IsTerminal)
             {
                 utility[lastState] = utility[lastState] + alpha * (lastState.Reward + gamma * utility[currState] - utility[lastState]);
                 lastState = currState;
-                currState = currState.NextState(mdp.pMap);
+                currState = currState.NextState(mdp.pMap[lastState]);
             }
 
             // We still need to update the state prior to the terminal state
@@ -97,6 +97,42 @@ public static class RLAlgorithms
         mdp.UpdateUtility(utility);
     }
 
+    
+    public static void QLearning(MDP mdp, float alpha, float gamma)
+    {
+        QFunction qFunction = new QFunction(mdp.getAllStates());
+
+        for (int i = 0; i < 1000; i++)
+        {
+            State prevState = mdp.InitialState;
+            var (_, prevAction) = qFunction.MaxQ(prevState);
+            State currState = prevState.NextState(prevAction);
+   
+            while (!prevState.IsTerminal)
+            {
+                if (currState.IsTerminal)
+                {
+                    qFunction[currState, prevAction] = currState.Reward;
+                }
+
+                var (maxQ, currAction) = qFunction.MaxQ(currState);
+                
+                qFunction[prevState, prevAction] = qFunction[prevState, prevAction] + alpha * (prevState.Reward + gamma * maxQ - qFunction[prevState, prevAction]);
+
+                prevState = currState;
+
+                if (!currState.IsTerminal)
+                {
+                    currState = currState.NextState(currAction);
+                    prevAction = currAction;
+                }
+            }
+        }
+
+        Policy policy = qFunction.GetPolicy();
+        mdp.UpdatePolicy(policy);
+    }
+    
     private static Utility policyEvaluation(MDP mdp, Policy policy, Utility utility, float gamma)
     {
         foreach (State state in mdp.getAllStates())

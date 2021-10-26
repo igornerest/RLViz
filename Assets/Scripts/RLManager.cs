@@ -25,8 +25,11 @@ public class RLManager : MonoBehaviour
         }
 
         //RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
-        RLAlgorithms.policyIteration(mdp, gamma: 0.9f);
-        RLAlgorithms.TimeDifference(mdp, gamma: 0.9f, alpha: 0.1f);
+
+        //RLAlgorithms.policyIteration(mdp, gamma: 0.9f);
+        //RLAlgorithms.TimeDifference(mdp, gamma: 0.9f, alpha: 0.1f);
+
+        RLAlgorithms.QLearning(mdp, gamma: 0.9f, alpha: 0.1f);
     }
 
 

@@ -13,6 +13,8 @@ public class Policy : MonoBehaviour
         set { pMap[key] = value; }
     }
 
+    public Policy() { }
+
     public Policy(List<State> states)
     {
         foreach (State state in states)

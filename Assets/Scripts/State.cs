@@ -36,12 +36,10 @@ public class State
         this.nextLikelyStates[action] = nextLikelyStates;
     }
 
-    public State NextState(Policy policy)
+    public State NextState(Action action)
     {
         double randomChoice = random.NextDouble();
         double accProbability = 0;
-
-        Action action = policy[this];
 
         foreach (var (nextState, probability) in NextLikelyStates[action])
         {
