@@ -7,7 +7,8 @@ public class GridBlock : MonoBehaviour
     public TMP_Text utilityText;
 
     private State state;
-    
+    private MDP mdp;
+
     private Vector3Int position;
     private float reward;
     private float utility;
@@ -18,9 +19,10 @@ public class GridBlock : MonoBehaviour
     {
         FetchStateInfo();
     }
-    public void UpdateBlock(State state)
+    public void UpdateBlock(State state, MDP mdp)
     {
         this.state = state;
+        this.mdp = mdp;
         FetchStateInfo();
     }
 
@@ -29,11 +31,12 @@ public class GridBlock : MonoBehaviour
         this.position = state.Position;
         this.reward = state.Reward;
         this.isTerminal = state.IsTerminal;
-        this.utility = state.Utility;
-        this.policy = state.Policy;
 
-        transform.position = state.Position;
-        utilityText.text = state.Utility.ToString();
-        policyText.text = state.Policy.ToString();
+        this.utility = mdp.Utility[state];
+        this.policy = mdp.Policy[state];
+
+        transform.position = this.state.Position;
+        utilityText.text = this.utility.ToString();
+        policyText.text = this.policy.ToString();
     }
 }

@@ -4,11 +4,15 @@ using UnityEngine;
 
 public static class RLAlgorithms
 {
+    public const String ALGORITHM_VALUE_ITERATION = "Value Iteration";
+    public const String ALGORITHM_POLICY_ITERATION = "Policy Iteration";
+    public const String ALGORITHM_TIME_DIFFERENCE = "Time Difference";
+    public const String ALGORITHM_Q_LEARNING = "Q Learning";
     public static void valueIteration(MDP mdp, float gamma, float episilon)
     {
         float delta = episilon * (1 - gamma) / gamma + 1;
 
-        Utility utility = new Utility(mdp.getAllStates());
+        Utility utility = new Utility();
 
         while (delta > episilon * (1 - gamma) / gamma)
         {
@@ -38,8 +42,8 @@ public static class RLAlgorithms
     public static void policyIteration(MDP mdp, float gamma)
     {
         
-        Utility utility = new Utility(mdp.getAllStates());
-        Policy policy = new Policy(mdp.getAllStates());
+        Utility utility = new Utility();
+        Policy policy = new Policy();
 
         bool changed = true;
         while (changed)
@@ -71,7 +75,7 @@ public static class RLAlgorithms
     // What if we get a random one at the beginning? 
     public static void TimeDifference(MDP mdp, float alpha, float gamma)
     {
-        Utility utility = new Utility(mdp.getAllStates());
+        Utility utility = new Utility();
 
         foreach (var state in mdp.getAllStates())
         {
@@ -81,13 +85,13 @@ public static class RLAlgorithms
         for (int i = 0; i < 1000; i++)
         {
             State lastState = mdp.InitialState;
-            State currState = lastState.NextState(mdp.pMap[lastState]);
+            State currState = lastState.NextState(mdp.Policy[lastState]);
 
             while (!currState.IsTerminal)
             {
                 utility[lastState] = utility[lastState] + alpha * (lastState.Reward + gamma * utility[currState] - utility[lastState]);
                 lastState = currState;
-                currState = currState.NextState(mdp.pMap[lastState]);
+                currState = currState.NextState(mdp.Policy[lastState]);
             }
 
             // We still need to update the state prior to the terminal state

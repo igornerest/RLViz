@@ -9,22 +9,21 @@ public class Utility : IEnumerable
 
     public float this[State key]
     {
-        get { return uMap[key]; }
+        get { return uMap.ContainsKey(key) ? uMap[key] : 0f; }
 
         set { uMap[key] = value; }
     }
 
-    public Utility(List<State> states)
-    {
-        foreach (State state in states)
-        {
-            uMap[state] = state.IsTerminal? state.Reward : 0f;
-        }
-    }
+    public Utility() { }
 
     public Utility(Utility utility)
     {
         this.uMap = new Dictionary<State, float>(utility.uMap);
+    }
+
+    public void Clear()
+    {
+        uMap.Clear();
     }
 
     public IEnumerator GetEnumerator()
@@ -45,7 +44,7 @@ public class Utility : IEnumerable
             float currExpectedValue = 0f;
             foreach (var (nextState, probability) in state.NextLikelyStates[currAction])
             {
-                currExpectedValue += probability * uMap[nextState];
+                currExpectedValue += probability * this[nextState];
             }
 
             if (currExpectedValue > maxExpectedValue)

@@ -5,13 +5,32 @@ using UnityEngine;
 
 public class MDP
 {
-    Dictionary<Vector3Int, State> grid = new Dictionary<Vector3Int, State>();
+    private Dictionary<Vector3Int, State> grid = new Dictionary<Vector3Int, State>();
 
-    public Utility uMap { private set; get; }
+    private Utility utility = new Utility();
+    private Policy policy = new Policy();
+    private State initialState;
 
-    public Policy pMap { private set; get; }
+    public Utility Utility
+    {
+        get { return utility; }
+    }
 
-    public State InitialState { private set; get;  }
+    public Policy Policy
+    {
+        get { return policy; }
+    }
+
+    public State InitialState
+    {
+        get { return initialState; }
+    }
+
+    public void Reset()
+    {
+        utility.Clear();
+        policy.Clear();
+    }
 
     public void AddState(State state, bool isInitial = false)
     {
@@ -19,7 +38,7 @@ public class MDP
 
         if (isInitial)
         {
-            InitialState = state;
+            this.initialState = state;
         }
     }
 
@@ -28,24 +47,14 @@ public class MDP
         return grid.Values.ToList();
     }
 
-    public void UpdateUtility(Utility uMap)
+    public void UpdateUtility(Utility utility)
     {
-        this.uMap = uMap;
-
-        foreach (State state in grid.Values)
-        {
-            state.Utility = uMap[state];
-        }
+        this.utility = utility;
     }
 
-    public void UpdatePolicy(Policy pMap)
+    public void UpdatePolicy(Policy policy)
     {
-        this.pMap = pMap;
-
-        foreach (State state in grid.Values)
-        {
-            state.Policy = pMap[state];
-        }
+        this.policy = policy;
     }
 
     public void EvaluateProbabilities(Dictionary<Deviation, float> likelyDeviations)

@@ -11,10 +11,6 @@ public class State
 
     public float Reward { private set; get; }
 
-    public float Utility { set; get; }
-
-    public Action Policy { set; get; }
-
     private static Random random = new Random();
 
     private Dictionary<Action, List<Tuple<State, float>>> nextLikelyStates =

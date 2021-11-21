@@ -4,7 +4,14 @@ using UnityEngine;
 public class RLManager : MonoBehaviour
 {
     [SerializeField] private Transform floorPrefab;
+    [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
 
+    private List<string> supportedAlgorithms = new List<string>
+    {
+        RLAlgorithms.ALGORITHM_POLICY_ITERATION,
+        RLAlgorithms.ALGORITHM_VALUE_ITERATION,
+    };
+    
     private MDP mdp = new MDP();
 
     private Dictionary<Deviation, float> deviationProbs =
@@ -14,26 +21,53 @@ public class RLManager : MonoBehaviour
             { Deviation.RIGHT,      0.1f }
         };
 
+
     private void Start()
     {
-        setMDP();
+        algorithmDropdown.ClearOptions();
+        algorithmDropdown.AddOptions(supportedAlgorithms);
 
+        algorithmDropdown.onValueChanged.AddListener(delegate {
+            SetAlgorithmOnDropdownValueChange(algorithmDropdown);
+        });
+
+        SetMDP();
+        
         foreach (State state in mdp.getAllStates())
         {
             GridBlock gridBlock = Instantiate(floorPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
-            gridBlock.UpdateBlock(state);
+            gridBlock.UpdateBlock(state, mdp);
         }
 
-        //RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
-
-        //RLAlgorithms.policyIteration(mdp, gamma: 0.9f);
-        //RLAlgorithms.TimeDifference(mdp, gamma: 0.9f, alpha: 0.1f);
-
-        RLAlgorithms.QLearning(mdp, gamma: 0.9f, alpha: 0.1f);
+        RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
     }
 
+    private void SetAlgorithmOnDropdownValueChange(TMPro.TMP_Dropdown change)
+    {
+        mdp.Reset();
 
-    private void setMDP()
+        string selectedAlgorithm = supportedAlgorithms[change.value];
+        switch (selectedAlgorithm)
+        {
+            case RLAlgorithms.ALGORITHM_VALUE_ITERATION:
+                RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
+                return;
+
+            case RLAlgorithms.ALGORITHM_POLICY_ITERATION:
+                RLAlgorithms.policyIteration(mdp, gamma: 0.9f);
+                return;
+
+            case RLAlgorithms.ALGORITHM_TIME_DIFFERENCE:
+                RLAlgorithms.TimeDifference(mdp, gamma: 0.9f, alpha: 0.1f);
+                return;
+
+            case RLAlgorithms.ALGORITHM_Q_LEARNING:
+                RLAlgorithms.QLearning(mdp, gamma: 0.9f, alpha: 0.1f);
+                return;
+        }
+    }
+
+    private void SetMDP()
     {
         int rows = 3;
         int columns = 4;

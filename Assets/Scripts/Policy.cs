@@ -8,24 +8,22 @@ public class Policy : MonoBehaviour
 
     public Action this[State key]
     {
-        get { return pMap[key]; }
+        // TODO: Return default policy according to state attributes
+        get { return pMap.ContainsKey(key) ? pMap[key] : Action.UP; }
 
         set { pMap[key] = value; }
     }
 
     public Policy() { }
 
-    public Policy(List<State> states)
+    public void Clear()
     {
-        foreach (State state in states)
-        {
-            pMap[state] = Action.UP; // TODO: Set according to state attributes
-        }
+        pMap.Clear();
     }
 
     public Tuple<float, Action> GetMaxExpectedValue(State state, Utility utility)
     {
-        Action currAction = pMap[state];
+        Action currAction = this[state];
 
         float currExpectedValue = 0f;
         foreach (var (nextState, probability) in state.NextLikelyStates[currAction])
