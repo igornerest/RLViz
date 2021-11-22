@@ -7,9 +7,33 @@ public class MDP
 {
     private Dictionary<Vector3Int, State> grid = new Dictionary<Vector3Int, State>();
 
+    private float gamma;
+    private float epsilon;
+    private float alpha;
+
     private Utility utility = new Utility();
     private Policy policy = new Policy();
     private State initialState;
+
+    public float Gamma
+    {
+        get { return gamma; }
+    }
+
+    public float Epsilon
+    {
+        get { return epsilon;  }
+    }
+
+    public float Alpha
+    {
+        get { return alpha;  }
+    }
+
+    public float ValueIterationDelta
+    {
+        get { return epsilon * (1 - gamma) / gamma; }
+    }
 
     public Utility Utility
     {
@@ -24,6 +48,13 @@ public class MDP
     public State InitialState
     {
         get { return initialState; }
+    }
+
+    public MDP(float gamma = 0.9f, float epsilon = 0.001f, float alpha = 0.1f)
+    {
+        this.gamma = gamma;
+        this.epsilon = epsilon;
+        this.alpha = alpha;
     }
 
     public void Reset()

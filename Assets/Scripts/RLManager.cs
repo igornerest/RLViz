@@ -39,7 +39,7 @@ public class RLManager : MonoBehaviour
             gridBlock.UpdateBlock(state, mdp);
         }
 
-        RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
+        RLAlgorithms.valueIteration(mdp);
     }
 
     private void SetAlgorithmOnDropdownValueChange(TMPro.TMP_Dropdown change)
@@ -50,19 +50,19 @@ public class RLManager : MonoBehaviour
         switch (selectedAlgorithm)
         {
             case RLAlgorithms.ALGORITHM_VALUE_ITERATION:
-                RLAlgorithms.valueIteration(mdp, gamma: 0.9f, episilon: 0.001f);
+                RLAlgorithms.valueIteration(mdp);
                 return;
 
             case RLAlgorithms.ALGORITHM_POLICY_ITERATION:
-                RLAlgorithms.policyIteration(mdp, gamma: 0.9f);
+                RLAlgorithms.policyIteration(mdp);
                 return;
 
             case RLAlgorithms.ALGORITHM_TIME_DIFFERENCE:
-                RLAlgorithms.TimeDifference(mdp, gamma: 0.9f, alpha: 0.1f);
+                RLAlgorithms.TimeDifference(mdp);
                 return;
 
             case RLAlgorithms.ALGORITHM_Q_LEARNING:
-                RLAlgorithms.QLearning(mdp, gamma: 0.9f, alpha: 0.1f);
+                RLAlgorithms.QLearning(mdp);
                 return;
         }
     }

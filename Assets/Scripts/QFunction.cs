@@ -1,8 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QFunction
+public class QFunction : IEnumerable
 {
 
     private Dictionary<State, Dictionary<Action, float>> qMap =
@@ -19,6 +20,8 @@ public class QFunction
             qMap[state][action] = value; 
         }
     }
+
+    public QFunction() { }
 
     public QFunction(List<State> states)
     {
@@ -60,6 +63,21 @@ public class QFunction
         }
 
         return policy;
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        foreach (var u in qMap)
+        {
+            yield return u;
+        }
+    }
+
+    public QFunction Clone()
+    {
+        QFunction clonedQFunction = new QFunction();
+        clonedQFunction.qMap = new Dictionary<State, Dictionary<Action, float>>(this.qMap);
+        return clonedQFunction;
     }
 
 }

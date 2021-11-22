@@ -1,8 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Policy : MonoBehaviour
+public class Policy : IEnumerable
 {
     private Dictionary<State, Action> pMap = new Dictionary<State, Action>();
 
@@ -13,7 +14,7 @@ public class Policy : MonoBehaviour
 
         set { pMap[key] = value; }
     }
-
+    
     public Policy() { }
 
     public void Clear()
@@ -32,5 +33,20 @@ public class Policy : MonoBehaviour
         }
 
         return new Tuple<float, Action>(currExpectedValue, currAction);
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        foreach (var u in pMap)
+        {
+            yield return u;
+        }
+    }
+
+    public Policy Clone()
+    {
+        Policy clonedPolicy = new Policy();
+        clonedPolicy.pMap = new Dictionary<State, Action>(this.pMap);
+        return clonedPolicy;
     }
 }

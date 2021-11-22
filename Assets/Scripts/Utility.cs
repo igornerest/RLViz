@@ -16,22 +16,9 @@ public class Utility : IEnumerable
 
     public Utility() { }
 
-    public Utility(Utility utility)
-    {
-        this.uMap = new Dictionary<State, float>(utility.uMap);
-    }
-
     public void Clear()
     {
         uMap.Clear();
-    }
-
-    public IEnumerator GetEnumerator()
-    {
-        foreach (var u in uMap)
-        {
-            yield return u;
-        }
     }
 
     public Tuple<float, Action> GetMaxExpectedValue(State state)
@@ -67,5 +54,20 @@ public class Utility : IEnumerable
         }
 
         return sb.ToString();
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        foreach (var u in uMap)
+        {
+            yield return u;
+        }
+    }
+
+    public Utility Clone()
+    {
+        Utility clonedUtility = new Utility();
+        clonedUtility.uMap = new Dictionary<State, float>(this.uMap);
+        return clonedUtility;
     }
 }

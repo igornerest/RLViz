@@ -8,18 +8,17 @@ public static class RLAlgorithms
     public const String ALGORITHM_POLICY_ITERATION = "Policy Iteration";
     public const String ALGORITHM_TIME_DIFFERENCE = "Time Difference";
     public const String ALGORITHM_Q_LEARNING = "Q Learning";
-    public static void valueIteration(MDP mdp, float gamma, float episilon)
+
+    public static void valueIteration(MDP mdp)
     {
-        float delta = episilon * (1 - gamma) / gamma + 1;
-
         Utility utility = new Utility();
+        float delta;
 
-        while (delta > episilon * (1 - gamma) / gamma)
+        do
         {
-            Utility newUtility = new Utility(utility);
-
             delta = 0;
-            
+            Utility newUtility = utility.Clone();
+
             foreach (State state in mdp.getAllStates())
             {
                 if (state.IsTerminal)
@@ -29,17 +28,17 @@ public static class RLAlgorithms
                 else
                 {
                     var (maxUtility, _) = newUtility.GetMaxExpectedValue(state);
-                    utility[state] = state.Reward + gamma * maxUtility;
+                    utility[state] = state.Reward + mdp.Gamma * maxUtility;
                 }
 
                 delta = Math.Max(delta, Math.Abs(utility[state] - newUtility[state]));
             }
-        }
+        } while (delta > mdp.ValueIterationDelta);
 
         mdp.UpdateUtility(utility);
     }
 
-    public static void policyIteration(MDP mdp, float gamma)
+    public static void policyIteration(MDP mdp)
     {
         
         Utility utility = new Utility();
@@ -48,7 +47,7 @@ public static class RLAlgorithms
         bool changed = true;
         while (changed)
         {
-            utility = policyEvaluation(mdp, policy, utility, gamma);
+            utility = policyEvaluation(mdp, policy, utility);
             changed = false;
 
             foreach (State state in mdp.getAllStates())
@@ -73,7 +72,7 @@ public static class RLAlgorithms
 
     // For now, we will use a pre-calculated policy
     // What if we get a random one at the beginning? 
-    public static void TimeDifference(MDP mdp, float alpha, float gamma)
+    public static void TimeDifference(MDP mdp)
     {
         Utility utility = new Utility();
 
@@ -89,20 +88,20 @@ public static class RLAlgorithms
 
             while (!currState.IsTerminal)
             {
-                utility[lastState] = utility[lastState] + alpha * (lastState.Reward + gamma * utility[currState] - utility[lastState]);
+                utility[lastState] = utility[lastState] + mdp.Alpha * (lastState.Reward + mdp.Gamma * utility[currState] - utility[lastState]);
                 lastState = currState;
                 currState = currState.NextState(mdp.Policy[lastState]);
             }
 
             // We still need to update the state prior to the terminal state
-            utility[lastState] = utility[lastState] + alpha * (lastState.Reward + gamma * utility[currState] - utility[lastState]);
+            utility[lastState] = utility[lastState] + mdp.Alpha * (lastState.Reward + mdp.Gamma * utility[currState] - utility[lastState]);
         }
 
         mdp.UpdateUtility(utility);
     }
 
     
-    public static void QLearning(MDP mdp, float alpha, float gamma)
+    public static void QLearning(MDP mdp)
     {
         QFunction qFunction = new QFunction(mdp.getAllStates());
 
@@ -121,7 +120,7 @@ public static class RLAlgorithms
 
                 var (maxQ, currAction) = qFunction.MaxQ(currState);
                 
-                qFunction[prevState, prevAction] = qFunction[prevState, prevAction] + alpha * (prevState.Reward + gamma * maxQ - qFunction[prevState, prevAction]);
+                qFunction[prevState, prevAction] = qFunction[prevState, prevAction] + mdp.Alpha * (prevState.Reward + mdp.Gamma * maxQ - qFunction[prevState, prevAction]);
 
                 prevState = currState;
 
@@ -137,7 +136,7 @@ public static class RLAlgorithms
         mdp.UpdatePolicy(policy);
     }
     
-    private static Utility policyEvaluation(MDP mdp, Policy policy, Utility utility, float gamma)
+    private static Utility policyEvaluation(MDP mdp, Policy policy, Utility utility)
     {
         foreach (State state in mdp.getAllStates())
         {
@@ -145,7 +144,7 @@ public static class RLAlgorithms
                 continue;
 
             var (expectedValue ,_) = policy.GetMaxExpectedValue(state, utility);
-            utility[state] = state.Reward + gamma * expectedValue;
+            utility[state] = state.Reward + mdp.Gamma * expectedValue;
         }
 
         return utility;
