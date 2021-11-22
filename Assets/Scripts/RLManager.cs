@@ -28,33 +28,35 @@ public class RLManager : MonoBehaviour
         algorithmDropdown.AddOptions(supportedAlgorithms);
 
         algorithmDropdown.onValueChanged.AddListener(delegate {
-            SetAlgorithmOnDropdownValueChange(algorithmDropdown);
+            SetSelectedAlgorithm(algorithmDropdown);
         });
 
         SetMDP();
         
-        foreach (State state in mdp.getAllStates())
+        foreach (State state in mdp.GetAllStates())
         {
             GridBlock gridBlock = Instantiate(floorPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
             gridBlock.UpdateBlock(state, mdp);
         }
 
-        RLAlgorithms.valueIteration(mdp);
+        SetSelectedAlgorithm(algorithmDropdown);
     }
 
-    private void SetAlgorithmOnDropdownValueChange(TMPro.TMP_Dropdown change)
+    private void SetSelectedAlgorithm(TMPro.TMP_Dropdown change)
     {
+        string selectedAlgorithm = supportedAlgorithms[change.value];
+        Debug.Log("Selected algorithm: " + selectedAlgorithm);
+
         mdp.Reset();
 
-        string selectedAlgorithm = supportedAlgorithms[change.value];
         switch (selectedAlgorithm)
         {
             case RLAlgorithms.ALGORITHM_VALUE_ITERATION:
-                RLAlgorithms.valueIteration(mdp);
+                RLAlgorithms.ValueIteration(mdp);
                 return;
 
             case RLAlgorithms.ALGORITHM_POLICY_ITERATION:
-                RLAlgorithms.policyIteration(mdp);
+                RLAlgorithms.PolicyIteration(mdp);
                 return;
 
             case RLAlgorithms.ALGORITHM_TIME_DIFFERENCE:

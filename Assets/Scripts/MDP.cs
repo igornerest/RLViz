@@ -73,9 +73,14 @@ public class MDP
         }
     }
 
-    public List<State> getAllStates()
+    public List<State> GetAllStates()
     {
         return grid.Values.ToList();
+    }
+
+    public List<State> GetAllNonTerminalStates()
+    {
+        return grid.Values.Where(state => !state.IsTerminal).ToList();
     }
 
     public void UpdateUtility(Utility utility)
@@ -90,14 +95,11 @@ public class MDP
 
     public void EvaluateProbabilities(Dictionary<Deviation, float> likelyDeviations)
     {
-        foreach (State state in grid.Values.ToList())
+        foreach (State state in GetAllNonTerminalStates())
         {
             Debug.Log("--------> Evaluation Probabilities for state " +  state);
 
-            if (state.IsTerminal)
-                continue;
-
-            foreach (Action actualAction in Enum.GetValues(typeof(Action)))
+            foreach (Action actualAction in ActionExtensions.GetValidActions())
             {
                 Debug.Log("---> Actual action: " + actualAction);
 

@@ -9,65 +9,39 @@ public static class RLAlgorithms
     public const String ALGORITHM_TIME_DIFFERENCE = "Time Difference";
     public const String ALGORITHM_Q_LEARNING = "Q Learning";
 
-    public static void valueIteration(MDP mdp)
+    public static void ValueIteration(MDP mdp)
     {
-        Utility utility = new Utility();
         float delta;
 
         do
         {
             delta = 0;
-            Utility newUtility = utility.Clone();
 
-            foreach (State state in mdp.getAllStates())
+            Utility newUtility = mdp.Utility.Clone();  
+            foreach (State state in mdp.GetAllStates())
             {
-                if (state.IsTerminal)
-                {
-                    utility[state] = state.Reward;
-                }
-                else
-                {
-                    var (maxUtility, _) = newUtility.GetMaxExpectedValue(state);
-                    utility[state] = state.Reward + mdp.Gamma * maxUtility;
-                }
+                var (maxUtility, _) = newUtility.GetMaxExpectedValue(state);
+                mdp.Utility[state] = state.Reward + mdp.Gamma * maxUtility;
 
-                delta = Math.Max(delta, Math.Abs(utility[state] - newUtility[state]));
+                delta = Math.Max(delta, Math.Abs(mdp.Utility[state] - newUtility[state]));
+            }
+
+            foreach (State state in mdp.GetAllNonTerminalStates())
+            {
+                var (_, bestAction) = mdp.Utility.GetMaxExpectedValue(state);
+                mdp.Policy[state] = bestAction;
             }
         } while (delta > mdp.ValueIterationDelta);
-
-        mdp.UpdateUtility(utility);
     }
 
-    public static void policyIteration(MDP mdp)
+    public static void PolicyIteration(MDP mdp)
     {
-        
-        Utility utility = new Utility();
-        Policy policy = new Policy();
-
-        bool changed = true;
-        while (changed)
+        while (true)
         {
-            utility = policyEvaluation(mdp, policy, utility);
-            changed = false;
-
-            foreach (State state in mdp.getAllStates())
-            {
-                if (state.IsTerminal)
-                    continue;
-
-                var (uUtility, uAction) = utility.GetMaxExpectedValue(state);
-                var (pUtility, _)       = policy.GetMaxExpectedValue(state, utility);
-
-                if (uUtility > pUtility)
-                {
-                    policy[state] = uAction;
-                    changed = true;
-                }
-            }
+            policyEvaluation(mdp);
+            bool changed = policyImprovement(mdp);
+            if (!changed) break;
         }
-
-        mdp.UpdateUtility(utility);
-        mdp.UpdatePolicy(policy);
     }
 
     // For now, we will use a pre-calculated policy
@@ -76,7 +50,7 @@ public static class RLAlgorithms
     {
         Utility utility = new Utility();
 
-        foreach (var state in mdp.getAllStates())
+        foreach (var state in mdp.GetAllStates())
         {
             utility[state] = state.Reward;
         }
@@ -103,7 +77,7 @@ public static class RLAlgorithms
     
     public static void QLearning(MDP mdp)
     {
-        QFunction qFunction = new QFunction(mdp.getAllStates());
+        QFunction qFunction = new QFunction(mdp.GetAllStates());
 
         for (int i = 0; i < 1000; i++)
         {
@@ -136,17 +110,41 @@ public static class RLAlgorithms
         mdp.UpdatePolicy(policy);
     }
     
-    private static Utility policyEvaluation(MDP mdp, Policy policy, Utility utility)
+    private static void policyEvaluation(MDP mdp)
     {
-        foreach (State state in mdp.getAllStates())
+        float delta;
+        
+        do
         {
-            if (state.IsTerminal)
-                continue;
+            delta = 0;
 
-            var (expectedValue ,_) = policy.GetMaxExpectedValue(state, utility);
-            utility[state] = state.Reward + mdp.Gamma * expectedValue;
+            Utility newUtility = mdp.Utility.Clone();
+            foreach (State state in mdp.GetAllStates())
+            {
+                var (expectedValue, _) = mdp.Policy.GetMaxExpectedValue(state, mdp.Utility);
+                mdp.Utility[state] = state.Reward + mdp.Gamma * expectedValue;
+
+                delta = Math.Max(delta, Math.Abs(mdp.Utility[state] - newUtility[state]));
+            }
+        } while (delta > mdp.ValueIterationDelta);
+    }
+
+    private static bool policyImprovement(MDP mdp)
+    {
+        bool changed = false;
+
+        foreach (State state in mdp.GetAllNonTerminalStates())
+        {
+            var (uUtility, uAction) = mdp.Utility.GetMaxExpectedValue(state);
+            var (pUtility, _) = mdp.Policy.GetMaxExpectedValue(state, mdp.Utility);
+
+            if (uUtility > pUtility)
+            {
+                mdp.Policy[state] = uAction;
+                changed = true;
+            }
         }
 
-        return utility;
+        return changed;
     }
 }

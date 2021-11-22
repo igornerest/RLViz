@@ -1,11 +1,13 @@
 using System;
+using System.Collections.Generic;
 
 public enum Action
 {
     UP,
     RIGHT,
     DOWN,
-    LEFT
+    LEFT,
+    NONE,
 }
 
 public enum Deviation
@@ -17,9 +19,21 @@ public enum Deviation
 }
 
 public static class ActionExtensions {
+
+    public static List<Action> GetValidActions()
+    {
+        var allActions = (Action[])Enum.GetValues(typeof(Action));
+        return new List<Action>(allActions).FindAll(action => action != Action.NONE);
+    }
+
     public static Action Deviate(Action action, Deviation deviation)
     {
-        int actionCount = Enum.GetNames(typeof(Action)).Length;
+        if (action == Action.NONE)
+        {
+            throw new Exception("No deviation expected for action NONE");
+        }
+
+        int actionCount = Enum.GetNames(typeof(Action)).Length - 1;
         int actionVal = (int)action;
         int deviationVal = (int)deviation;
 

@@ -24,6 +24,11 @@ public class Policy : IEnumerable
 
     public Tuple<float, Action> GetMaxExpectedValue(State state, Utility utility)
     {
+        if (state.IsTerminal)
+        {
+            return new Tuple<float, Action>(0f, Action.NONE);
+        }
+
         Action currAction = this[state];
 
         float currExpectedValue = 0f;

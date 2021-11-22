@@ -23,6 +23,11 @@ public class Utility : IEnumerable
 
     public Tuple<float, Action> GetMaxExpectedValue(State state)
     {
+        if (state.IsTerminal)
+        {
+            return new Tuple<float, Action>(0f, Action.NONE);
+        }
+
         float maxExpectedValue = float.NegativeInfinity;
         Action bestAction = Action.UP;
 
