@@ -4,12 +4,15 @@ using UnityEngine;
 public class RLManager : MonoBehaviour
 {
     [SerializeField] private Transform floorPrefab;
+    [SerializeField] private Transform agentPrefab;
+
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
 
     private List<string> supportedAlgorithms = new List<string>
     {
         RLAlgorithms.ALGORITHM_POLICY_ITERATION,
         RLAlgorithms.ALGORITHM_VALUE_ITERATION,
+        RLAlgorithms.ALGORITHM_Q_LEARNING,
     };
     
     private MDP mdp = new MDP();
@@ -57,10 +60,6 @@ public class RLManager : MonoBehaviour
 
             case RLAlgorithms.ALGORITHM_POLICY_ITERATION:
                 RLAlgorithms.PolicyIteration(mdp);
-                return;
-
-            case RLAlgorithms.ALGORITHM_TIME_DIFFERENCE:
-                RLAlgorithms.TimeDifference(mdp);
                 return;
 
             case RLAlgorithms.ALGORITHM_Q_LEARNING:

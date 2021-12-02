@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class QFunction : IEnumerable
 {
@@ -9,9 +10,11 @@ public class QFunction : IEnumerable
     private Dictionary<State, Dictionary<Action, float>> qMap =
         new Dictionary<State, Dictionary<Action, float>>();
 
+    private static Random random = new Random();
+
     public float this[State state, Action action]
     {
-        get { return qMap[state][action]; }
+        get { return qMap.ContainsKey(state) && qMap[state].ContainsKey(action) ? qMap[state][action] : 0f; }
 
         set {
             if (!qMap.ContainsKey(state)) 
@@ -22,6 +25,12 @@ public class QFunction : IEnumerable
     }
 
     public QFunction() { }
+
+    public void Clear()
+    {
+        qMap.Clear();
+    }
+
 
     public QFunction(List<State> states)
     {
@@ -39,9 +48,9 @@ public class QFunction : IEnumerable
         float maxQ = float.NegativeInfinity;
         Action bestAction = Action.UP;   // TO DO: Define no action;
 
-        foreach (var action in qMap[state].Keys)
+        foreach (var action in ActionExtensions.GetValidActions())
         {
-            float currQ = qMap[state][action];
+            float currQ = this[state, action];
             if (currQ > maxQ)
             {
                 maxQ = currQ;
@@ -50,6 +59,21 @@ public class QFunction : IEnumerable
         }
 
         return (maxQ, bestAction);
+    }
+
+    public Action EGreedy(State state, float epsilon)
+    {
+        if (random.NextDouble() < epsilon)
+        {
+            var allActions = ActionExtensions.GetValidActions();
+            int randomIndex = random.Next(0, allActions.Count);
+            return allActions[randomIndex];
+        } 
+        else
+        {
+            var (_, bestAction) = MaxQ(state);
+            return bestAction;
+        }
     }
 
     public Policy GetPolicy()

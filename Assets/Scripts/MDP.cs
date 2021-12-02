@@ -11,9 +11,18 @@ public class MDP
     private float epsilon;
     private float alpha;
 
+    private QFunction qFunction = new QFunction();
     private Utility utility = new Utility();
     private Policy policy = new Policy();
+
     private State initialState;
+
+    private bool isUsingVFunction;
+
+    public bool IsUsingVFunction
+    {
+        get { return isUsingVFunction; }
+    }
 
     public float Gamma
     {
@@ -35,6 +44,11 @@ public class MDP
         get { return epsilon * (1 - gamma) / gamma; }
     }
 
+    public QFunction QFunction
+    {
+        get { return qFunction; }
+    }
+
     public Utility Utility
     {
         get { return utility; }
@@ -50,7 +64,7 @@ public class MDP
         get { return initialState; }
     }
 
-    public MDP(float gamma = 0.9f, float epsilon = 0.001f, float alpha = 0.1f)
+    public MDP(float gamma = 0.9f, float epsilon = 0.2f, float alpha = 0.1f)
     {
         this.gamma = gamma;
         this.epsilon = epsilon;
@@ -61,6 +75,7 @@ public class MDP
     {
         utility.Clear();
         policy.Clear();
+        qFunction.Clear();
     }
 
     public void AddState(State state, bool isInitial = false)
@@ -121,5 +136,15 @@ public class MDP
                 state.UpdateNextLikelyStates(actualAction, likelyNextStates);
             }
         }
+    }
+
+    public void UseQFunction()
+    {
+        isUsingVFunction = false;
+    }
+
+    public void UseVFunction()
+    {
+        isUsingVFunction = true;
     }
 }

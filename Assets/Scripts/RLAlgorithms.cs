@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -6,11 +7,12 @@ public static class RLAlgorithms
 {
     public const String ALGORITHM_VALUE_ITERATION = "Value Iteration";
     public const String ALGORITHM_POLICY_ITERATION = "Policy Iteration";
-    public const String ALGORITHM_TIME_DIFFERENCE = "Time Difference";
     public const String ALGORITHM_Q_LEARNING = "Q Learning";
 
     public static void ValueIteration(MDP mdp)
     {
+        mdp.UseVFunction();
+
         float delta;
 
         do
@@ -36,6 +38,8 @@ public static class RLAlgorithms
 
     public static void PolicyIteration(MDP mdp)
     {
+        mdp.UseVFunction();
+
         while (true)
         {
             policyEvaluation(mdp);
@@ -44,72 +48,30 @@ public static class RLAlgorithms
         }
     }
 
-    // For now, we will use a pre-calculated policy
-    // What if we get a random one at the beginning? 
-    public static void TimeDifference(MDP mdp)
-    {
-        Utility utility = new Utility();
-
-        foreach (var state in mdp.GetAllStates())
-        {
-            utility[state] = state.Reward;
-        }
-
-        for (int i = 0; i < 1000; i++)
-        {
-            State lastState = mdp.InitialState;
-            State currState = lastState.NextState(mdp.Policy[lastState]);
-
-            while (!currState.IsTerminal)
-            {
-                utility[lastState] = utility[lastState] + mdp.Alpha * (lastState.Reward + mdp.Gamma * utility[currState] - utility[lastState]);
-                lastState = currState;
-                currState = currState.NextState(mdp.Policy[lastState]);
-            }
-
-            // We still need to update the state prior to the terminal state
-            utility[lastState] = utility[lastState] + mdp.Alpha * (lastState.Reward + mdp.Gamma * utility[currState] - utility[lastState]);
-        }
-
-        mdp.UpdateUtility(utility);
-    }
-
-    
     public static void QLearning(MDP mdp)
     {
-        QFunction qFunction = new QFunction(mdp.GetAllStates());
+        mdp.UseQFunction();
 
         for (int i = 0; i < 1000; i++)
         {
-            State prevState = mdp.InitialState;
-            var (_, prevAction) = qFunction.MaxQ(prevState);
-            State currState = prevState.NextState(prevAction);
+            State currState = mdp.InitialState;
    
-            while (!prevState.IsTerminal)
+            while (!currState.IsTerminal)
             {
-                if (currState.IsTerminal)
-                {
-                    qFunction[currState, prevAction] = currState.Reward;
-                }
-
-                var (maxQ, currAction) = qFunction.MaxQ(currState);
+                var currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
+                var nextState = currState.NextState(currAction);
+                var (nextStateMaxQ, _) = mdp.QFunction.MaxQ(nextState);
                 
-                qFunction[prevState, prevAction] = qFunction[prevState, prevAction] + mdp.Alpha * (prevState.Reward + mdp.Gamma * maxQ - qFunction[prevState, prevAction]);
+                mdp.QFunction[currState, currAction] = mdp.QFunction[currState, currAction] + mdp.Alpha * (nextState.Reward + mdp.Gamma * nextStateMaxQ - mdp.QFunction[currState, currAction]);
 
-                prevState = currState;
-
-                if (!currState.IsTerminal)
-                {
-                    currState = currState.NextState(currAction);
-                    prevAction = currAction;
-                }
+                currState = nextState;
             }
         }
 
-        Policy policy = qFunction.GetPolicy();
+        Policy policy = mdp.QFunction.GetPolicy();
         mdp.UpdatePolicy(policy);
     }
-    
+
     private static void policyEvaluation(MDP mdp)
     {
         float delta;
