@@ -13,6 +13,7 @@ public class RLManager : MonoBehaviour
         RLAlgorithms.ALGORITHM_POLICY_ITERATION,
         RLAlgorithms.ALGORITHM_VALUE_ITERATION,
         RLAlgorithms.ALGORITHM_Q_LEARNING,
+        RLAlgorithms.ALGORITHM_SARSA,
     };
     
     private MDP mdp = new MDP();
@@ -64,6 +65,10 @@ public class RLManager : MonoBehaviour
 
             case RLAlgorithms.ALGORITHM_Q_LEARNING:
                 RLAlgorithms.QLearning(mdp);
+                return;
+
+            case RLAlgorithms.ALGORITHM_SARSA:
+                RLAlgorithms.Sarsa(mdp);
                 return;
         }
     }

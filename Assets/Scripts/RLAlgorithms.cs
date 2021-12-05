@@ -8,6 +8,7 @@ public static class RLAlgorithms
     public const String ALGORITHM_VALUE_ITERATION = "Value Iteration";
     public const String ALGORITHM_POLICY_ITERATION = "Policy Iteration";
     public const String ALGORITHM_Q_LEARNING = "Q Learning";
+    public const String ALGORITHM_SARSA = "Sarsa";
 
     public static void ValueIteration(MDP mdp)
     {
@@ -65,6 +66,31 @@ public static class RLAlgorithms
                 mdp.QFunction[currState, currAction] = mdp.QFunction[currState, currAction] + mdp.Alpha * (nextState.Reward + mdp.Gamma * nextStateMaxQ - mdp.QFunction[currState, currAction]);
 
                 currState = nextState;
+            }
+        }
+
+        Policy policy = mdp.QFunction.GetPolicy();
+        mdp.UpdatePolicy(policy);
+    }
+
+    public static void Sarsa(MDP mdp)
+    {
+        mdp.UseQFunction();
+
+        for (int i = 0; i < 1000; i++)
+        {
+            State currState = mdp.InitialState;
+            Action currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
+            
+            while (!currState.IsTerminal)
+            {
+                var nextState = currState.NextState(currAction);
+                var nextAction = mdp.QFunction.EGreedy(nextState, mdp.Epsilon);
+
+                mdp.QFunction[currState, currAction] = mdp.QFunction[currState, currAction] + mdp.Alpha * (nextState.Reward + mdp.Gamma * mdp.QFunction[nextState, nextAction] - mdp.QFunction[currState, currAction]);
+
+                currState = nextState;
+                currAction = nextAction;
             }
         }
 
