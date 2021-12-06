@@ -1,21 +1,28 @@
+using System;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RLManager : MonoBehaviour
 {
     [SerializeField] private Transform floorPrefab;
-    [SerializeField] private Transform agentPrefab;
 
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
+    [SerializeField] private Button playButton;
 
-    private List<string> supportedAlgorithms = new List<string>
-    {
-        RLAlgorithms.ALGORITHM_POLICY_ITERATION,
-        RLAlgorithms.ALGORITHM_VALUE_ITERATION,
-        RLAlgorithms.ALGORITHM_Q_LEARNING,
-        RLAlgorithms.ALGORITHM_SARSA,
-    };
-    
+    private Dictionary<string, Func<MDP, IEnumerator>> supportedAlgorithms = 
+        new Dictionary<string, Func<MDP, IEnumerator>>()
+        {
+            { RLAlgorithms.ALGORITHM_VALUE_ITERATION, RLAlgorithms.ValueIteration },
+            { RLAlgorithms.ALGORITHM_POLICY_ITERATION, RLAlgorithms.PolicyIteration },
+            { RLAlgorithms.ALGORITHM_Q_LEARNING, RLAlgorithms.QLearning },
+            { RLAlgorithms.ALGORITHM_SARSA, RLAlgorithms.Sarsa }
+        };
+
+    private IEnumerator currAlgorithm;
+
     private MDP mdp = new MDP();
 
     private Dictionary<Deviation, float> deviationProbs =
@@ -29,11 +36,8 @@ public class RLManager : MonoBehaviour
     private void Start()
     {
         algorithmDropdown.ClearOptions();
-        algorithmDropdown.AddOptions(supportedAlgorithms);
-
-        algorithmDropdown.onValueChanged.AddListener(delegate {
-            SetSelectedAlgorithm(algorithmDropdown);
-        });
+        algorithmDropdown.AddOptions(supportedAlgorithms.Select(kvp => kvp.Key).ToList());
+        OnAlgorithmDropdownValueChanged();
 
         SetMDP();
         
@@ -42,35 +46,42 @@ public class RLManager : MonoBehaviour
             GridBlock gridBlock = Instantiate(floorPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
             gridBlock.UpdateBlock(state, mdp);
         }
-
-        SetSelectedAlgorithm(algorithmDropdown);
     }
 
-    private void SetSelectedAlgorithm(TMPro.TMP_Dropdown change)
+    public void OnClickPlayButton()
     {
-        string selectedAlgorithm = supportedAlgorithms[change.value];
+        if (currAlgorithm == null)
+        {
+            return;
+        }
+
+        var playButtonText = playButton.GetComponentInChildren<TMPro.TMP_Text>();
+        if (playButtonText.text == "Play")
+        {
+            StartCoroutine(currAlgorithm);
+            playButtonText.text = "Stop";
+        }
+        else if (playButtonText.text == "Stop")
+        {
+            StopCoroutine(currAlgorithm);
+            playButtonText.text = "Play";
+        }
+    }
+
+    public void OnAlgorithmDropdownValueChanged()
+    {
+        if (currAlgorithm != null)
+        {
+            StopCoroutine(currAlgorithm);
+        }
+
+        string selectedAlgorithm = algorithmDropdown.options[algorithmDropdown.value].text;
         Debug.Log("Selected algorithm: " + selectedAlgorithm);
+        currAlgorithm = supportedAlgorithms[selectedAlgorithm](mdp);
 
         mdp.Reset();
 
-        switch (selectedAlgorithm)
-        {
-            case RLAlgorithms.ALGORITHM_VALUE_ITERATION:
-                RLAlgorithms.ValueIteration(mdp);
-                return;
-
-            case RLAlgorithms.ALGORITHM_POLICY_ITERATION:
-                RLAlgorithms.PolicyIteration(mdp);
-                return;
-
-            case RLAlgorithms.ALGORITHM_Q_LEARNING:
-                RLAlgorithms.QLearning(mdp);
-                return;
-
-            case RLAlgorithms.ALGORITHM_SARSA:
-                RLAlgorithms.Sarsa(mdp);
-                return;
-        }
+        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Play";
     }
 
     private void SetMDP()

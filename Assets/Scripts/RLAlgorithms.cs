@@ -10,23 +10,19 @@ public static class RLAlgorithms
     public const String ALGORITHM_Q_LEARNING = "Q Learning";
     public const String ALGORITHM_SARSA = "Sarsa";
 
-    public static void ValueIteration(MDP mdp)
+    public static IEnumerator ValueIteration(MDP mdp)
     {
-        mdp.UseVFunction();
+        Debug.Log("Running Value Iteration algorithm");
 
-        float delta;
+        mdp.UseVFunction();
 
         do
         {
-            delta = 0;
-
             Utility newUtility = mdp.Utility.Clone();  
             foreach (State state in mdp.GetAllStates())
             {
                 var (maxUtility, _) = newUtility.GetMaxExpectedValue(state);
                 mdp.Utility[state] = state.Reward + mdp.Gamma * maxUtility;
-
-                delta = Math.Max(delta, Math.Abs(mdp.Utility[state] - newUtility[state]));
             }
 
             foreach (State state in mdp.GetAllNonTerminalStates())
@@ -34,23 +30,30 @@ public static class RLAlgorithms
                 var (_, bestAction) = mdp.Utility.GetMaxExpectedValue(state);
                 mdp.Policy[state] = bestAction;
             }
-        } while (delta > mdp.ValueIterationDelta);
+
+            yield return new WaitForSecondsRealtime(1f);
+
+        } while (true);
     }
 
-    public static void PolicyIteration(MDP mdp)
+    public static IEnumerator PolicyIteration(MDP mdp)
     {
+        Debug.Log("Running Policy Iteration algorithm");
+
         mdp.UseVFunction();
 
         while (true)
         {
             policyEvaluation(mdp);
-            bool changed = policyImprovement(mdp);
-            if (!changed) break;
+            policyImprovement(mdp);
+            yield return new WaitForSecondsRealtime(1f);
         }
     }
 
-    public static void QLearning(MDP mdp)
+    public static IEnumerator QLearning(MDP mdp)
     {
+        Debug.Log("Running Q-Learning algorithm");
+
         mdp.UseQFunction();
 
         for (int i = 0; i < 1000; i++)
@@ -66,6 +69,8 @@ public static class RLAlgorithms
                 mdp.QFunction[currState, currAction] = mdp.QFunction[currState, currAction] + mdp.Alpha * (nextState.Reward + mdp.Gamma * nextStateMaxQ - mdp.QFunction[currState, currAction]);
 
                 currState = nextState;
+
+                yield return new WaitForSecondsRealtime(1f);
             }
         }
 
@@ -73,8 +78,10 @@ public static class RLAlgorithms
         mdp.UpdatePolicy(policy);
     }
 
-    public static void Sarsa(MDP mdp)
+    public static IEnumerator Sarsa(MDP mdp)
     {
+        Debug.Log("Running Sarsa algorithm");
+
         mdp.UseQFunction();
 
         for (int i = 0; i < 1000; i++)
@@ -91,6 +98,8 @@ public static class RLAlgorithms
 
                 currState = nextState;
                 currAction = nextAction;
+
+                yield return new WaitForSecondsRealtime(1f);
             }
         }
 
