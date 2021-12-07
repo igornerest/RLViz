@@ -7,10 +7,11 @@ using UnityEngine.UI;
 
 public class RLManager : MonoBehaviour
 {
-    [SerializeField] private Transform floorPrefab;
+    [SerializeField] private Transform gridBlockPrefab;
 
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
     [SerializeField] private Button playButton;
+    [SerializeField] private Button modeButton;
 
     private Dictionary<string, Func<MDP, IEnumerator>> supportedAlgorithms = 
         new Dictionary<string, Func<MDP, IEnumerator>>()
@@ -32,6 +33,7 @@ public class RLManager : MonoBehaviour
             { Deviation.RIGHT,      0.1f }
         };
 
+    private bool isBuildMode = false;
 
     private void Start()
     {
@@ -43,8 +45,42 @@ public class RLManager : MonoBehaviour
         
         foreach (State state in mdp.GetAllStates())
         {
-            GridBlock gridBlock = Instantiate(floorPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
+            GridBlock gridBlock = Instantiate(gridBlockPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
             gridBlock.UpdateBlock(state, mdp);
+        }
+    }
+
+    private void Update()
+    {
+        HandleBlockCreation();
+    }
+
+    private void HandleBlockCreation()
+    {
+        if (isBuildMode && Input.GetMouseButtonDown(0))
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform.name == "BaseFloor")
+                {
+                    int xPos = (int) hit.point.x;
+                    int yPos = (int) hit.point.z;
+
+                    State state = new State(xPos, yPos, 0f, false);
+                    mdp.AddState(state, false);
+
+                    GridBlock gridBlock = Instantiate(gridBlockPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
+                    gridBlock.UpdateBlock(state, mdp);
+                }
+                else if (hit.transform.tag == "GridBlock")
+                {
+                    Destroy(hit.transform.gameObject);
+                }
+            }
+
         }
     }
 
@@ -65,6 +101,21 @@ public class RLManager : MonoBehaviour
         {
             StopCoroutine(currAlgorithm);
             playButtonText.text = "Play";
+        }
+    }
+
+    public void OnClickModeButton()
+    {
+        var modeButtonText = modeButton.GetComponentInChildren<TMPro.TMP_Text>();
+        if (modeButtonText.text == "Build")
+        {
+            isBuildMode = true;
+            modeButtonText.text = "Simulate";
+        }
+        else if (modeButtonText.text == "Simulate")
+        {
+            isBuildMode = false;
+            modeButtonText.text = "Build";
         }
     }
 
@@ -89,16 +140,16 @@ public class RLManager : MonoBehaviour
         int rows = 3;
         int columns = 4;
 
-        for (int i = 1; i <= rows; i++)
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = 1; j <= columns; j++)
+            for (int j = 0; j < columns; j++)
             {
-                if ((j, i) == (2, 2))
+                if ((j, i) == (1, 1))
                     continue;
 
-                bool isInitial = ((j, i) == (1, 1));
-                bool isTerminal = ((j, i) == (4, 3) || (j, i) == (4, 2));
-                float terminalReward = (j, i) == (4, 3) ? 1f : -1f;
+                bool isInitial = ((j, i) == (0, 0));
+                bool isTerminal = ((j, i) == (3, 2) || (j, i) == (3, 1));
+                float terminalReward = (j, i) == (3, 2) ? 1f : -1f;
                 float reward = isTerminal ? terminalReward : -0.04f;
 
                 State state = new State(j, i, reward, isTerminal);
