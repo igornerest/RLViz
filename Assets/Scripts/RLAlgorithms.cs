@@ -31,7 +31,7 @@ public static class RLAlgorithms
                 mdp.Policy[state] = bestAction;
             }
 
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForFixedUpdate();
 
         } while (true);
     }
@@ -46,7 +46,7 @@ public static class RLAlgorithms
         {
             policyEvaluation(mdp);
             policyImprovement(mdp);
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -70,7 +70,7 @@ public static class RLAlgorithms
 
                 currState = nextState;
 
-                yield return new WaitForSecondsRealtime(1f);
+                yield return new WaitForFixedUpdate();
             }
         }
 
@@ -99,7 +99,7 @@ public static class RLAlgorithms
                 currState = nextState;
                 currAction = nextAction;
 
-                yield return new WaitForSecondsRealtime(1f);
+                yield return new WaitForFixedUpdate();
             }
         }
 

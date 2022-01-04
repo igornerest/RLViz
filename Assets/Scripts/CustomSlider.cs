@@ -21,9 +21,10 @@ public class CustomSlider : MonoBehaviour
         });
     }
 
-    private void UpdateText(float val)
+    private void UpdateText(float value)
     {
-        sliderText.text = string.Format("{0}: {1}", componentName, slider.value.ToString("0.00"));
+        string formattedValue = slider.wholeNumbers ? value.ToString() : value.ToString("0.00");
+        sliderText.text = string.Format("{0}: {1}", componentName, formattedValue);
     }
 
     public float getValue()

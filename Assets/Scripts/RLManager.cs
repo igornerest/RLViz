@@ -16,6 +16,7 @@ public class RLManager : MonoBehaviour
     [SerializeField] private CustomSlider gammaSlider;      // 0.9 by default
     [SerializeField] private CustomSlider epsilonSlider;    // 0.2 by default
     [SerializeField] private CustomSlider alphaSlider;      // 0.1 by default
+    [SerializeField] private CustomSlider timeSlider;       // 1000ms by default
 
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
 
@@ -64,6 +65,8 @@ public class RLManager : MonoBehaviour
         mdp.Gamma = gammaSlider.getValue();
         mdp.Epsilon = epsilonSlider.getValue();
         mdp.Alpha = alphaSlider.getValue();
+
+        Time.fixedDeltaTime = timeSlider.getValue()/1000;
 
         HandleBlockCreation();
     }
