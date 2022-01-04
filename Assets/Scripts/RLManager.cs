@@ -4,11 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class RLManager : MonoBehaviour
 {
     [SerializeField] private Transform gridBlockPrefab;
 
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private EventSystem eventSystem;
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
     [SerializeField] private Button playButton;
     [SerializeField] private Button modeButton;
@@ -55,10 +58,24 @@ public class RLManager : MonoBehaviour
         HandleBlockCreation();
     }
 
+    private bool IsMousePointerOverUIPanel()
+    {
+        PointerEventData pointerEventData = new PointerEventData(eventSystem);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        canvas.GetComponent<GraphicRaycaster>().Raycast(pointerEventData, results);
+
+        return results.Count > 0;
+    }
+
     private void HandleBlockCreation()
     {
         if (isBuildMode && Input.GetMouseButtonDown(0))
         {
+            if (IsMousePointerOverUIPanel())
+                return;
+            
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
