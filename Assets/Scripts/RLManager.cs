@@ -12,7 +12,13 @@ public class RLManager : MonoBehaviour
 
     [SerializeField] private Canvas canvas;
     [SerializeField] private EventSystem eventSystem;
+
+    [SerializeField] private CustomSlider gammaSlider;      // 0.9 by default
+    [SerializeField] private CustomSlider epsilonSlider;    // 0.2 by default
+    [SerializeField] private CustomSlider alphaSlider;      // 0.1 by default
+
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
+
     [SerializeField] private Button playButton;
     [SerializeField] private Button modeButton;
 
@@ -55,6 +61,10 @@ public class RLManager : MonoBehaviour
 
     private void Update()
     {
+        mdp.Gamma = gammaSlider.getValue();
+        mdp.Epsilon = epsilonSlider.getValue();
+        mdp.Alpha = alphaSlider.getValue();
+
         HandleBlockCreation();
     }
 

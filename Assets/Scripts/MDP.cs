@@ -7,10 +7,6 @@ public class MDP
 {
     private Dictionary<Vector3Int, State> grid = new Dictionary<Vector3Int, State>();
 
-    private float gamma;
-    private float epsilon;
-    private float alpha;
-
     private QFunction qFunction = new QFunction();
     private Utility utility = new Utility();
     private Policy policy = new Policy();
@@ -24,24 +20,18 @@ public class MDP
         get { return isUsingVFunction; }
     }
 
-    public float Gamma
-    {
-        get { return gamma; }
-    }
+    // Discount-rate parameter, between 0 and 1
+    public float Gamma { get; set; }
 
-    public float Epsilon
-    {
-        get { return epsilon;  }
-    }
+    // Probability of taking a random action in an E-greedy policy
+    public float Epsilon { get; set; }
 
-    public float Alpha
-    {
-        get { return alpha;  }
-    }
+    // Value Function learning rate
+    public float Alpha { get; set; }
 
     public float ValueIterationDelta
     {
-        get { return epsilon * (1 - gamma) / gamma; }
+        get { return Epsilon * (1 - Gamma) / Gamma; }
     }
 
     public QFunction QFunction
@@ -62,13 +52,6 @@ public class MDP
     public State InitialState
     {
         get { return initialState; }
-    }
-
-    public MDP(float gamma = 0.9f, float epsilon = 0.2f, float alpha = 0.1f)
-    {
-        this.gamma = gamma;
-        this.epsilon = epsilon;
-        this.alpha = alpha;
     }
 
     public void Reset()
