@@ -16,8 +16,8 @@ public class CustomSlider : MonoBehaviour
         slider.value = defaultValue;
         UpdateText(defaultValue);
 
-        slider.onValueChanged.AddListener((val) => {
-            UpdateText(val);
+        slider.onValueChanged.AddListener((value) => {
+            UpdateText(value);
         });
     }
 
@@ -27,9 +27,13 @@ public class CustomSlider : MonoBehaviour
         sliderText.text = string.Format("{0}: {1}", componentName, formattedValue);
     }
 
+    public void UpdateSliderInteraction(bool isInteractable)
+    {
+        slider.interactable = isInteractable;
+    }
+
     public float getValue()
     {
         return (float) Math.Round(slider.value, 2);
     }
-
 }

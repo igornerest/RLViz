@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 
 public static class RLAlgorithms
@@ -10,14 +9,14 @@ public static class RLAlgorithms
     public const String ALGORITHM_Q_LEARNING = "Q Learning";
     public const String ALGORITHM_SARSA = "Sarsa";
 
-    public static IEnumerator ValueIteration(MDP mdp)
+    public static IEnumerator ValueIteration(MDP mdp, RLAlgorithmState algorithmState)
     {
         Debug.Log("Running Value Iteration algorithm");
 
         mdp.UseVFunction();
 
-        do
-        {
+        for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++) { 
+
             Utility newUtility = mdp.Utility.Clone();  
             foreach (State state in mdp.GetAllStates())
             {
@@ -31,32 +30,34 @@ public static class RLAlgorithms
                 mdp.Policy[state] = bestAction;
             }
 
+            algorithmState.ItCount++;
             yield return new WaitForFixedUpdate();
-
-        } while (true);
+        }
     }
 
-    public static IEnumerator PolicyIteration(MDP mdp)
+    public static IEnumerator PolicyIteration(MDP mdp, RLAlgorithmState algorithmState)
     {
         Debug.Log("Running Policy Iteration algorithm");
 
         mdp.UseVFunction();
 
-        while (true)
+        for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
         {
             policyEvaluation(mdp);
             policyImprovement(mdp);
+
+            algorithmState.CurrIt++;
             yield return new WaitForFixedUpdate();
         }
     }
 
-    public static IEnumerator QLearning(MDP mdp)
+    public static IEnumerator QLearning(MDP mdp, RLAlgorithmState algorithmState)
     {
         Debug.Log("Running Q-Learning algorithm");
 
         mdp.UseQFunction();
 
-        for (int i = 0; i < 1000; i++)
+        for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
         {
             State currState = mdp.InitialState;
    
@@ -72,19 +73,21 @@ public static class RLAlgorithms
 
                 yield return new WaitForFixedUpdate();
             }
+
+            algorithmState.CurrIt++;
         }
 
         Policy policy = mdp.QFunction.GetPolicy();
         mdp.UpdatePolicy(policy);
     }
 
-    public static IEnumerator Sarsa(MDP mdp)
+    public static IEnumerator Sarsa(MDP mdp, RLAlgorithmState algorithmState)
     {
         Debug.Log("Running Sarsa algorithm");
 
         mdp.UseQFunction();
 
-        for (int i = 0; i < 1000; i++)
+        for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
         {
             State currState = mdp.InitialState;
             Action currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
@@ -101,6 +104,8 @@ public static class RLAlgorithms
 
                 yield return new WaitForFixedUpdate();
             }
+
+            algorithmState.CurrIt++;
         }
 
         Policy policy = mdp.QFunction.GetPolicy();

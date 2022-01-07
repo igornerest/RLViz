@@ -17,14 +17,15 @@ public class RLManager : MonoBehaviour
     [SerializeField] private CustomSlider epsilonSlider;    // 0.2 by default
     [SerializeField] private CustomSlider alphaSlider;      // 0.1 by default
     [SerializeField] private CustomSlider timeSlider;       // 1000ms by default
+    [SerializeField] private CustomSlider iterationSlider;  // 20 by default
 
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
 
     [SerializeField] private Button playButton;
     [SerializeField] private Button modeButton;
 
-    private Dictionary<string, Func<MDP, IEnumerator>> supportedAlgorithms = 
-        new Dictionary<string, Func<MDP, IEnumerator>>()
+    private Dictionary<string, Func<MDP, RLAlgorithmState, IEnumerator>> supportedAlgorithms = 
+        new Dictionary<string, Func<MDP, RLAlgorithmState, IEnumerator>>()
         {
             { RLAlgorithms.ALGORITHM_VALUE_ITERATION, RLAlgorithms.ValueIteration },
             { RLAlgorithms.ALGORITHM_POLICY_ITERATION, RLAlgorithms.PolicyIteration },
@@ -32,7 +33,8 @@ public class RLManager : MonoBehaviour
             { RLAlgorithms.ALGORITHM_SARSA, RLAlgorithms.Sarsa }
         };
 
-    private IEnumerator currAlgorithm;
+    private IEnumerator currAlgorithmCoroutine;
+    private RLAlgorithmState currAlgorithmState;
 
     private MDP mdp = new MDP();
 
@@ -68,7 +70,20 @@ public class RLManager : MonoBehaviour
 
         Time.fixedDeltaTime = timeSlider.getValue()/1000;
 
+        HandleAlgorithmStateUpdate();
         HandleBlockCreation();
+    }
+
+    public void HandleAlgorithmStateUpdate()
+    {
+        if (IsCurrAlgorithmCoroutineActive())
+        {
+            if (!currAlgorithmState.IsActive())
+            {
+                StopCurrAlgorithmCoroutine();
+                EnabledUIInteraction();
+            }
+        }
     }
 
     private bool IsMousePointerOverUIPanel()
@@ -81,7 +96,7 @@ public class RLManager : MonoBehaviour
 
         return results.Count > 0;
     }
-
+ 
     private void HandleBlockCreation()
     {
         if (isBuildMode && Input.GetMouseButtonDown(0))
@@ -114,23 +129,60 @@ public class RLManager : MonoBehaviour
         }
     }
 
+    private Func<MDP, RLAlgorithmState, IEnumerator> GetSelectedAlgorithm()
+    {
+        string selectedAlgorithm = algorithmDropdown.options[algorithmDropdown.value].text;
+        Debug.Log(selectedAlgorithm);
+        return supportedAlgorithms[selectedAlgorithm];
+    }
+
+    private bool IsCurrAlgorithmCoroutineActive()
+    {
+        return currAlgorithmCoroutine != null;
+    }
+
+    private void StopCurrAlgorithmCoroutine()
+    {
+        StopCoroutine(currAlgorithmCoroutine);
+        currAlgorithmCoroutine = null;
+    }
+
+    private void EnabledUIInteraction()
+    {
+        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Play";
+        iterationSlider.UpdateSliderInteraction(true);
+        modeButton.interactable = true;
+        algorithmDropdown.interactable = true;
+    }
+
+    private void DisabledUIInteraction()
+    {
+        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Stop";
+        iterationSlider.UpdateSliderInteraction(false);
+        modeButton.interactable = false;
+        algorithmDropdown.interactable = false;
+    }
+
     public void OnClickPlayButton()
     {
-        if (currAlgorithm == null)
-        {
-            return;
-        }
-
         var playButtonText = playButton.GetComponentInChildren<TMPro.TMP_Text>();
+
         if (playButtonText.text == "Play")
         {
-            StartCoroutine(currAlgorithm);
-            playButtonText.text = "Stop";
+            DisabledUIInteraction();
+
+            // We reuse the instance to keep iteration count
+            // A new instance is created whenever the algorithm changes
+            currAlgorithmState.MaxIt = (int)iterationSlider.getValue();
+
+            currAlgorithmCoroutine = GetSelectedAlgorithm()(mdp, currAlgorithmState);
+            StartCoroutine(currAlgorithmCoroutine);
         }
         else if (playButtonText.text == "Stop")
         {
-            StopCoroutine(currAlgorithm);
-            playButtonText.text = "Play";
+            EnabledUIInteraction();
+
+            StopCurrAlgorithmCoroutine();
         }
     }
 
@@ -151,18 +203,21 @@ public class RLManager : MonoBehaviour
 
     public void OnAlgorithmDropdownValueChanged()
     {
-        if (currAlgorithm != null)
+        if (!IsCurrAlgorithmCoroutineActive())
         {
-            StopCoroutine(currAlgorithm);
+            // We use a new instance of algorithm state since the algorithm changes
+            currAlgorithmState = new RLAlgorithmState((int)iterationSlider.getValue());
+
+            mdp.Reset();
         }
+    }
 
-        string selectedAlgorithm = algorithmDropdown.options[algorithmDropdown.value].text;
-        Debug.Log("Selected algorithm: " + selectedAlgorithm);
-        currAlgorithm = supportedAlgorithms[selectedAlgorithm](mdp);
-
-        mdp.Reset();
-
-        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Play";
+    public void OnIterationSliderValueChanged()
+    {
+        if (!IsCurrAlgorithmCoroutineActive())
+        {
+            currAlgorithmState.MaxIt = (int)iterationSlider.getValue();
+        }
     }
 
     private void SetMDP()
