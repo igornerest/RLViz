@@ -22,6 +22,7 @@ public class RLManager : MonoBehaviour
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
 
     [SerializeField] private Button playButton;
+    [SerializeField] private Button resetButton;
     [SerializeField] private Button modeButton;
 
     private Dictionary<string, Func<MDP, RLAlgorithmState, IEnumerator>> supportedAlgorithms = 
@@ -151,6 +152,7 @@ public class RLManager : MonoBehaviour
     {
         playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Play";
         iterationSlider.UpdateSliderInteraction(true);
+        resetButton.interactable = true;
         modeButton.interactable = true;
         algorithmDropdown.interactable = true;
     }
@@ -159,6 +161,7 @@ public class RLManager : MonoBehaviour
     {
         playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Stop";
         iterationSlider.UpdateSliderInteraction(false);
+        resetButton.interactable = false;
         modeButton.interactable = false;
         algorithmDropdown.interactable = false;
     }
@@ -183,6 +186,14 @@ public class RLManager : MonoBehaviour
             EnabledUIInteraction();
 
             StopCurrAlgorithmCoroutine();
+        }
+    }
+
+    public void OnClickResetButton()
+    {
+        if (!IsCurrAlgorithmCoroutineActive())
+        {
+            mdp.Reset();
         }
     }
 
