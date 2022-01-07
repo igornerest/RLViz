@@ -13,8 +13,6 @@ public static class RLAlgorithms
     {
         Debug.Log("Running Value Iteration algorithm");
 
-        mdp.UseVFunction();
-
         for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++) { 
 
             Utility newUtility = mdp.Utility.Clone();  
@@ -39,8 +37,6 @@ public static class RLAlgorithms
     {
         Debug.Log("Running Policy Iteration algorithm");
 
-        mdp.UseVFunction();
-
         for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
         {
             policyEvaluation(mdp);
@@ -54,8 +50,6 @@ public static class RLAlgorithms
     public static IEnumerator QLearning(MDP mdp, RLAlgorithmState algorithmState)
     {
         Debug.Log("Running Q-Learning algorithm");
-
-        mdp.UseQFunction();
 
         for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
         {
@@ -84,8 +78,6 @@ public static class RLAlgorithms
     public static IEnumerator Sarsa(MDP mdp, RLAlgorithmState algorithmState)
     {
         Debug.Log("Running Sarsa algorithm");
-
-        mdp.UseQFunction();
 
         for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
         {

@@ -19,22 +19,24 @@ public class RLManager : MonoBehaviour
     [SerializeField] private CustomSlider timeSlider;       // 1000ms by default
     [SerializeField] private CustomSlider iterationSlider;  // 20 by default
 
+    [SerializeField] private GameObject displayModePanel;
+
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
 
     [SerializeField] private Button playButton;
     [SerializeField] private Button resetButton;
     [SerializeField] private Button modeButton;
 
-    private Dictionary<string, Func<MDP, RLAlgorithmState, IEnumerator>> supportedAlgorithms = 
-        new Dictionary<string, Func<MDP, RLAlgorithmState, IEnumerator>>()
-        {
-            { RLAlgorithms.ALGORITHM_VALUE_ITERATION, RLAlgorithms.ValueIteration },
-            { RLAlgorithms.ALGORITHM_POLICY_ITERATION, RLAlgorithms.PolicyIteration },
-            { RLAlgorithms.ALGORITHM_Q_LEARNING, RLAlgorithms.QLearning },
-            { RLAlgorithms.ALGORITHM_SARSA, RLAlgorithms.Sarsa }
-        };
+    private List<string> supportedAlgorithms = new List<string>()
+    {
+        RLAlgorithms.ALGORITHM_VALUE_ITERATION,
+        RLAlgorithms.ALGORITHM_POLICY_ITERATION,
+        RLAlgorithms.ALGORITHM_Q_LEARNING,
+        RLAlgorithms.ALGORITHM_SARSA,
+    };
 
     private IEnumerator currAlgorithmCoroutine;
+    private Func<MDP, RLAlgorithmState, IEnumerator> currAlgorithmFunc;
     private RLAlgorithmState currAlgorithmState;
 
     private MDP mdp = new MDP();
@@ -51,7 +53,7 @@ public class RLManager : MonoBehaviour
     private void Start()
     {
         algorithmDropdown.ClearOptions();
-        algorithmDropdown.AddOptions(supportedAlgorithms.Select(kvp => kvp.Key).ToList());
+        algorithmDropdown.AddOptions(supportedAlgorithms);
         OnAlgorithmDropdownValueChanged();
 
         SetMDP();
@@ -59,6 +61,7 @@ public class RLManager : MonoBehaviour
         foreach (State state in mdp.GetAllStates())
         {
             GridBlock gridBlock = Instantiate(gridBlockPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
+            gridBlock.displayModeManager = displayModePanel.GetComponent<DisplayModeManager>();
             gridBlock.UpdateBlock(state, mdp);
         }
     }
@@ -134,7 +137,27 @@ public class RLManager : MonoBehaviour
     {
         string selectedAlgorithm = algorithmDropdown.options[algorithmDropdown.value].text;
         Debug.Log(selectedAlgorithm);
-        return supportedAlgorithms[selectedAlgorithm];
+
+        switch (selectedAlgorithm)
+        {
+            case RLAlgorithms.ALGORITHM_VALUE_ITERATION:
+                mdp.UseVFunction();
+                return RLAlgorithms.ValueIteration;
+
+            case RLAlgorithms.ALGORITHM_POLICY_ITERATION:
+                mdp.UseVFunction();
+                return RLAlgorithms.PolicyIteration;
+
+            case RLAlgorithms.ALGORITHM_Q_LEARNING:
+                mdp.UseQFunction();
+                return RLAlgorithms.QLearning;
+
+            case RLAlgorithms.ALGORITHM_SARSA:
+                mdp.UseQFunction();
+                return RLAlgorithms.Sarsa;
+        }
+
+        throw new Exception("No valid algorithm was selected");
     }
 
     private bool IsCurrAlgorithmCoroutineActive()
@@ -178,7 +201,7 @@ public class RLManager : MonoBehaviour
             // A new instance is created whenever the algorithm changes
             currAlgorithmState.MaxIt = (int)iterationSlider.getValue();
 
-            currAlgorithmCoroutine = GetSelectedAlgorithm()(mdp, currAlgorithmState);
+            currAlgorithmCoroutine = currAlgorithmFunc(mdp, currAlgorithmState);
             StartCoroutine(currAlgorithmCoroutine);
         }
         else if (playButtonText.text == "Stop")
@@ -218,7 +241,7 @@ public class RLManager : MonoBehaviour
         {
             // We use a new instance of algorithm state since the algorithm changes
             currAlgorithmState = new RLAlgorithmState((int)iterationSlider.getValue());
-
+            currAlgorithmFunc = GetSelectedAlgorithm();
             mdp.Reset();
         }
     }
