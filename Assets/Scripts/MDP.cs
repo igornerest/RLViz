@@ -54,6 +54,8 @@ public class MDP
         get { return initialState; }
     }
 
+    public State AgentState { get; set; }
+
     public void Reset()
     {
         utility.Clear();

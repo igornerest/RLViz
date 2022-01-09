@@ -54,9 +54,11 @@ public static class RLAlgorithms
         for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
         {
             State currState = mdp.InitialState;
-   
+
             while (!currState.IsTerminal)
             {
+                mdp.AgentState = currState;
+
                 var currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
                 var nextState = currState.NextState(currAction);
                 var (nextStateMaxQ, _) = mdp.QFunction.MaxQ(nextState);
@@ -69,6 +71,8 @@ public static class RLAlgorithms
             }
 
             algorithmState.CurrIt++;
+            mdp.AgentState = currState;
+            yield return new WaitForFixedUpdate();
         }
 
         Policy policy = mdp.QFunction.GetPolicy();
@@ -86,6 +90,8 @@ public static class RLAlgorithms
             
             while (!currState.IsTerminal)
             {
+                mdp.AgentState = currState;
+
                 var nextState = currState.NextState(currAction);
                 var nextAction = mdp.QFunction.EGreedy(nextState, mdp.Epsilon);
 
@@ -98,6 +104,8 @@ public static class RLAlgorithms
             }
 
             algorithmState.CurrIt++;
+            mdp.AgentState = currState;
+            yield return new WaitForFixedUpdate();
         }
 
         Policy policy = mdp.QFunction.GetPolicy();

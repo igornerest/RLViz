@@ -22,6 +22,12 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private TMP_Text leftQValueText;
     [SerializeField] private TMP_Text rightQValueText;
 
+    [SerializeField] private MeshRenderer gridBlockMeshRenderer;
+    [SerializeField] private Material initialStateMaterial;
+    [SerializeField] private Material nonTerminalStateMaterial;
+    [SerializeField] private Material terminalStateMaterial;
+    [SerializeField] private Material agentStateMaterial;
+
     private Dictionary<DisplayMode, System.Action> canvasUpdateDictionary;
 
     private State state;
@@ -43,6 +49,7 @@ public class GridBlock : MonoBehaviour
     private void Update()
     {
         UpdateGridBlockCanvas();
+        UpdateGridBlockMaterial();
     }
 
     public void UpdateBlock(State state, MDP mdp)
@@ -50,6 +57,27 @@ public class GridBlock : MonoBehaviour
         this.state = state;
         this.mdp = mdp;
         UpdateGridBlockCanvas();
+        UpdateGridBlockMaterial();
+    }
+
+    private void UpdateGridBlockMaterial()
+    {
+        if (mdp.AgentState == this.state)
+        {
+            gridBlockMeshRenderer.material = agentStateMaterial;
+        }
+        else if (mdp.InitialState == this.state)
+        {
+            gridBlockMeshRenderer.material = initialStateMaterial;
+        }
+        else if (state.IsTerminal)
+        {
+            gridBlockMeshRenderer.material = terminalStateMaterial;
+        }
+        else
+        {
+            gridBlockMeshRenderer.material = nonTerminalStateMaterial;
+        }
     }
 
     private void UpdateGridBlockCanvas()

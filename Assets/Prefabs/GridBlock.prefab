@@ -428,6 +428,11 @@ MonoBehaviour:
   downQValueText: {fileID: 2050647722008176070}
   leftQValueText: {fileID: 2781421813473950388}
   rightQValueText: {fileID: 2418557919296939116}
+  gridBlockMeshRenderer: {fileID: 1510925179807442667}
+  initialStateMaterial: {fileID: 2100000, guid: 9dee9b714e8ad5548b4c3c5ff93d8794, type: 2}
+  nonTerminalStateMaterial: {fileID: 2100000, guid: b2c1f1b6a5edaa0469fdca3b43c94773, type: 2}
+  terminalStateMaterial: {fileID: 2100000, guid: 66b87768f0172164fa1a2ebd36b28610, type: 2}
+  agentStateMaterial: {fileID: 2100000, guid: a7a760036ae63234dbf3084ac9bdc009, type: 2}
 --- !u!65 &198949250212333557
 BoxCollider:
   m_ObjectHideFlags: 0
