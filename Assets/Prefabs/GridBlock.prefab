@@ -433,6 +433,8 @@ MonoBehaviour:
   nonTerminalStateMaterial: {fileID: 2100000, guid: b2c1f1b6a5edaa0469fdca3b43c94773, type: 2}
   terminalStateMaterial: {fileID: 2100000, guid: 66b87768f0172164fa1a2ebd36b28610, type: 2}
   agentStateMaterial: {fileID: 2100000, guid: a7a760036ae63234dbf3084ac9bdc009, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: b8bf111ec04715e4bb0c71dbe8ca64e4, type: 2}
+  editedMaterial: {fileID: 0}
 --- !u!65 &198949250212333557
 BoxCollider:
   m_ObjectHideFlags: 0
