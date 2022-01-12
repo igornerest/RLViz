@@ -7,9 +7,9 @@ public class State
 {
     public Vector3Int Position { private set; get; }
 
-    public bool IsTerminal { private set; get; }
+    public bool IsTerminal { set; get; }
 
-    public float Reward { private set; get; }
+    public float Reward { set; get; }
 
     private static Random random = new Random();
 

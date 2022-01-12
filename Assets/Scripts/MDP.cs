@@ -11,8 +11,6 @@ public class MDP
     private Utility utility = new Utility();
     private Policy policy = new Policy();
 
-    private State initialState;
-
     private bool isUsingVFunction;
 
     public bool IsUsingVFunction
@@ -49,10 +47,7 @@ public class MDP
         get { return policy; }
     }
 
-    public State InitialState
-    {
-        get { return initialState; }
-    }
+    public State InitialState { get; set; }
 
     public State AgentState { get; set; }
 
@@ -69,7 +64,7 @@ public class MDP
 
         if (isInitial)
         {
-            this.initialState = state;
+            InitialState = state;
         }
     }
 

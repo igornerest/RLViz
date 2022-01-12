@@ -12,14 +12,28 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private EventSystem eventSystem;
 
     [SerializeField] private Transform gridBlockPrefab;
+    [SerializeField] private Transform ghostBlockPrefab;
+
+    private InteractionMode currInteractionMode;
+
+    private Transform hoveredGridBlock;
+    private Transform selectedGridBlock;
+
+    private Transform ghostBlock;
 
     private void Start()
     {
         BuildInitialGridWorld();
+        SetGhostBlock();
     }
 
     private void Update()
     {
+        if (IsMousePointerOverUIPanel())
+        {
+            ClearHoveredGridBlocks();
+        }
+
         HandleInteractionMode();
     }
 
@@ -44,9 +58,22 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
+    private void SetGhostBlock()
+    {
+        var position = new Vector3Int(0, 0, 0);
+        ghostBlock = Instantiate(ghostBlockPrefab, position, Quaternion.identity);
+    }
+
     private void HandleInteractionMode()
     {
-        switch (interactionModeManager.GetInteractionMode())
+        var updatedInteractionMode = interactionModeManager.GetInteractionMode();
+        if (currInteractionMode != updatedInteractionMode)
+        {
+            ClearSelectedGridBlocks();
+            currInteractionMode = updatedInteractionMode;
+        }
+
+        switch (currInteractionMode)
         {
             case InteractionMode.Simulate:
                 HandleSimulateInteractionMode();
@@ -66,23 +93,148 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
+    private bool UpdateHoveredGridBlock(Transform transform)
+    {
+        if (hoveredGridBlock != transform)
+        {
+            if (hoveredGridBlock != null)
+            {
+                hoveredGridBlock.GetComponent<GridBlock>().IsHoveredByUser = false;
+            }
+
+            hoveredGridBlock = transform;
+            hoveredGridBlock.GetComponent<GridBlock>().IsHoveredByUser = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void ClearHoveredGridBlocks()
+    {
+        if (hoveredGridBlock != null)
+        {
+            hoveredGridBlock.GetComponent<GridBlock>().IsHoveredByUser = false;
+        }
+
+        hoveredGridBlock = null;
+    }
+
+    private bool UpdateSelectedGridBlock(Transform transform)
+    {
+        if (selectedGridBlock != transform)
+        {
+            if (selectedGridBlock != null)
+            {
+                selectedGridBlock.GetComponent<GridBlock>().IsSelectedByUser = false;
+            }
+
+            selectedGridBlock = transform;
+            selectedGridBlock.GetComponent<GridBlock>().IsSelectedByUser = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void ClearSelectedGridBlocks()
+    {
+        if (selectedGridBlock != null)
+        {
+            selectedGridBlock.GetComponent<GridBlock>().IsSelectedByUser = false;
+        }
+
+        selectedGridBlock = null;
+    }
+
+    private void UpdateGhostBlock(Vector3 position)
+    {
+        int xPos = (int)position.x;
+        int yPos = (int)position.z;
+        ghostBlock.transform.position = new Vector3Int(xPos, 0, yPos);
+        ghostBlock.gameObject.SetActive(true);
+    }
+
+    private void ClearGhostBlock()
+    {
+        ghostBlock.gameObject.SetActive(false);
+    }
+
     private void HandleSimulateInteractionMode()
     {
-        Debug.Log("Handling Simulation");
+        // TODO
     }
 
     private void HandleDeleteInteractionMode()
     {
-        Debug.Log("Handling Deletion");
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit) && hit.transform.tag == "GridBlock" && !IsMousePointerOverUIPanel())
+        {
+            UpdateHoveredGridBlock(hit.transform);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Destroy(hit.transform.gameObject);
+            }
+        }
+        else
+        {
+            ClearHoveredGridBlocks();
+        }
     }
 
     private void HandleCreateInteractionMode()
     {
-        Debug.Log("Handling Creation");
+        ClearSelectedGridBlocks();
+
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit) && hit.transform.tag == "BaseFloor" && !IsMousePointerOverUIPanel())
+        {
+            UpdateGhostBlock(hit.point);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                // TODO: create state
+            }
+        }
+        else
+        {
+            ClearGhostBlock();
+        }
     }
 
     private void HandleEditInteractionMode()
     {
-        Debug.Log("Handling Deletion");
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit) && hit.transform.tag == "GridBlock" && !IsMousePointerOverUIPanel())
+        {
+            UpdateHoveredGridBlock(hit.transform);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                State state = hit.transform.GetComponent<GridBlock>().State;
+
+                if (UpdateSelectedGridBlock(hit.transform))
+                {
+                    interactionModeManager.UpdatePanelWithStateInfo(state, MDPManager.Instance.Mdp);
+                }
+            }
+        }
+        else
+        {
+            ClearHoveredGridBlocks();
+        }
+
+        if (selectedGridBlock != null)
+        {
+            State state = selectedGridBlock.GetComponent<GridBlock>().State;
+            interactionModeManager.UpdateState(state, MDPManager.Instance.Mdp);
+        }
     }
 }

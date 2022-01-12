@@ -27,6 +27,8 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private Material nonTerminalStateMaterial;
     [SerializeField] private Material terminalStateMaterial;
     [SerializeField] private Material agentStateMaterial;
+    [SerializeField] private Material hoveredMaterial;
+    [SerializeField] private Material selectedMaterial;
 
     private Dictionary<DisplayMode, System.Action> canvasUpdateDictionary;
 
@@ -34,6 +36,11 @@ public class GridBlock : MonoBehaviour
     private MDP mdp;
 
     private int decimalPlaces = 2;
+
+    public bool IsHoveredByUser { set; get; }
+    public bool IsSelectedByUser { set; get; }
+
+    public State State { get => state; }
 
     private void Start()
     {
@@ -62,7 +69,15 @@ public class GridBlock : MonoBehaviour
 
     private void UpdateGridBlockMaterial()
     {
-        if (mdp.AgentState == this.state)
+        if (IsSelectedByUser)
+        {
+            gridBlockMeshRenderer.material = selectedMaterial;
+        }
+        else if (IsHoveredByUser)
+        {
+            gridBlockMeshRenderer.material = hoveredMaterial;
+        }
+        else if (mdp.AgentState == this.state)
         {
             gridBlockMeshRenderer.material = agentStateMaterial;
         }

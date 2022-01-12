@@ -3734,6 +3734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3056e1892f24754eac7ee3075949677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionToggleGroup: {fileID: 104628533}
   simulateToggle: {fileID: 1723976236}
   createToggle: {fileID: 559302170}
   deleteToggle: {fileID: 1702195874}
@@ -6192,7 +6193,6 @@ MonoBehaviour:
   algorithmDropdown: {fileID: 2092710101}
   playButton: {fileID: 1037557846}
   resetButton: {fileID: 1358116995}
-  modeButton: {fileID: 0}
 --- !u!4 &1390374758
 Transform:
   m_ObjectHideFlags: 0
@@ -6221,9 +6221,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionModeManager: {fileID: 983944445}
   displayModeManager: {fileID: 1330306910}
-  gridBlockPrefab: {fileID: 3274707554378019636, guid: 823dabd294d37304ba5a2157012c0e1e, type: 3}
   canvas: {fileID: 1210148083}
   eventSystem: {fileID: 1264266200}
+  gridBlockPrefab: {fileID: 3274707554378019636, guid: 823dabd294d37304ba5a2157012c0e1e, type: 3}
+  ghostBlockPrefab: {fileID: 5995437487232407736, guid: e67a8bb168590644ea04759cffe6e572, type: 3}
 --- !u!114 &1390374760
 MonoBehaviour:
   m_ObjectHideFlags: 0
