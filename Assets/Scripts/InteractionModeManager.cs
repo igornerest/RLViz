@@ -146,7 +146,7 @@ public class InteractionModeManager : MonoBehaviour
     {
         SetupDropdownOptions();
 
-        rewardInputField.text = state.Reward.ToString();
+        rewardInputField.text = state.Reward.ToString("0.00"); ;
 
         Action actualPolicy = mdp.Policy[state];
         string policyStr = ActionExtensions.GetStringFromAction(actualPolicy);
@@ -171,7 +171,7 @@ public class InteractionModeManager : MonoBehaviour
 
     public void UpdateState(State state, MDP mdp)
     {
-        state.Reward = float.Parse(rewardInputField.text);
+        state.Reward = float.Parse(rewardInputField.text, System.Globalization.CultureInfo.InvariantCulture);
 
         string policyString = policyDropdown.options[policyDropdown.value].text;
         Action actualPolicy = ActionExtensions.GetActionFromString(policyString);

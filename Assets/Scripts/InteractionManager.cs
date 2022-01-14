@@ -52,10 +52,15 @@ public class InteractionManager : MonoBehaviour
     {
         foreach (State state in MDPManager.Instance.Mdp.GetAllStates())
         {
-            GridBlock gridBlock = Instantiate(gridBlockPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
-            gridBlock.displayModeManager = displayModeManager;
-            gridBlock.UpdateBlock(state, MDPManager.Instance.Mdp);
+            BuildBlock(state);
         }
+    }
+
+    private void BuildBlock(State state)
+    {
+        GridBlock gridBlock = Instantiate(gridBlockPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
+        gridBlock.displayModeManager = displayModeManager;
+        gridBlock.UpdateBlock(state, MDPManager.Instance.Mdp);
     }
 
     private void SetGhostBlock()
@@ -198,7 +203,14 @@ public class InteractionManager : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                // TODO: create state
+                int xPos = (int)hit.point.x;
+                int yPos = (int)hit.point.z;
+                Debug.Log(string.Format("Creating state at position {0}, {1}", xPos, yPos));
+
+                State newState = new State(xPos, yPos);
+                interactionModeManager.UpdateState(newState, MDPManager.Instance.Mdp);
+
+                BuildBlock(newState);
             }
         }
         else

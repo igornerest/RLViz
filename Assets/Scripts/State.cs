@@ -20,7 +20,7 @@ public class State
         get { return nextLikelyStates;  } 
     }
 
-    public State(int xPos, int yPos, float reward, bool isTerminal)
+    public State(int xPos, int yPos, float reward = 0, bool isTerminal = false)
     {
         this.Position = new Vector3Int(xPos, 0, yPos);
         this.Reward = reward;
