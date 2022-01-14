@@ -7,13 +7,6 @@ public class MDPManager : MonoBehaviour
 
     private MDP mdp;
 
-    private Dictionary<Deviation, float> defaultDeviationProbs =
-        new Dictionary<Deviation, float> {
-            { Deviation.FORWARD,    0.8f },
-            { Deviation.LEFT,       0.1f },
-            { Deviation.RIGHT,      0.1f }
-        };
-
     public static MDPManager Instance
     {
         get
@@ -52,7 +45,7 @@ public class MDPManager : MonoBehaviour
 
     private MDP GetDefaultMDP()
     {
-        mdp = new MDP();
+        List<State> states = new List<State>();
 
         int rows = 3;
         int columns = 4;
@@ -69,11 +62,13 @@ public class MDPManager : MonoBehaviour
                 float reward = isTerminal ? terminalReward : -0.04f;
 
                 State state = new State(j, i, reward, isTerminal);
-                mdp.AddState(state, isInitial);
+                states.Add(new State(j, i, reward, isTerminal));
             }
         }
 
-        mdp.EvaluateProbabilities(defaultDeviationProbs);
+        mdp = new MDP();
+        mdp.AddStates(states);
+        mdp.PromoteStateToInitial(states.Find(x => x.Position == new Vector3Int(0, 0, 0)));
 
         return mdp;
     }

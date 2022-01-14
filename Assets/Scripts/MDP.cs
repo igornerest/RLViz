@@ -12,11 +12,18 @@ public class MDP
     private Policy policy = new Policy();
 
     private bool isUsingVFunction;
+    private bool isUsingQFunction;
 
-    public bool IsUsingVFunction
-    {
-        get { return isUsingVFunction; }
-    }
+    // TODO: let it customizable
+    private Dictionary<Deviation, float> deviationProbs =
+        new Dictionary<Deviation, float> {
+            { Deviation.FORWARD,    0.8f },
+            { Deviation.LEFT,       0.1f },
+            { Deviation.RIGHT,      0.1f }
+        };
+
+    public bool IsUsingVFunction { get => isUsingVFunction; }
+    public bool IsUsingQFunction { get => isUsingQFunction; }
 
     // Discount-rate parameter, between 0 and 1
     public float Gamma { get; set; }
@@ -58,14 +65,41 @@ public class MDP
         qFunction.Clear();
     }
 
-    public void AddState(State state, bool isInitial = false)
+    public void AddStates(List<State> states)
+    {
+        foreach (State state in states)
+        {
+            grid[state.Position] = state;
+        }
+
+        EvaluateProbabilities();
+    }
+
+    public void AddState(State state)
     {
         grid[state.Position] = state;
 
-        if (isInitial)
+        EvaluateProbabilities();
+    }
+
+    public void PromoteStateToInitial(State state)
+    {
+        if (state.IsTerminal)
         {
-            InitialState = state;
+            throw new Exception("Terminal state cannot be initial");
         }
+
+        if (!grid.ContainsKey(state.Position))
+        {
+            throw new Exception("The state is not part of the current grid");
+        }
+
+        InitialState = state;
+    }
+
+    public void UnsetInitialState()
+    {
+        InitialState = null;
     }
 
     public List<State> GetAllStates()
@@ -88,7 +122,7 @@ public class MDP
         this.policy = policy;
     }
 
-    public void EvaluateProbabilities(Dictionary<Deviation, float> likelyDeviations)
+    public void EvaluateProbabilities()
     {
         foreach (State state in GetAllNonTerminalStates())
         {
@@ -100,7 +134,7 @@ public class MDP
 
                 var likelyNextStates = new List<Tuple<State, float>>();
                 
-                foreach (var likelyDeviation in likelyDeviations)
+                foreach (var likelyDeviation in deviationProbs)
                 {
                     Deviation deviation = likelyDeviation.Key;
                     float probability = likelyDeviation.Value;
@@ -120,11 +154,13 @@ public class MDP
 
     public void UseQFunction()
     {
+        isUsingQFunction = true;
         isUsingVFunction = false;
     }
 
     public void UseVFunction()
     {
         isUsingVFunction = true;
+        isUsingQFunction = false;
     }
 }
