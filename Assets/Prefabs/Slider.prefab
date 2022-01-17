@@ -461,6 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   componentName: Name
+  defaultValue: 0
   slider: {fileID: 4529130812831903356}
   sliderText: {fileID: 4529130811890231151}
 --- !u!1 &4529130813073563446
