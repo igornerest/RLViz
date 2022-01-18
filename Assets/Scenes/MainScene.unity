@@ -7106,6 +7106,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1192777728}
   m_CullTransparentMesh: 1
+--- !u!1 &1207400769 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 66478547878350558, guid: 61cf51bf8e6a815418762055669559b6, type: 3}
+  m_PrefabInstance: {fileID: 92230611}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1210148080
 GameObject:
   m_ObjectHideFlags: 0
@@ -8680,7 +8685,7 @@ GameObject:
   - component: {fileID: 1390374759}
   - component: {fileID: 1390374760}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8738,6 +8743,7 @@ MonoBehaviour:
   eventSystem: {fileID: 1264266200}
   gridBlockPrefab: {fileID: 3274707554378019636, guid: 823dabd294d37304ba5a2157012c0e1e, type: 3}
   ghostBlockPrefab: {fileID: 5995437487232407736, guid: e67a8bb168590644ea04759cffe6e572, type: 3}
+  baseFloor: {fileID: 1207400769}
 --- !u!114 &1390374760
 MonoBehaviour:
   m_ObjectHideFlags: 0

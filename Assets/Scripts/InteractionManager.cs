@@ -14,6 +14,8 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private Transform gridBlockPrefab;
     [SerializeField] private Transform ghostBlockPrefab;
 
+    [SerializeField] private GameObject baseFloor;
+
     private InteractionMode currInteractionMode;
 
     private Transform hoveredGridBlock;
@@ -25,6 +27,7 @@ public class InteractionManager : MonoBehaviour
     {
         BuildInitialGridWorld();
         SetGhostBlock();
+        baseFloor.SetActive(false);
     }
 
     private void Update()
@@ -75,6 +78,7 @@ public class InteractionManager : MonoBehaviour
         if (currInteractionMode != updatedInteractionMode)
         {
             ClearSelectedGridBlocks();
+            baseFloor.SetActive(false);
             currInteractionMode = updatedInteractionMode;
         }
 
@@ -192,6 +196,7 @@ public class InteractionManager : MonoBehaviour
 
     private void HandleCreateInteractionMode()
     {
+        baseFloor.SetActive(true);
         ClearSelectedGridBlocks();
 
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
