@@ -99,7 +99,7 @@ public class RLManager : MonoBehaviour
 
     private void EnabledUIInteraction()
     {
-        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Play";
+        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "PLAY";
         iterationSlider.UpdateSliderInteraction(true);
         resetButton.interactable = true;
         algorithmDropdown.interactable = true;
@@ -107,7 +107,7 @@ public class RLManager : MonoBehaviour
 
     private void DisabledUIInteraction()
     {
-        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Stop";
+        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "STOP";
         iterationSlider.UpdateSliderInteraction(false);
         resetButton.interactable = false;
         algorithmDropdown.interactable = false;
@@ -117,7 +117,7 @@ public class RLManager : MonoBehaviour
     {
         var playButtonText = playButton.GetComponentInChildren<TMPro.TMP_Text>();
 
-        if (playButtonText.text == "Play")
+        if (playButtonText.text == "PLAY")
         {
             DisabledUIInteraction();
 
@@ -128,7 +128,7 @@ public class RLManager : MonoBehaviour
             currAlgorithmCoroutine = currAlgorithmFunc(MDPManager.Instance.Mdp, currAlgorithmState);
             StartCoroutine(currAlgorithmCoroutine);
         }
-        else if (playButtonText.text == "Stop")
+        else if (playButtonText.text == "STOP")
         {
             EnabledUIInteraction();
 
