@@ -23,12 +23,12 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private TMP_Text rightQValueText;
 
     [SerializeField] private MeshRenderer gridBlockMeshRenderer;
-    [SerializeField] private Material initialStateMaterial;
-    [SerializeField] private Material nonTerminalStateMaterial;
-    [SerializeField] private Material terminalStateMaterial;
     [SerializeField] private Material agentStateMaterial;
     [SerializeField] private Material hoveredMaterial;
     [SerializeField] private Material selectedMaterial;
+
+    [SerializeField] private GameObject startSign;
+    [SerializeField] private GameObject stopSign;
 
     private Dictionary<DisplayMode, System.Action> canvasUpdateDictionary;
 
@@ -83,15 +83,18 @@ public class GridBlock : MonoBehaviour
         }
         else if (mdp.InitialState == this.state)
         {
-            gridBlockMeshRenderer.material = initialStateMaterial;
+            startSign.SetActive(true);
+            stopSign.SetActive(false);
         }
         else if (state.IsTerminal)
         {
-            gridBlockMeshRenderer.material = terminalStateMaterial;
+            startSign.SetActive(false);
+            stopSign.SetActive(true);
         }
         else
         {
-            gridBlockMeshRenderer.material = nonTerminalStateMaterial;
+            startSign.SetActive(false);
+            stopSign.SetActive(false);
         }
     }
 
