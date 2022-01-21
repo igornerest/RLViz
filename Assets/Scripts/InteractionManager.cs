@@ -203,23 +203,28 @@ public class InteractionManager : MonoBehaviour
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit) && hit.transform.tag == "BaseFloor" && !IsMousePointerOverUIPanel())
+        bool hasValidHit = Physics.Raycast(ray, out hit) && !IsMousePointerOverUIPanel();
+
+        if (hasValidHit && hit.transform?.tag == "BaseFloor")
         {
             UpdateGhostBlock(hit.point);
-
+        }
+        else if (hasValidHit && hit.transform?.tag == "GhostBlock")
+        {
             if (Input.GetMouseButtonDown(0))
             {
+                ClearGhostBlock();
+
                 int xPos = (int)hit.point.x;
                 int yPos = (int)hit.point.z;
                 Debug.Log(string.Format("Creating state at position {0}, {1}", xPos, yPos));
 
                 State newState = new State(xPos, yPos);
                 interactionModeManager.UpdateState(newState, MDPManager.Instance.Mdp);
-                ClearGhostBlock();
                 BuildBlock(newState);
             }
         }
-        else if (hit.transform.tag != "GhostBlock")
+        else
         {
             ClearGhostBlock();
         }
