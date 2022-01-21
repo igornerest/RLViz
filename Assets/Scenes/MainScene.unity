@@ -608,7 +608,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 66478547878350558, guid: 61cf51bf8e6a815418762055669559b6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 66478547878350559, guid: 61cf51bf8e6a815418762055669559b6, type: 3}
       propertyPath: m_RootOrder
@@ -4082,6 +4082,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 793848990}
     m_Modifications:
+    - target: {fileID: 6179971859430226796, guid: 3f9b178ccd3b86f4ebbfc1f5a2815e56, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8031339192871210686, guid: 3f9b178ccd3b86f4ebbfc1f5a2815e56, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -4129,6 +4133,10 @@ PrefabInstance:
     - target: {fileID: 8957304962413023527, guid: 3f9b178ccd3b86f4ebbfc1f5a2815e56, type: 3}
       propertyPath: m_Name
       value: Ground_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957304962413023527, guid: 3f9b178ccd3b86f4ebbfc1f5a2815e56, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f9b178ccd3b86f4ebbfc1f5a2815e56, type: 3}
@@ -7481,6 +7489,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3356751432538110193, guid: ffbddc4ef9676cc419e81e06aaa836d8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffbddc4ef9676cc419e81e06aaa836d8, type: 3}
 --- !u!1 &1251795039
@@ -8860,7 +8872,6 @@ MonoBehaviour:
   canvas: {fileID: 1210148083}
   eventSystem: {fileID: 1264266200}
   gridBlockPrefab: {fileID: 3274707554378019636, guid: 823dabd294d37304ba5a2157012c0e1e, type: 3}
-  ghostBlockPrefab: {fileID: 5995437487232407736, guid: e67a8bb168590644ea04759cffe6e572, type: 3}
   baseFloor: {fileID: 1207400769}
 --- !u!114 &1390374760
 MonoBehaviour:

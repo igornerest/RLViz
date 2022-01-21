@@ -12,7 +12,6 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private EventSystem eventSystem;
 
     [SerializeField] private Transform gridBlockPrefab;
-    [SerializeField] private Transform ghostBlockPrefab;
 
     [SerializeField] private GameObject baseFloor;
 
@@ -69,7 +68,9 @@ public class InteractionManager : MonoBehaviour
     private void SetGhostBlock()
     {
         var position = new Vector3Int(0, 0, 0);
-        ghostBlock = Instantiate(ghostBlockPrefab, position, Quaternion.identity);
+        ghostBlock = Instantiate(gridBlockPrefab, position, Quaternion.identity);
+        ghostBlock.tag = "GhostBlock";
+        ghostBlock.GetComponent<GridBlock>().IsGhostBlock = true;
     }
 
     private void HandleInteractionMode()
@@ -214,11 +215,11 @@ public class InteractionManager : MonoBehaviour
 
                 State newState = new State(xPos, yPos);
                 interactionModeManager.UpdateState(newState, MDPManager.Instance.Mdp);
-
+                ClearGhostBlock();
                 BuildBlock(newState);
             }
         }
-        else
+        else if (hit.transform.tag != "GhostBlock")
         {
             ClearGhostBlock();
         }

@@ -22,7 +22,7 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private TMP_Text leftQValueText;
     [SerializeField] private TMP_Text rightQValueText;
 
-    [SerializeField] private MeshRenderer gridBlockMeshRenderer;
+    [SerializeField] private MeshRenderer brickMeshRenderer;
     [SerializeField] private Material agentStateMaterial;
     [SerializeField] private Material hoveredMaterial;
     [SerializeField] private Material selectedMaterial;
@@ -37,8 +37,10 @@ public class GridBlock : MonoBehaviour
 
     private int decimalPlaces = 2;
 
+    // Hierarchy: ghostBlock - hovered - selected
     public bool IsHoveredByUser { set; get; }
     public bool IsSelectedByUser { set; get; }
+    public bool IsGhostBlock { set; get; }
 
     public State State { get => state; }
 
@@ -69,33 +71,51 @@ public class GridBlock : MonoBehaviour
 
     private void UpdateGridBlockMaterial()
     {
-        if (IsSelectedByUser)
+        if (IsHoveredByUser || IsGhostBlock)
         {
-            gridBlockMeshRenderer.material = selectedMaterial;
+            UpdateTransparency(true);
         }
-        else if (IsHoveredByUser)
+        else if (IsSelectedByUser)
         {
-            gridBlockMeshRenderer.material = hoveredMaterial;
+            UpdateFlickerEffect();
         }
         else if (mdp.AgentState == this.state)
         {
-            gridBlockMeshRenderer.material = agentStateMaterial;
+            UpdateTransparency(false);
+            //gridBlockMeshRenderer.material = agentStateMaterial;
         }
         else if (mdp.InitialState == this.state)
         {
+            UpdateTransparency(false);
             startSign.SetActive(true);
             stopSign.SetActive(false);
         }
         else if (state.IsTerminal)
         {
+            UpdateTransparency(false);
             startSign.SetActive(false);
             stopSign.SetActive(true);
         }
         else
         {
+            UpdateTransparency(false);
             startSign.SetActive(false);
             stopSign.SetActive(false);
         }
+    }
+
+    private void UpdateFlickerEffect()
+    {
+        var color = brickMeshRenderer.material.color;
+        color.a = 0.3f + Mathf.PingPong(Time.time, 0.7f);
+        brickMeshRenderer.material.color = color;
+    }
+
+    private void UpdateTransparency(bool isTransparent)
+    {
+        var color = brickMeshRenderer.material.color;
+        color.a = isTransparent ? 0.5f : 1f;
+        brickMeshRenderer.material.color = color;
     }
 
     private void UpdateGridBlockCanvas()
@@ -104,6 +124,13 @@ public class GridBlock : MonoBehaviour
         {
             var displayMode = displayModeManager.GetDisplayMode();
             canvasUpdateDictionary[displayMode]();
+        }
+        else
+        {
+            rewardCanvas.enabled = false;
+            policyCanvas.enabled = false;
+            vFunctionCanvas.enabled = false;
+            qFunctionCanvas.enabled = false;
         }
     }
 
