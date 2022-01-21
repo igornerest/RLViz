@@ -22,10 +22,9 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private TMP_Text leftQValueText;
     [SerializeField] private TMP_Text rightQValueText;
 
-    [SerializeField] private MeshRenderer brickMeshRenderer;
-    [SerializeField] private Material agentStateMaterial;
-    [SerializeField] private Material hoveredMaterial;
-    [SerializeField] private Material selectedMaterial;
+    [SerializeField] private List<MeshRenderer> brickMeshRenderer;
+    [SerializeField] private Material opaqueMaterial;
+    [SerializeField] private Material transparentMaterial;
 
     [SerializeField] private GameObject startSign;
     [SerializeField] private GameObject stopSign;
@@ -106,16 +105,24 @@ public class GridBlock : MonoBehaviour
 
     private void UpdateFlickerEffect()
     {
-        var color = brickMeshRenderer.material.color;
-        color.a = 0.3f + Mathf.PingPong(Time.time, 0.7f);
-        brickMeshRenderer.material.color = color;
+        foreach (var renderer in brickMeshRenderer)
+        {
+            var color = renderer.material.color;
+            color.a = 0.3f + Mathf.PingPong(Time.time, 0.7f);
+            renderer.material.color = color;
+        }
     }
 
     private void UpdateTransparency(bool isTransparent)
     {
-        var color = brickMeshRenderer.material.color;
-        color.a = isTransparent ? 0.5f : 1f;
-        brickMeshRenderer.material.color = color;
+        foreach (var renderer in brickMeshRenderer)
+        {
+            var color = renderer.material.color;
+            color.a = isTransparent ? 0.5f : 1f;
+
+            renderer.material = isTransparent ? transparentMaterial : opaqueMaterial;
+            renderer.material.color = color;
+        }
     }
 
     private void UpdateGridBlockCanvas()

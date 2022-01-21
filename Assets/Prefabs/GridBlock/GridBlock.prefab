@@ -430,10 +430,12 @@ MonoBehaviour:
   downQValueText: {fileID: 2050647722008176070}
   leftQValueText: {fileID: 2781421813473950388}
   rightQValueText: {fileID: 2418557919296939116}
-  brickMeshRenderer: {fileID: 1660325352497377269}
-  agentStateMaterial: {fileID: 2100000, guid: a7a760036ae63234dbf3084ac9bdc009, type: 2}
-  hoveredMaterial: {fileID: 2100000, guid: e3147c4d96c767f438865c42ba998cc8, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: b8bf111ec04715e4bb0c71dbe8ca64e4, type: 2}
+  brickMeshRenderer:
+  - {fileID: 1660792117836223535}
+  - {fileID: 1660611875589595261}
+  - {fileID: 1660325352497377269}
+  opaqueMaterial: {fileID: 2100000, guid: 0bb6c016790392c42a521dd3c77e34c4, type: 2}
+  transparentMaterial: {fileID: 2100000, guid: 39ffb7a799f544644ba62613c564445f, type: 2}
   startSign: {fileID: 1382568292269816733}
   stopSign: {fileID: 724756734912933016}
 --- !u!65 &198949250212333557
@@ -1670,13 +1672,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cf0f33aea1bdd24993c7fe3ef98d94d, type: 3}
---- !u!4 &1680152095063765981 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4366345990270460, guid: 7cf0f33aea1bdd24993c7fe3ef98d94d, type: 3}
+--- !u!23 &1660611875589595261 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 23986899584564828, guid: 7cf0f33aea1bdd24993c7fe3ef98d94d, type: 3}
+  m_PrefabInstance: {fileID: 1683952938794360353}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1660792117836223535 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 23305142601615886, guid: 7cf0f33aea1bdd24993c7fe3ef98d94d, type: 3}
   m_PrefabInstance: {fileID: 1683952938794360353}
   m_PrefabAsset: {fileID: 0}
 --- !u!23 &1660325352497377269 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 23700363450151380, guid: 7cf0f33aea1bdd24993c7fe3ef98d94d, type: 3}
+  m_PrefabInstance: {fileID: 1683952938794360353}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1680152095063765981 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4366345990270460, guid: 7cf0f33aea1bdd24993c7fe3ef98d94d, type: 3}
   m_PrefabInstance: {fileID: 1683952938794360353}
   m_PrefabAsset: {fileID: 0}
