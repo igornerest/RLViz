@@ -7,16 +7,19 @@ public class GridBlock : MonoBehaviour
 {
     public DisplayModeManager displayModeManager;
 
-    [SerializeField] private Canvas rewardCanvas;
+    [SerializeField] private GameObject rewardCanvas;
     [SerializeField] private TMP_Text rewardText;
 
-    [SerializeField] private Canvas policyCanvas;
-    [SerializeField] private TMP_Text policyText;
+    [SerializeField] private GameObject policyCanvas;
+    [SerializeField] private List<SpriteRenderer> upArrows;
+    [SerializeField] private List<SpriteRenderer> rightArrows;
+    [SerializeField] private List<SpriteRenderer> downArrows;
+    [SerializeField] private List<SpriteRenderer> leftArrows;
 
-    [SerializeField] private Canvas vFunctionCanvas;
+    [SerializeField] private GameObject vFunctionCanvas;
     [SerializeField] private TMP_Text utilityText;
 
-    [SerializeField] private Canvas qFunctionCanvas;
+    [SerializeField] private GameObject qFunctionCanvas;
     [SerializeField] private TMP_Text upQValueText;
     [SerializeField] private TMP_Text downQValueText;
     [SerializeField] private TMP_Text leftQValueText;
@@ -30,6 +33,8 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private GameObject stopSign;
 
     private Dictionary<DisplayMode, System.Action> canvasUpdateDictionary;
+
+    private Dictionary<Action, List<SpriteRenderer>> arrowDictionary;
 
     private State state;
     private MDP mdp;
@@ -52,6 +57,13 @@ public class GridBlock : MonoBehaviour
             { DisplayMode.Value, DisplayValueCanvas },
         };
 
+        arrowDictionary = new Dictionary<Action, List<SpriteRenderer>>()
+        {
+            { Action.UP, upArrows },
+            { Action.RIGHT, rightArrows },
+            { Action.DOWN, downArrows },
+            { Action.LEFT, leftArrows },
+        };
     }
 
     private void Update()
@@ -134,56 +146,73 @@ public class GridBlock : MonoBehaviour
         }
         else
         {
-            rewardCanvas.enabled = false;
-            policyCanvas.enabled = false;
-            vFunctionCanvas.enabled = false;
-            qFunctionCanvas.enabled = false;
+            DisableAllCanvas();
+        }
+    }
+
+    private void DisableAllCanvas()
+    {
+        rewardCanvas.SetActive(false);
+        policyCanvas.SetActive(false);
+        vFunctionCanvas.SetActive(false);
+        qFunctionCanvas.SetActive(false);
+    }
+
+    private void DisableAllArrows()
+    {
+        foreach (var arrowList in arrowDictionary.Values)
+        {
+            foreach (var arrow in arrowList)
+            {
+                arrow.enabled = false;
+            }
+        }
+    }
+
+    private void SetPolicyArrow()
+    {
+        DisableAllArrows();
+
+        Action policy = mdp.Policy[state];
+        foreach (var arrow in arrowDictionary[policy])
+        {
+            arrow.enabled = true;
         }
     }
 
     private void DisplayRewardCanvas()
     {
-        policyCanvas.enabled = false;
-        vFunctionCanvas.enabled = false;
-        qFunctionCanvas.enabled = false;
+        DisableAllCanvas();
 
         rewardText.text = state.Reward.ToString();
 
-        rewardCanvas.enabled = true;
+        rewardCanvas.SetActive(true);
     }
 
     private void DisplayPolicyCanvas()
     {
-        rewardCanvas.enabled = false;
-        vFunctionCanvas.enabled = false;
-        qFunctionCanvas.enabled = false;
-
-        policyText.text = mdp.Policy[state].ToString();
-
-        policyCanvas.enabled = true;
+        DisableAllCanvas();
+        SetPolicyArrow();
+        policyCanvas.SetActive(true);
     }
 
     private void DisplayValueCanvas()
     {
-        rewardCanvas.enabled = false;
-        policyCanvas.enabled = false;
+        DisableAllCanvas();
+        SetPolicyArrow();
 
         if (mdp.IsUsingVFunction)
         {
-            qFunctionCanvas.enabled = false;
-
             utilityText.text = ToRoundedString(mdp.Utility[state]);
-            vFunctionCanvas.enabled = true;
+            vFunctionCanvas.SetActive(true);
         }
         else
         {
-            vFunctionCanvas.enabled = false;
-
             upQValueText.text = ToRoundedString(mdp.QFunction[state, Action.UP]);
             downQValueText.text = ToRoundedString(mdp.QFunction[state, Action.DOWN]);
             leftQValueText.text = ToRoundedString(mdp.QFunction[state, Action.LEFT]);
             rightQValueText.text = ToRoundedString(mdp.QFunction[state, Action.RIGHT]);
-            qFunctionCanvas.enabled = true;
+            qFunctionCanvas.SetActive(true);
         }
     }
 
