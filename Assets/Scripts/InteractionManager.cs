@@ -22,6 +22,8 @@ public class InteractionManager : MonoBehaviour
 
     private Transform ghostBlock;
 
+    private float lastMouseClickTime = 0f;
+
     private void Start()
     {
         BuildInitialGridWorld();
@@ -170,6 +172,24 @@ public class InteractionManager : MonoBehaviour
         ghostBlock.gameObject.SetActive(false);
     }
 
+    private void HandleMouseClick(System.Action actionHandler)
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            lastMouseClickTime = Time.time;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            float totalMouseClickTime = Time.time - lastMouseClickTime;
+            float timeThreshold = 0.1f;
+
+            if (totalMouseClickTime < timeThreshold)
+            {
+                actionHandler();
+            }
+        }
+    }
+
     private void HandleSimulateInteractionMode()
     {
         // TODO
@@ -184,10 +204,9 @@ public class InteractionManager : MonoBehaviour
         {
             UpdateHoveredGridBlock(hit.transform);
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                Destroy(hit.transform.gameObject);
-            }
+            HandleMouseClick(() =>
+                Destroy(hit.transform.gameObject)
+            );
         }
         else
         {
@@ -209,9 +228,10 @@ public class InteractionManager : MonoBehaviour
         {
             UpdateGhostBlock(hit.point);
         }
-        else if (hasValidHit && hit.transform?.tag == "GhostBlock")
+        
+        if (hasValidHit && hit.transform?.tag == "BaseFloor" || hit.transform?.tag == "GhostBlock")
         {
-            if (Input.GetMouseButtonDown(0))
+            HandleMouseClick(() =>
             {
                 ClearGhostBlock();
 
@@ -222,7 +242,7 @@ public class InteractionManager : MonoBehaviour
                 State newState = new State(xPos, yPos);
                 interactionModeManager.UpdateState(newState, MDPManager.Instance.Mdp);
                 BuildBlock(newState);
-            }
+            });
         }
         else
         {
@@ -239,7 +259,7 @@ public class InteractionManager : MonoBehaviour
         {
             UpdateHoveredGridBlock(hit.transform);
 
-            if (Input.GetMouseButtonDown(0))
+            HandleMouseClick(() =>
             {
                 State state = hit.transform.GetComponent<GridBlock>().State;
 
@@ -247,7 +267,7 @@ public class InteractionManager : MonoBehaviour
                 {
                     interactionModeManager.UpdatePanelWithStateInfo(state, MDPManager.Instance.Mdp);
                 }
-            }
+            });
         }
         else
         {
