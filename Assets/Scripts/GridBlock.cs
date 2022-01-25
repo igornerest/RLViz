@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridBlock : MonoBehaviour
 {
     public DisplayModeManager displayModeManager;
-
+    
     [SerializeField] private GameObject rewardCanvas;
     [SerializeField] private TMP_Text rewardText;
 
@@ -17,6 +18,7 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private List<SpriteRenderer> leftArrows;
 
     [SerializeField] private GameObject vFunctionCanvas;
+    [SerializeField] private Image utilityBackground;
     [SerializeField] private TMP_Text utilityText;
 
     [SerializeField] private GameObject qFunctionCanvas;
@@ -24,6 +26,10 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private TMP_Text downQValueText;
     [SerializeField] private TMP_Text leftQValueText;
     [SerializeField] private TMP_Text rightQValueText;
+    [SerializeField] private Image upQValueBackground;
+    [SerializeField] private Image downQValueBackground;
+    [SerializeField] private Image leftQValueBackground;
+    [SerializeField] private Image rightQValueBackground;
 
     [SerializeField] private List<MeshRenderer> brickMeshRenderer;
     [SerializeField] private Material opaqueMaterial;
@@ -169,11 +175,10 @@ public class GridBlock : MonoBehaviour
         }
     }
 
-    private void SetPolicyArrow()
+    private void SetPolicyArrow(Action policy)
     {
         DisableAllArrows();
 
-        Action policy = mdp.Policy[state];
         foreach (var arrow in arrowDictionary[policy])
         {
             arrow.enabled = true;
@@ -192,22 +197,48 @@ public class GridBlock : MonoBehaviour
     private void DisplayPolicyCanvas()
     {
         DisableAllCanvas();
-        SetPolicyArrow();
+        if (mdp.IsUsingVFunction)
+        {
+            SetPolicyArrow(mdp.Policy[state]);
+        }
+        else
+        {
+            var (_, policy) = mdp.QFunction.MaxQ(state);
+            SetPolicyArrow(policy);
+        }
         policyCanvas.SetActive(true);
     }
 
     private void DisplayValueCanvas()
     {
         DisableAllCanvas();
-        SetPolicyArrow();
 
         if (mdp.IsUsingVFunction)
         {
-            utilityText.text = ToRoundedString(mdp.Utility[state]);
+            SetPolicyArrow(mdp.Policy[state]);
+
+            float utility = mdp.Utility[state];
+            float normUtility= mdp.Utility.Normalize(utility);
+
+            utilityBackground.color =  Color.Lerp(Color.red, Color.green, normUtility);
+            utilityText.text = ToRoundedString(utility);
             vFunctionCanvas.SetActive(true);
         }
         else
         {
+            var (maxQ, action) = mdp.QFunction.MaxQ(state);
+            float normQ = mdp.QFunction.Normalize(maxQ);
+
+            Color coloredQ = Color.Lerp(Color.red, Color.green, normQ);
+            Color defaultColor = Color.white;
+
+            SetPolicyArrow(action);
+
+            upQValueBackground.color = action == Action.UP ? coloredQ : defaultColor;
+            downQValueBackground.color = action == Action.DOWN? coloredQ: defaultColor;
+            leftQValueBackground.color = action == Action.LEFT ? coloredQ : defaultColor;
+            rightQValueBackground.color = action == Action.RIGHT ? coloredQ : defaultColor;
+
             upQValueText.text = ToRoundedString(mdp.QFunction[state, Action.UP]);
             downQValueText.text = ToRoundedString(mdp.QFunction[state, Action.DOWN]);
             leftQValueText.text = ToRoundedString(mdp.QFunction[state, Action.LEFT]);

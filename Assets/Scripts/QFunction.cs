@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = System.Random;
 
@@ -12,11 +13,17 @@ public class QFunction : IEnumerable
 
     private static Random random = new Random();
 
+    private bool shouldUpdateBoundaries = false;
+    private float minQValue = 0f;
+    private float maxQValue = 0f;
+
     public float this[State state, Action action]
     {
         get { return qMap.ContainsKey(state) && qMap[state].ContainsKey(action) ? qMap[state][action] : 0f; }
 
         set {
+            shouldUpdateBoundaries = true;
+
             if (!qMap.ContainsKey(state)) 
                 qMap[state] = new Dictionary<Action, float>();
 
@@ -87,6 +94,29 @@ public class QFunction : IEnumerable
         }
 
         return policy;
+    }
+
+    public float Normalize(float qValue, float defaultValue = 0.5f)
+    {
+        if (qMap.Count == 0)
+        {
+            return defaultValue;
+        }
+
+        if (shouldUpdateBoundaries)
+        {
+            List<float> currValues = new List<float>();
+            foreach (var actionValuesMap in qMap)
+            {
+                currValues.Add(actionValuesMap.Value.Values.Max());
+            }
+
+            minQValue = currValues.Min();
+            maxQValue = currValues.Max();
+            shouldUpdateBoundaries = false;
+        }
+
+        return (qValue - minQValue) / (maxQValue - minQValue);
     }
 
     public IEnumerator GetEnumerator()

@@ -1,17 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Utility : IEnumerable
 {
     private Dictionary<State, float> uMap = new Dictionary<State, float>();
 
+    private bool shouldUpdateBoundaries = false;
+    private float minUtility = 0f;
+    private float maxUtility = 0f;
+    
     public float this[State key]
     {
         get { return uMap.ContainsKey(key) ? uMap[key] : 0f; }
 
-        set { uMap[key] = value; }
+        set {
+            shouldUpdateBoundaries = true;
+            uMap[key] = value; 
+        }
     }
 
     public Utility() { }
@@ -47,6 +55,24 @@ public class Utility : IEnumerable
         }
 
         return new Tuple<float, Action>(maxExpectedValue, bestAction); 
+    }
+
+    public float Normalize(float utility, float defaultValue = 0.5f)
+    {
+        if (uMap.Count == 0)
+        {
+            return defaultValue;
+        }
+
+        if (shouldUpdateBoundaries)
+        {
+            var currUtilities = uMap.Values;
+            minUtility = currUtilities.Min();
+            maxUtility = currUtilities.Max();
+            shouldUpdateBoundaries = false;
+        }
+
+        return (utility - minUtility) / (maxUtility - minUtility);
     }
 
     public override string ToString()
