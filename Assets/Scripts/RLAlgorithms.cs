@@ -57,7 +57,7 @@ public static class RLAlgorithms
 
             while (!currState.IsTerminal)
             {
-                mdp.AgentState = currState;
+                algorithmState.AgentState = currState;
 
                 var currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
                 var nextState = currState.NextState(currAction);
@@ -71,7 +71,7 @@ public static class RLAlgorithms
             }
 
             algorithmState.CurrIt++;
-            mdp.AgentState = currState;
+            algorithmState.AgentState = currState;
             yield return new WaitForFixedUpdate();
         }
 
@@ -90,7 +90,7 @@ public static class RLAlgorithms
             
             while (!currState.IsTerminal)
             {
-                mdp.AgentState = currState;
+                algorithmState.AgentState = currState;
 
                 var nextState = currState.NextState(currAction);
                 var nextAction = mdp.QFunction.EGreedy(nextState, mdp.Epsilon);
@@ -104,7 +104,7 @@ public static class RLAlgorithms
             }
 
             algorithmState.CurrIt++;
-            mdp.AgentState = currState;
+            algorithmState.AgentState = currState;
             yield return new WaitForFixedUpdate();
         }
 

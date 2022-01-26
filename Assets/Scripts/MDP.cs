@@ -56,8 +56,6 @@ public class MDP
 
     public State InitialState { get; set; }
 
-    public State AgentState { get; set; }
-
     public void Reset()
     {
         utility.Clear();

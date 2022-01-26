@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class GridBlock : MonoBehaviour
 {
     public DisplayModeManager displayModeManager;
-    
+
+    public RLAlgorithmState algorithmState;
+
     [SerializeField] private GameObject rewardCanvas;
     [SerializeField] private TMP_Text rewardText;
 
@@ -34,6 +36,7 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private List<MeshRenderer> brickMeshRenderer;
     [SerializeField] private Material opaqueMaterial;
     [SerializeField] private Material transparentMaterial;
+    [SerializeField] private Material agentStateMaterial;
 
     [SerializeField] private GameObject startSign;
     [SerializeField] private GameObject stopSign;
@@ -96,28 +99,38 @@ public class GridBlock : MonoBehaviour
         {
             UpdateFlickerEffect();
         }
-        else if (mdp.AgentState == this.state)
+        else if (algorithmState.IsActive() && algorithmState.AgentState == this.state)
         {
-            UpdateTransparency(false);
-            //gridBlockMeshRenderer.material = agentStateMaterial;
+            UpdateAgentMaterial();
         }
-        else if (mdp.InitialState == this.state)
+        else
         {
             UpdateTransparency(false);
+        }
+
+
+        if (mdp?.InitialState == this.state)
+        {
             startSign.SetActive(true);
             stopSign.SetActive(false);
         }
         else if (state.IsTerminal)
         {
-            UpdateTransparency(false);
             startSign.SetActive(false);
             stopSign.SetActive(true);
         }
         else
         {
-            UpdateTransparency(false);
             startSign.SetActive(false);
             stopSign.SetActive(false);
+        }
+    }
+
+    private void UpdateAgentMaterial()
+    {
+        foreach (var renderer in brickMeshRenderer)
+        {
+            renderer.material = agentStateMaterial;
         }
     }
 
@@ -125,8 +138,11 @@ public class GridBlock : MonoBehaviour
     {
         foreach (var renderer in brickMeshRenderer)
         {
+            renderer.material = transparentMaterial;
+
             var color = renderer.material.color;
             color.a = 0.3f + Mathf.PingPong(Time.time, 0.7f);
+
             renderer.material.color = color;
         }
     }
@@ -135,10 +151,11 @@ public class GridBlock : MonoBehaviour
     {
         foreach (var renderer in brickMeshRenderer)
         {
+            renderer.material = isTransparent ? transparentMaterial : opaqueMaterial;
+
             var color = renderer.material.color;
             color.a = isTransparent ? 0.5f : 1f;
-
-            renderer.material = isTransparent ? transparentMaterial : opaqueMaterial;
+            
             renderer.material.color = color;
         }
     }

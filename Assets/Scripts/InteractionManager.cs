@@ -64,6 +64,7 @@ public class InteractionManager : MonoBehaviour
     {
         GridBlock gridBlock = Instantiate(gridBlockPrefab, state.Position, Quaternion.identity).GetComponent<GridBlock>();
         gridBlock.displayModeManager = displayModeManager;
+        gridBlock.algorithmState = MDPManager.Instance.AlgorithmState;
         gridBlock.UpdateBlock(state, MDPManager.Instance.Mdp);
     }
 
@@ -73,6 +74,7 @@ public class InteractionManager : MonoBehaviour
         ghostBlock = Instantiate(gridBlockPrefab, position, Quaternion.identity);
         ghostBlock.tag = "GhostBlock";
         ghostBlock.GetComponent<GridBlock>().IsGhostBlock = true;
+        ghostBlock.gameObject.SetActive(false);
     }
 
     private void HandleInteractionMode()

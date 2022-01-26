@@ -32,6 +32,8 @@ public class MDPManager : MonoBehaviour
         }
     }
 
+    public RLAlgorithmState AlgorithmState { get; } = new RLAlgorithmState();
+
     private void Awake()
     {
         if (instance != null)

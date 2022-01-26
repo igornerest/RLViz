@@ -27,7 +27,6 @@ public class RLManager : MonoBehaviour
 
     private IEnumerator currAlgorithmCoroutine;
     private Func<MDP, RLAlgorithmState, IEnumerator> currAlgorithmFunc;
-    private RLAlgorithmState currAlgorithmState;
 
     private void Start()
     {
@@ -51,7 +50,7 @@ public class RLManager : MonoBehaviour
     {
         if (IsCurrAlgorithmCoroutineActive())
         {
-            if (!currAlgorithmState.IsActive())
+            if (!MDPManager.Instance.AlgorithmState.IsActive())
             {
                 StopCurrAlgorithmCoroutine();
                 EnabledUIInteraction();
@@ -121,11 +120,15 @@ public class RLManager : MonoBehaviour
         {
             DisabledUIInteraction();
 
-            // We reuse the instance to keep iteration count
-            // A new instance is created whenever the algorithm changes
-            currAlgorithmState.MaxIt = (int)iterationSlider.getValue();
+            // We dont reset the state to keep iteration count
+            MDPManager.Instance.AlgorithmState.MaxIt = (int)iterationSlider.getValue();
+            MDPManager.Instance.AlgorithmState.IsRunning = true;
 
-            currAlgorithmCoroutine = currAlgorithmFunc(MDPManager.Instance.Mdp, currAlgorithmState);
+            currAlgorithmCoroutine = currAlgorithmFunc(
+                MDPManager.Instance.Mdp, 
+                MDPManager.Instance.AlgorithmState
+            );
+
             StartCoroutine(currAlgorithmCoroutine);
         }
         else if (playButtonText.text == "STOP")
@@ -133,6 +136,8 @@ public class RLManager : MonoBehaviour
             EnabledUIInteraction();
 
             StopCurrAlgorithmCoroutine();
+
+            MDPManager.Instance.AlgorithmState.IsRunning = false;
         }
     }
 
@@ -149,7 +154,7 @@ public class RLManager : MonoBehaviour
         if (!IsCurrAlgorithmCoroutineActive())
         {
             // We use a new instance of algorithm state since the algorithm changes
-            currAlgorithmState = new RLAlgorithmState((int)iterationSlider.getValue());
+            MDPManager.Instance.AlgorithmState.Reset((int)iterationSlider.getValue());
             currAlgorithmFunc = GetSelectedAlgorithm();
             MDPManager.Instance.Mdp.Reset();
         }
@@ -159,7 +164,7 @@ public class RLManager : MonoBehaviour
     {
         if (!IsCurrAlgorithmCoroutineActive())
         {
-            currAlgorithmState.MaxIt = (int)iterationSlider.getValue();
+            MDPManager.Instance.AlgorithmState.MaxIt = (int)iterationSlider.getValue();
         }
     }
 }
