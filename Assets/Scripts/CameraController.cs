@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
@@ -15,15 +18,20 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float minHeight = 3f;
     [SerializeField] private float maxHeight = 7f;
 
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private EventSystem eventSystem;
+
     private Vector3 startPos;
 
     private bool isBeingHeld = false;
 
     private void Update()
     {
-        HandleMouseMovement();
-        HandleMouseScroll();
-        ClampWorldBoundaries();
+        if (!IsMousePointerOverUIPanel()) {
+            HandleMouseMovement();
+            HandleMouseScroll();
+            ClampWorldBoundaries();
+        }
     }
 
     private void ClampWorldBoundaries()
@@ -89,5 +97,16 @@ public class CameraController : MonoBehaviour
         mousePos = Camera.main.ScreenToViewportPoint(mousePos);
 
         return new Vector3(mousePos.x, 0, mousePos.y);
+    }
+
+    private bool IsMousePointerOverUIPanel()
+    {
+        PointerEventData pointerEventData = new PointerEventData(eventSystem);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        canvas.GetComponent<GraphicRaycaster>().Raycast(pointerEventData, results);
+
+        return results.Count > 0;
     }
 }

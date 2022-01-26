@@ -5500,6 +5500,8 @@ MonoBehaviour:
   maxY: 5
   minHeight: 3
   maxHeight: 7
+  canvas: {fileID: 1210148083}
+  eventSystem: {fileID: 1264266200}
 --- !u!1001 &966647271
 PrefabInstance:
   m_ObjectHideFlags: 0
