@@ -99,7 +99,7 @@ public class GridBlock : MonoBehaviour
         {
             UpdateFlickerEffect();
         }
-        else if (algorithmState.IsActive() && algorithmState.AgentState == this.state)
+        else if (algorithmState.IsRunning && algorithmState.AgentState == this.state)
         {
             UpdateAgentMaterial();
         }

@@ -16,8 +16,8 @@ public class RLAlgorithmState
         IsRunning = false;
     }
 
-    public bool IsActive()
+    public bool HasFinishedIterations()
     {
-        return IsRunning && CurrIt < MaxIt;
+        return CurrIt < MaxIt;
     }
 }

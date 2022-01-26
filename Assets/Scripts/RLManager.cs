@@ -50,9 +50,9 @@ public class RLManager : MonoBehaviour
     {
         if (IsCurrAlgorithmCoroutineActive())
         {
-            if (!MDPManager.Instance.AlgorithmState.IsActive())
+            if (!MDPManager.Instance.AlgorithmState.HasFinishedIterations())
             {
-                StopCurrAlgorithmCoroutine();
+                StopAndResetCurrAlgorithmCoroutine();
                 EnabledUIInteraction();
             }
         }
@@ -90,10 +90,15 @@ public class RLManager : MonoBehaviour
         return currAlgorithmCoroutine != null;
     }
 
-    private void StopCurrAlgorithmCoroutine()
+    private void StopAndResetCurrAlgorithmCoroutine()
     {
-        StopCoroutine(currAlgorithmCoroutine);
-        currAlgorithmCoroutine = null;
+        if (currAlgorithmCoroutine != null)
+        {
+            StopCoroutine(currAlgorithmCoroutine);
+            currAlgorithmCoroutine = null;
+
+            MDPManager.Instance.AlgorithmState.IsRunning = false;
+        }
     }
 
     private void EnabledUIInteraction()
@@ -124,10 +129,13 @@ public class RLManager : MonoBehaviour
             MDPManager.Instance.AlgorithmState.MaxIt = (int)iterationSlider.getValue();
             MDPManager.Instance.AlgorithmState.IsRunning = true;
 
-            currAlgorithmCoroutine = currAlgorithmFunc(
-                MDPManager.Instance.Mdp, 
-                MDPManager.Instance.AlgorithmState
-            );
+            if (currAlgorithmCoroutine == null)
+            {
+                currAlgorithmCoroutine = currAlgorithmFunc(
+                    MDPManager.Instance.Mdp,
+                    MDPManager.Instance.AlgorithmState
+                );
+            }
 
             StartCoroutine(currAlgorithmCoroutine);
         }
@@ -135,7 +143,7 @@ public class RLManager : MonoBehaviour
         {
             EnabledUIInteraction();
 
-            StopCurrAlgorithmCoroutine();
+            StopCoroutine(currAlgorithmCoroutine);
 
             MDPManager.Instance.AlgorithmState.IsRunning = false;
         }
@@ -143,21 +151,18 @@ public class RLManager : MonoBehaviour
 
     public void OnClickResetButton()
     {
-        if (!IsCurrAlgorithmCoroutineActive())
-        {
-            MDPManager.Instance.Mdp.Reset();
-        }
+        StopAndResetCurrAlgorithmCoroutine();
+        MDPManager.Instance.Mdp.Reset();
     }
 
     public void OnAlgorithmDropdownValueChanged()
     {
-        if (!IsCurrAlgorithmCoroutineActive())
-        {
-            // We use a new instance of algorithm state since the algorithm changes
-            MDPManager.Instance.AlgorithmState.Reset((int)iterationSlider.getValue());
-            currAlgorithmFunc = GetSelectedAlgorithm();
-            MDPManager.Instance.Mdp.Reset();
-        }
+        StopAndResetCurrAlgorithmCoroutine();
+
+        MDPManager.Instance.AlgorithmState.Reset((int)iterationSlider.getValue());
+        MDPManager.Instance.Mdp.Reset();
+
+        currAlgorithmFunc = GetSelectedAlgorithm();
     }
 
     public void OnIterationSliderValueChanged()
