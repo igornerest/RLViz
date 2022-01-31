@@ -133,7 +133,7 @@ public class InteractionModeManager : MonoBehaviour
         SetupDropdownOptions();
 
         // TODO: fetch those data from a defined data structure 
-        rewardInputField.text = "-0.04";
+        rewardInputField.text = (-0.04f).ToString("0.00");
         policyDropdown.value = policyDropdown.options.FindIndex(option => option.text == "Up");
 
         interactionToggleGroup.allowSwitchOff = false;
@@ -146,7 +146,7 @@ public class InteractionModeManager : MonoBehaviour
     {
         SetupDropdownOptions();
 
-        rewardInputField.text = state.Reward.ToString("0.00"); ;
+        rewardInputField.text = state.Reward.ToString("0.00");
 
         Action actualPolicy = mdp.Policy[state];
         string policyStr = ActionExtensions.GetStringFromAction(actualPolicy);
@@ -171,7 +171,7 @@ public class InteractionModeManager : MonoBehaviour
 
     public void UpdateState(State state, MDP mdp)
     {
-        state.Reward = float.Parse(rewardInputField.text, System.Globalization.CultureInfo.InvariantCulture);
+        state.Reward = float.Parse(rewardInputField.text);
 
         string policyString = policyDropdown.options[policyDropdown.value].text;
         Action actualPolicy = ActionExtensions.GetActionFromString(policyString);
