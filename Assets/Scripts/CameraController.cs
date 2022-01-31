@@ -25,9 +25,15 @@ public class CameraController : MonoBehaviour
 
     private bool isBeingHeld = false;
 
+    private bool wasMousePointerOverUIPanel = false;
+
     private void Update()
     {
-        if (!IsMousePointerOverUIPanel()) {
+        if (IsMousePointerOverUIPanel())
+        {
+            wasMousePointerOverUIPanel = true;
+        }
+        else {
             HandleMouseMovement();
             HandleMouseScroll();
             ClampWorldBoundaries();
@@ -49,7 +55,12 @@ public class CameraController : MonoBehaviour
     {
         // OnMouseDown, onMouseUp and onMouseDrag were not used due to the
         // dependency on collider and rigidbodies to work properly
-        if (Input.GetMouseButton(0))
+        if (!Input.GetMouseButton(0))
+        {
+            wasMousePointerOverUIPanel = false;
+        }
+
+        if (Input.GetMouseButton(0) && !wasMousePointerOverUIPanel)
         {
             if (!isBeingHeld)
             {
