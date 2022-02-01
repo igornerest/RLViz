@@ -38,6 +38,9 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private Material transparentMaterial;
     [SerializeField] private Material agentStateMaterial;
 
+    [SerializeField] private MeshRenderer startSignMeshRenderer;
+    [SerializeField] private MeshRenderer stopSignMeshRenderer;
+
     [SerializeField] private GameObject startSign;
     [SerializeField] private GameObject stopSign;
 
@@ -134,17 +137,37 @@ public class GridBlock : MonoBehaviour
         }
     }
 
+    private Color GetMaterialFlickeringColor(Material material)
+    {
+        var flickeringColor = material.color;
+        flickeringColor.a = 0.3f + Mathf.PingPong(Time.time, 0.7f);
+        return flickeringColor;
+    }
+
     private void UpdateFlickerEffect()
     {
         foreach (var renderer in brickMeshRenderer)
         {
             renderer.material = transparentMaterial;
-
-            var color = renderer.material.color;
-            color.a = 0.3f + Mathf.PingPong(Time.time, 0.7f);
-
-            renderer.material.color = color;
+            renderer.material.color = GetMaterialFlickeringColor(renderer.material);
         }
+
+        foreach (Material material in startSignMeshRenderer.materials)
+        {
+            material.color = GetMaterialFlickeringColor(material);
+        }
+
+        foreach (var material in stopSignMeshRenderer.materials)
+        {
+            material.color = GetMaterialFlickeringColor(material);
+        }
+    }
+
+    private Color GetMaterialTransparencyColor(Material material, bool isTransparent)
+    {
+        var color = material.color;
+        color.a = isTransparent ? 0.5f : 1f;
+        return color;
     }
 
     private void UpdateTransparency(bool isTransparent)
@@ -152,11 +175,17 @@ public class GridBlock : MonoBehaviour
         foreach (var renderer in brickMeshRenderer)
         {
             renderer.material = isTransparent ? transparentMaterial : opaqueMaterial;
+            renderer.material.color = GetMaterialTransparencyColor(renderer.material, isTransparent);
+        }
 
-            var color = renderer.material.color;
-            color.a = isTransparent ? 0.5f : 1f;
-            
-            renderer.material.color = color;
+        foreach (Material material in startSignMeshRenderer.materials)
+        {
+            material.color = GetMaterialTransparencyColor(material, isTransparent);
+        }
+
+        foreach (var material in stopSignMeshRenderer.materials)
+        {
+            material.color = GetMaterialTransparencyColor(material, isTransparent);
         }
     }
 
@@ -235,9 +264,9 @@ public class GridBlock : MonoBehaviour
             SetPolicyArrow(mdp.Policy[state]);
 
             float utility = mdp.Utility[state];
-            float normUtility= mdp.Utility.Normalize(utility);
+            float normUtility = mdp.Utility.Normalize(utility);
 
-            utilityBackground.color =  Color.Lerp(Color.red, Color.green, normUtility);
+            utilityBackground.color = Color.Lerp(Color.red, Color.green, normUtility);
             utilityText.text = ToRoundedString(utility);
             vFunctionCanvas.SetActive(true);
         }
@@ -252,7 +281,7 @@ public class GridBlock : MonoBehaviour
             SetPolicyArrow(action);
 
             upQValueBackground.color = action == Action.UP ? coloredQ : defaultColor;
-            downQValueBackground.color = action == Action.DOWN? coloredQ: defaultColor;
+            downQValueBackground.color = action == Action.DOWN ? coloredQ : defaultColor;
             leftQValueBackground.color = action == Action.LEFT ? coloredQ : defaultColor;
             rightQValueBackground.color = action == Action.RIGHT ? coloredQ : defaultColor;
 
