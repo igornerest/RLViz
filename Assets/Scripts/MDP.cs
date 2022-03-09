@@ -14,8 +14,7 @@ public class MDP
     private bool isUsingVFunction;
     private bool isUsingQFunction;
 
-    // TODO: let it customizable
-    private Dictionary<Deviation, float> deviationProbs =
+    public Dictionary<Deviation, float> DeviationProbs { get; } =
         new Dictionary<Deviation, float> {
             { Deviation.FORWARD,    0.8f },
             { Deviation.LEFT,       0.1f },
@@ -132,7 +131,7 @@ public class MDP
 
                 var likelyNextStates = new List<Tuple<State, float>>();
                 
-                foreach (var likelyDeviation in deviationProbs)
+                foreach (var likelyDeviation in DeviationProbs)
                 {
                     Deviation deviation = likelyDeviation.Key;
                     float probability = likelyDeviation.Value;

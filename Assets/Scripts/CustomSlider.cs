@@ -14,17 +14,17 @@ public class CustomSlider : MonoBehaviour
     private void Start()
     {
         slider.value = defaultValue;
-        UpdateText(defaultValue);
+        UpdateText();
 
-        slider.onValueChanged.AddListener((value) => {
-            UpdateText(value);
-        });
+        slider.onValueChanged.AddListener((_) => UpdateText());
     }
 
-    private void UpdateText(float value)
+    private void UpdateText()
     {
+        float value = slider.value;
         string formattedValue = slider.wholeNumbers ? value.ToString() : value.ToString("0.00");
-        sliderText.text = string.Format("{0}: {1}", componentName, formattedValue);
+        string sliderTextPrefix = componentName != "" ? string.Format("{0}: ", componentName) : "";
+        sliderText.text = sliderTextPrefix + formattedValue;
     }
 
     public void UpdateSliderInteraction(bool isInteractable)
