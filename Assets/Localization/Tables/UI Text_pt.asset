@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI Text_pt
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pt
+  m_SharedData: {fileID: 11400000, guid: 5e339d8f2582c834cbedff02fbb1877a, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 18166157312
+    m_Localized: Gamma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104619151360
+    m_Localized: Epsilon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 246223048704
+    m_Localized: Alpha
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373188825088
+    m_Localized: Tempo (ms)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 408454533120
+    m_Localized: "Itera\xE7\xF5es"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68445069217792
+    m_Localized: "Modo de exibi\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69952938283008
+    m_Localized: Probabilidades
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70035779981312
+    m_Localized: "Modo de intera\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70104327491584
+    m_Localized: simular
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70124363681792
+    m_Localized: "remover\t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70142382411776
+    m_Localized: criar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70152348078080
+    m_Localized: editar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71659147595776
+    m_Localized: valores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71812654927872
+    m_Localized: "pol\xEDticas"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71859966676992
+    m_Localized: recompensas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72636453982208
+    m_Localized: estado terminal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72702883368960
+    m_Localized: "estado n\xE3o-terminal"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72786706534400
+    m_Localized: estado inicial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74108549828608
+    m_Localized: Cima
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74159447707648
+    m_Localized: Baixo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74193945858048
+    m_Localized: Esquerda
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74236555792384
+    m_Localized: Direita
+    m_Metadata:
+      m_Items: []
+  - m_Id: 78725358653440
+    m_Localized: "Sem pol\xEDtica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 239560957726720
+    m_Localized: Sem recompensa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247349184663552
+    m_Localized: "Itera\xE7\xE3o-Valor"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247379551424512
+    m_Localized: "Itera\xE7\xE3o-Pol\xEDtica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247414846492672
+    m_Localized: Aprendizagem Q
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247444244369408
+    m_Localized: SARSA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247468827185152
+    m_Localized: Iniciar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247494437605376
+    m_Localized: Parar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247527220285440
+    m_Localized: Resetar
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1

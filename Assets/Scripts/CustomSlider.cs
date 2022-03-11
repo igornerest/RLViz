@@ -14,16 +14,18 @@ public class CustomSlider : MonoBehaviour
     private void Start()
     {
         slider.value = defaultValue;
-        UpdateText();
-
-        slider.onValueChanged.AddListener((_) => UpdateText());
     }
 
-    private void UpdateText()
+    private void Update()
     {
         float value = slider.value;
         string formattedValue = slider.wholeNumbers ? value.ToString() : value.ToString("0.00");
-        string sliderTextPrefix = componentName != "" ? string.Format("{0}: ", componentName) : "";
+        string sliderTextPrefix = "";
+        if (componentName != "")
+        {
+            string localizedComponentName = LocalizationLanguageManager.GetLocalizedName("UI Text", componentName);
+            sliderTextPrefix = string.Format("{0}: ", localizedComponentName);
+        }
         sliderText.text = sliderTextPrefix + formattedValue;
     }
 

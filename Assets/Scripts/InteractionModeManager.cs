@@ -31,6 +31,8 @@ public class InteractionModeManager : MonoBehaviour
 
     private InteractionMode currInteractionMode;
 
+    private List<string> dropdownOptionKeys;
+
     private void Start()
     {
         interactionToggleDictionary = new Dictionary<Toggle, InteractionMode>()
@@ -47,6 +49,7 @@ public class InteractionModeManager : MonoBehaviour
     private void Update()
     {
         UpdateStateUIInteraction();
+        GetPolicyActionFromDropdown();
     }
 
     private void EnableInteraction()
@@ -69,14 +72,34 @@ public class InteractionModeManager : MonoBehaviour
 
     private void SetupDropdownOptions()
     {
+        dropdownOptionKeys = ActionExtensions.GetValidActionStringKeys();
+        UpdateDropdownTextLocalization(true);
+    }
+
+    public void UpdateDropdownTextLocalization(bool resetSelectedValue = false)
+    {
+        int previousSelectedValue = policyDropdown.value;
         policyDropdown.ClearOptions();
-        policyDropdown.AddOptions(ActionExtensions.GetValidActionStrings());
+        policyDropdown.AddOptions(dropdownOptionKeys.Select(key => LocalizationLanguageManager.GetLocalizedName("UI Text", key)).ToList());
+
+        if (resetSelectedValue == false)
+        {
+            policyDropdown.value = previousSelectedValue;
+        }
+    }
+
+    public void UpdateRewardInputInfoTextLocalization()
+    {
+        if (!rewardInputField.IsInteractable())
+        {
+            rewardInputField.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_No_reward");
+        }
     }
 
     private void EmptyDropdownOptions()
     {
-        policyDropdown.ClearOptions();
-        policyDropdown.AddOptions(new List<string>() { "No policy" });
+        dropdownOptionKeys = new List<string>() { "key_No_policy" };
+        UpdateDropdownTextLocalization(true);
     }
 
     private void ResetPanel()
@@ -85,7 +108,7 @@ public class InteractionModeManager : MonoBehaviour
 
         EmptyDropdownOptions();
 
-        rewardInputField.text = "No Reward";
+        UpdateRewardInputInfoTextLocalization();
         policyDropdown.value = -1;
 
         interactionToggleGroup.allowSwitchOff = true;
@@ -115,6 +138,13 @@ public class InteractionModeManager : MonoBehaviour
         }
     }
 
+    private Action GetPolicyActionFromDropdown()
+    {
+        string policyString = dropdownOptionKeys[policyDropdown.value];
+        Debug.Log(policyString);
+        return ActionExtensions.GetActionFromStringKey(policyString);
+    }
+
     public InteractionMode GetInteractionMode()
     {
         foreach (var (toggle, mode) in interactionToggleDictionary.Select((x) => (x.Key, x.Value)))
@@ -134,7 +164,8 @@ public class InteractionModeManager : MonoBehaviour
 
         // TODO: fetch those data from a defined data structure 
         rewardInputField.text = (-0.04f).ToString("0.00");
-        policyDropdown.value = policyDropdown.options.FindIndex(option => option.text == "Up");
+        string localizedDefaultPolicy = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Up");
+        policyDropdown.value = policyDropdown.options.FindIndex(option => option.text == localizedDefaultPolicy);
 
         interactionToggleGroup.allowSwitchOff = false;
         nonTerminalStateToggle.isOn = true;
@@ -149,8 +180,9 @@ public class InteractionModeManager : MonoBehaviour
         rewardInputField.text = state.Reward.ToString("0.00");
 
         Action actualPolicy = mdp.Policy[state];
-        string policyStr = ActionExtensions.GetStringFromAction(actualPolicy);
-        policyDropdown.value = policyDropdown.options.FindIndex(option => option.text == policyStr);
+        string policyStr = ActionExtensions.GetStringKeyFromAction(actualPolicy);
+        string localizedPolicyStr = LocalizationLanguageManager.GetLocalizedName("UI Text", policyStr);
+        policyDropdown.value = policyDropdown.options.FindIndex(option => option.text == localizedPolicyStr);
 
         interactionToggleGroup.allowSwitchOff = false;
         if (mdp.InitialState == state)
@@ -173,8 +205,7 @@ public class InteractionModeManager : MonoBehaviour
     {
         state.Reward = float.Parse(rewardInputField.text);
 
-        string policyString = policyDropdown.options[policyDropdown.value].text;
-        Action actualPolicy = ActionExtensions.GetActionFromString(policyString);
+        Action actualPolicy = GetPolicyActionFromDropdown();
         mdp.Policy[state] = actualPolicy;
 
         if (initialStateToggle.isOn)

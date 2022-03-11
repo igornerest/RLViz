@@ -7,6 +7,8 @@ TagManager:
   - BaseFloor
   - GridBlock
   - GhostBlock
+  - Play
+  - Stop
   layers:
   - Default
   - TransparentFX

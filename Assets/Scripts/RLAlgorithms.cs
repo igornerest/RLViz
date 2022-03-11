@@ -4,10 +4,10 @@ using UnityEngine;
 
 public static class RLAlgorithms
 {
-    public const String ALGORITHM_VALUE_ITERATION = "Value Iteration";
-    public const String ALGORITHM_POLICY_ITERATION = "Policy Iteration";
-    public const String ALGORITHM_Q_LEARNING = "Q Learning";
-    public const String ALGORITHM_SARSA = "Sarsa";
+    public const String ALGORITHM_VALUE_ITERATION = "key_Value_Iteration";
+    public const String ALGORITHM_POLICY_ITERATION = "key_Policy_Iteration";
+    public const String ALGORITHM_Q_LEARNING = "key_QLearning";
+    public const String ALGORITHM_SARSA = "key_SARSA";
 
     public static IEnumerator ValueIteration(MDP mdp, RLAlgorithmState algorithmState)
     {

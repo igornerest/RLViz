@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,9 @@ public class RLManager : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private Button resetButton;
 
+    private TMPro.TMP_Text playButtonText;
+    private TMPro.TMP_Text resetButtonText;
+
     private List<string> supportedAlgorithms = new List<string>()
     {
         RLAlgorithms.ALGORITHM_VALUE_ITERATION,
@@ -30,8 +34,14 @@ public class RLManager : MonoBehaviour
 
     private void Start()
     {
+        playButtonText = playButton.GetComponentInChildren<TMPro.TMP_Text>();
+        resetButtonText = resetButton.GetComponentInChildren<TMPro.TMP_Text>();
+
         algorithmDropdown.ClearOptions();
-        algorithmDropdown.AddOptions(supportedAlgorithms);
+        algorithmDropdown.AddOptions( supportedAlgorithms
+            .Select(value => LocalizationLanguageManager.GetLocalizedName("UI Text", value))
+            .ToList()
+       );
         OnAlgorithmDropdownValueChanged();
     }
 
@@ -60,7 +70,7 @@ public class RLManager : MonoBehaviour
 
     private Func<MDP, RLAlgorithmState, IEnumerator> GetSelectedAlgorithm()
     {
-        string selectedAlgorithm = algorithmDropdown.options[algorithmDropdown.value].text;
+        string selectedAlgorithm = supportedAlgorithms[algorithmDropdown.value];
         Debug.Log(selectedAlgorithm);
 
         switch (selectedAlgorithm)
@@ -103,7 +113,7 @@ public class RLManager : MonoBehaviour
 
     private void EnabledUIInteraction()
     {
-        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "PLAY";
+        playButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Play");
         iterationSlider.UpdateSliderInteraction(true);
         resetButton.interactable = true;
         algorithmDropdown.interactable = true;
@@ -111,17 +121,33 @@ public class RLManager : MonoBehaviour
 
     private void DisabledUIInteraction()
     {
-        playButton.GetComponentInChildren<TMPro.TMP_Text>().text = "STOP";
+        playButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Stop");
         iterationSlider.UpdateSliderInteraction(false);
         resetButton.interactable = false;
         algorithmDropdown.interactable = false;
     }
 
+    public void UpdateAlgorithmPanelLocalization()
+    {
+        string playButtonKey = playButton.CompareTag("Play") ? "key_Play" : "key_Stop";
+        playButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", playButtonKey);
+
+        resetButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Reset");
+
+        int previousSelectedValue = algorithmDropdown.value;
+        algorithmDropdown.ClearOptions();
+        algorithmDropdown.AddOptions(supportedAlgorithms
+            .Select(value => LocalizationLanguageManager.GetLocalizedName("UI Text", value))
+            .ToList()
+       );
+        algorithmDropdown.value = previousSelectedValue;
+    }
+
     public void OnClickPlayButton()
     {
-        var playButtonText = playButton.GetComponentInChildren<TMPro.TMP_Text>();
+        var playButtonTag = playButton.tag;
 
-        if (playButtonText.text == "PLAY")
+        if (playButton.CompareTag("Play"))
         {
             DisabledUIInteraction();
 
@@ -139,7 +165,7 @@ public class RLManager : MonoBehaviour
 
             StartCoroutine(currAlgorithmCoroutine);
         }
-        else if (playButtonText.text == "STOP")
+        else if (playButton.CompareTag("Stop"))
         {
             EnabledUIInteraction();
 

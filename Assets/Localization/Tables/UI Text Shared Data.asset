@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI Text Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: UI Text
+  m_TableCollectionNameGuidString: 5e339d8f2582c834cbedff02fbb1877a
+  m_Entries:
+  - m_Id: 18166157312
+    m_Key: key_Gamma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104619151360
+    m_Key: key_Epsilon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 246223048704
+    m_Key: key_Alpha
+    m_Metadata:
+      m_Items: []
+  - m_Id: 373188825088
+    m_Key: key_Time_ms
+    m_Metadata:
+      m_Items: []
+  - m_Id: 408454533120
+    m_Key: key_Iterations
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68445069217792
+    m_Key: key_Display_mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69952938283008
+    m_Key: key_Probabilities
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70035779981312
+    m_Key: key_Interaction_mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70104327491584
+    m_Key: key_simulate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70124363681792
+    m_Key: key_delete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70142382411776
+    m_Key: key_create
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70152348078080
+    m_Key: key_edit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71659147595776
+    m_Key: key_values
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71812654927872
+    m_Key: key_policies
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71859966676992
+    m_Key: key_rewards
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72636453982208
+    m_Key: key_terminal_state
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72702883368960
+    m_Key: key_non_terminal_state
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72786706534400
+    m_Key: key_initial_state
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74108549828608
+    m_Key: key_Up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74159447707648
+    m_Key: key_Down
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74193945858048
+    m_Key: key_Left
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74236555792384
+    m_Key: key_Right
+    m_Metadata:
+      m_Items: []
+  - m_Id: 78725358653440
+    m_Key: key_No_policy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 239560957726720
+    m_Key: key_No_reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247349184663552
+    m_Key: key_Value_Iteration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247379551424512
+    m_Key: key_Policy_Iteration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247414846492672
+    m_Key: key_QLearning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247444244369408
+    m_Key: key_SARSA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247468827185152
+    m_Key: key_Play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247494437605376
+    m_Key: key_Stop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 247527220285440
+    m_Key: key_Reset
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1646950892974
