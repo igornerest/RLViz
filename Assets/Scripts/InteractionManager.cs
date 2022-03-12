@@ -206,9 +206,11 @@ public class InteractionManager : MonoBehaviour
         {
             UpdateHoveredGridBlock(hit.transform);
 
-            HandleMouseClick(() =>
-                Destroy(hit.transform.gameObject)
-            );
+            HandleMouseClick(() => {
+                State state = hit.transform.GetComponent<GridBlock>().State;
+                MDPManager.Instance.Mdp.RemoveState(state);
+                Destroy(hit.transform.gameObject);
+            });
         }
         else
         {
@@ -243,6 +245,7 @@ public class InteractionManager : MonoBehaviour
 
                 State newState = new State(xPos, yPos);
                 interactionModeManager.UpdateState(newState, MDPManager.Instance.Mdp);
+                MDPManager.Instance.Mdp.AddState(newState);
                 BuildBlock(newState);
             });
         }

@@ -38,6 +38,15 @@ public class QFunction : IEnumerable
         qMap.Clear();
     }
 
+    public void Remove(State state)
+    {
+        this.qMap.Remove(state);
+    }
+
+    public int Count()
+    {
+        return qMap.Count;
+    }
 
     public QFunction(List<State> states)
     {

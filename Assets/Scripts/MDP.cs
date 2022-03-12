@@ -38,6 +38,12 @@ public class MDP
         get { return Epsilon * (1 - Gamma) / Gamma; }
     }
 
+    public string GetStatusLog()
+    {
+        return string.Format("Entries -> grid: {0}, q-function: {1}, u-function: {2}, policy: {3}",
+            grid.Count, qFunction.Count(), utility.Count(), policy.Count());
+    }
+
     public QFunction QFunction
     {
         get { return qFunction; }
@@ -75,6 +81,16 @@ public class MDP
     public void AddState(State state)
     {
         grid[state.Position] = state;
+
+        EvaluateProbabilities();
+    }
+
+    public void RemoveState(State state)
+    {
+        grid.Remove(state.Position);
+        qFunction.Remove(state);
+        utility.Remove(state);
+        policy.Remove(state);
 
         EvaluateProbabilities();
     }

@@ -21,6 +21,16 @@ public class Policy : IEnumerable
         pMap.Clear();
     }
 
+    public void Remove(State state)
+    {
+        this.pMap.Remove(state);
+    }
+
+    public int Count()
+    {
+        return pMap.Count;
+    }
+
     public Tuple<float, Action> GetMaxExpectedValue(State state, Utility utility)
     {
         if (state.IsTerminal)

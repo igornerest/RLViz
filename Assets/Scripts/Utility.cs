@@ -29,6 +29,16 @@ public class Utility : IEnumerable
         uMap.Clear();
     }
 
+    public void Remove(State state)
+    {
+        this.uMap.Remove(state);
+    }
+
+    public int Count()
+    {
+        return uMap.Count;
+    }
+
     public Tuple<float, Action> GetMaxExpectedValue(State state)
     {
         if (state.IsTerminal)
