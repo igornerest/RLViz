@@ -95,6 +95,13 @@ public class MDP
         EvaluateProbabilities();
     }
 
+    public void UpdateDeviationProb(Deviation deviation, float probability)
+    {
+        DeviationProbs[deviation] = probability;
+
+        EvaluateProbabilities();
+    }
+
     public void PromoteStateToInitial(State state)
     {
         if (state.IsTerminal)

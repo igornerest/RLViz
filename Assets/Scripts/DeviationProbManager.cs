@@ -36,7 +36,7 @@ public class DeviationProbManager : MonoBehaviour
 
     private void UpdateMDPProb(Deviation deviation, float value)
     {
-        MDPManager.Instance.Mdp.DeviationProbs[deviation] = (float)Math.Round(value, 2);
+        MDPManager.Instance.Mdp.UpdateDeviationProb(deviation, value);
     }
 
     private float LimitProbSliderValue(Slider slider, Deviation currDeviation, float value)
