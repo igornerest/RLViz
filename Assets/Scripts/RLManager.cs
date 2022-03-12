@@ -114,6 +114,7 @@ public class RLManager : MonoBehaviour
     private void EnabledUIInteraction()
     {
         playButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Play");
+        playButton.tag = "Play";
         iterationSlider.UpdateSliderInteraction(true);
         resetButton.interactable = true;
         algorithmDropdown.interactable = true;
@@ -122,6 +123,7 @@ public class RLManager : MonoBehaviour
     private void DisabledUIInteraction()
     {
         playButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Stop");
+        playButton.tag = "Stop";
         iterationSlider.UpdateSliderInteraction(false);
         resetButton.interactable = false;
         algorithmDropdown.interactable = false;
