@@ -130,16 +130,12 @@ MonoBehaviour:
     m_Localized: SARSA
     m_Metadata:
       m_Items: []
-  - m_Id: 247468827185152
-    m_Localized: Iniciar
-    m_Metadata:
-      m_Items: []
-  - m_Id: 247494437605376
-    m_Localized: Parar
-    m_Metadata:
-      m_Items: []
   - m_Id: 247527220285440
     m_Localized: Resetar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1038362127994880
+    m_Localized: Parar
     m_Metadata:
       m_Items: []
   references:

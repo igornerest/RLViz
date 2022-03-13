@@ -7,7 +7,7 @@ TagManager:
   - BaseFloor
   - GridBlock
   - GhostBlock
-  - Play
+  - Reset
   - Stop
   layers:
   - Default

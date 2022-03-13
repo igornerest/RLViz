@@ -127,16 +127,12 @@ MonoBehaviour:
     m_Key: key_SARSA
     m_Metadata:
       m_Items: []
-  - m_Id: 247468827185152
-    m_Key: key_Play
-    m_Metadata:
-      m_Items: []
-  - m_Id: 247494437605376
-    m_Key: key_Stop
-    m_Metadata:
-      m_Items: []
   - m_Id: 247527220285440
     m_Key: key_Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1038362127994880
+    m_Key: key_Stop
     m_Metadata:
       m_Items: []
   m_Metadata:

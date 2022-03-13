@@ -16,10 +16,10 @@ public class RLManager : MonoBehaviour
     [SerializeField] private TMPro.TMP_Dropdown algorithmDropdown;
 
     [SerializeField] private Button playButton;
-    [SerializeField] private Button resetButton;
+    [SerializeField] private Button backwardsButton;
+    [SerializeField] private Button resetStopButton;
 
-    private TMPro.TMP_Text playButtonText;
-    private TMPro.TMP_Text resetButtonText;
+    private TMPro.TMP_Text resetStopButtonText;
 
     private List<string> supportedAlgorithms = new List<string>()
     {
@@ -34,8 +34,7 @@ public class RLManager : MonoBehaviour
 
     private void Start()
     {
-        playButtonText = playButton.GetComponentInChildren<TMPro.TMP_Text>();
-        resetButtonText = resetButton.GetComponentInChildren<TMPro.TMP_Text>();
+        resetStopButtonText = resetStopButton.GetComponentInChildren<TMPro.TMP_Text>();
 
         algorithmDropdown.ClearOptions();
         algorithmDropdown.AddOptions( supportedAlgorithms
@@ -63,7 +62,7 @@ public class RLManager : MonoBehaviour
             if (!MDPManager.Instance.AlgorithmState.HasFinishedIterations())
             {
                 StopAndResetCurrAlgorithmCoroutine();
-                EnabledUIInteraction();
+                SetUIToIdleState();
             }
         }
     }
@@ -111,30 +110,34 @@ public class RLManager : MonoBehaviour
         }
     }
 
-    private void EnabledUIInteraction()
+    private void SetUIToIdleState()
     {
-        playButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Play");
-        playButton.tag = "Play";
+        playButton.interactable = true;
+        backwardsButton.interactable = true;
+        resetStopButton.tag = "Reset";
+        resetStopButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Reset");
+
         iterationSlider.UpdateSliderInteraction(true);
-        resetButton.interactable = true;
+
         algorithmDropdown.interactable = true;
     }
 
-    private void DisabledUIInteraction()
+    private void SetUIToActiveState()
     {
-        playButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Stop");
-        playButton.tag = "Stop";
-        iterationSlider.UpdateSliderInteraction(false);
-        resetButton.interactable = false;
+        playButton.interactable = false;
+        backwardsButton.interactable = false;
+        resetStopButton.tag = "Stop";
+        resetStopButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Stop");
+
         algorithmDropdown.interactable = false;
+
+        iterationSlider.UpdateSliderInteraction(false);
     }
 
     public void UpdateAlgorithmPanelLocalization()
     {
-        string playButtonKey = playButton.CompareTag("Play") ? "key_Play" : "key_Stop";
-        playButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", playButtonKey);
-
-        resetButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Reset");
+        string resetStopButtonKey = resetStopButton.CompareTag("Reset") ? "key_Reset" : "key_Stop";
+        resetStopButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", resetStopButtonKey);
 
         int previousSelectedValue = algorithmDropdown.value;
         algorithmDropdown.ClearOptions();
@@ -147,40 +150,43 @@ public class RLManager : MonoBehaviour
 
     public void OnClickPlayButton()
     {
-        var playButtonTag = playButton.tag;
+        SetUIToActiveState();
 
-        if (playButton.CompareTag("Play"))
+        // We dont reset the state to keep iteration count
+        MDPManager.Instance.AlgorithmState.MaxIt = (int)iterationSlider.getValue();
+        MDPManager.Instance.AlgorithmState.IsRunning = true;
+
+        if (currAlgorithmCoroutine == null)
         {
-            DisabledUIInteraction();
-
-            // We dont reset the state to keep iteration count
-            MDPManager.Instance.AlgorithmState.MaxIt = (int)iterationSlider.getValue();
-            MDPManager.Instance.AlgorithmState.IsRunning = true;
-
-            if (currAlgorithmCoroutine == null)
-            {
-                currAlgorithmCoroutine = currAlgorithmFunc(
-                    MDPManager.Instance.Mdp,
-                    MDPManager.Instance.AlgorithmState
-                );
-            }
-
-            StartCoroutine(currAlgorithmCoroutine);
+            currAlgorithmCoroutine = currAlgorithmFunc(
+                MDPManager.Instance.Mdp,
+                MDPManager.Instance.AlgorithmState
+            );
         }
-        else if (playButton.CompareTag("Stop"))
-        {
-            EnabledUIInteraction();
 
-            StopCoroutine(currAlgorithmCoroutine);
-
-            MDPManager.Instance.AlgorithmState.IsRunning = false;
-        }
+        StartCoroutine(currAlgorithmCoroutine);
     }
 
-    public void OnClickResetButton()
+    public void OnClickBackwardsButton()
     {
-        StopAndResetCurrAlgorithmCoroutine();
-        MDPManager.Instance.Mdp.Reset();
+        SetUIToActiveState();
+
+        // TODO
+    }
+
+    public void OnClickStopResetButton()
+    {
+        if (resetStopButton.CompareTag("Reset"))
+        {
+            StopAndResetCurrAlgorithmCoroutine();
+            MDPManager.Instance.Mdp.Reset();
+        }
+        else if (resetStopButton.CompareTag("Stop"))
+        {
+            SetUIToIdleState();
+            StopCoroutine(currAlgorithmCoroutine);
+            MDPManager.Instance.AlgorithmState.IsRunning = false;
+        }
     }
 
     public void OnAlgorithmDropdownValueChanged()
