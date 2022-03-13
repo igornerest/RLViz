@@ -11,6 +11,8 @@ public class QFunction : IEnumerable
     private Dictionary<State, Dictionary<Action, float>> qMap =
         new Dictionary<State, Dictionary<Action, float>>();
 
+    private float defaultValue = 0f;
+
     private static Random random = new Random();
 
     private bool shouldUpdateBoundaries = false;
@@ -19,7 +21,7 @@ public class QFunction : IEnumerable
 
     public float this[State state, Action action]
     {
-        get { return qMap.ContainsKey(state) && qMap[state].ContainsKey(action) ? qMap[state][action] : 0f; }
+        get { return qMap.ContainsKey(state) && qMap[state].ContainsKey(action) ? qMap[state][action] : defaultValue; }
 
         set {
             shouldUpdateBoundaries = true;
@@ -33,9 +35,15 @@ public class QFunction : IEnumerable
 
     public QFunction() { }
 
-    public void Clear()
+    public void Reset()
     {
-        qMap.Clear();
+        foreach (var state in qMap.Keys.ToList())
+        {
+            foreach (var action in ActionExtensions.GetValidActions())
+            {
+                this[state, action] = defaultValue;
+            }
+        }
     }
 
     public void Remove(State state)
@@ -62,12 +70,12 @@ public class QFunction : IEnumerable
     public (float, Action) MaxQ(State state)
     {
         float maxQ = float.NegativeInfinity;
-        Action bestAction = Action.UP;   // TO DO: Define no action;
+        Action bestAction = Action.NONE;
 
         foreach (var action in ActionExtensions.GetValidActions())
         {
             float currQ = this[state, action];
-            if (currQ > maxQ)
+            if (Math.Round(currQ, 2) > Math.Round(maxQ, 2))
             {
                 maxQ = currQ;
                 bestAction = action;
@@ -105,11 +113,11 @@ public class QFunction : IEnumerable
         return policy;
     }
 
-    public float Normalize(float qValue, float defaultValue = 0.5f)
+    public float Normalize(float qValue, float defaultNormalizedValue = 0.5f)
     {
         if (qMap.Count == 0)
         {
-            return defaultValue;
+            return defaultNormalizedValue;
         }
 
         if (shouldUpdateBoundaries)
@@ -125,7 +133,9 @@ public class QFunction : IEnumerable
             shouldUpdateBoundaries = false;
         }
 
-        return (qValue - minQValue) / (maxQValue - minQValue);
+        return Math.Round(minQValue, 2) == Math.Round(maxQValue, 2)
+            ? defaultNormalizedValue
+            : (qValue - minQValue) / (maxQValue - minQValue);
     }
 
     public IEnumerator GetEnumerator()

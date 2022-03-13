@@ -12,9 +12,11 @@ public class Utility : IEnumerable
     private float minUtility = 0f;
     private float maxUtility = 0f;
     
+    private float defaultValue = 0f;
+
     public float this[State key]
     {
-        get { return uMap.ContainsKey(key) ? uMap[key] : 0f; }
+        get { return uMap.ContainsKey(key) ? uMap[key] : defaultValue; }
 
         set {
             shouldUpdateBoundaries = true;
@@ -24,9 +26,12 @@ public class Utility : IEnumerable
 
     public Utility() { }
 
-    public void Clear()
+    public void Reset()
     {
-        uMap.Clear();
+        foreach(var state in uMap.Keys.ToList())
+        {
+            uMap[state] = defaultValue;
+        }
     }
 
     public void Remove(State state)
@@ -67,11 +72,11 @@ public class Utility : IEnumerable
         return new Tuple<float, Action>(maxExpectedValue, bestAction); 
     }
 
-    public float Normalize(float utility, float defaultValue = 0.5f)
+    public float Normalize(float utility, float defaultNormalizedValue = 0.5f)
     {
         if (uMap.Count == 0)
         {
-            return defaultValue;
+            return defaultNormalizedValue;
         }
 
         if (shouldUpdateBoundaries)
@@ -82,7 +87,9 @@ public class Utility : IEnumerable
             shouldUpdateBoundaries = false;
         }
 
-        return (utility - minUtility) / (maxUtility - minUtility);
+        return Math.Round(minUtility, 2) == Math.Round(maxUtility, 2)
+            ? defaultNormalizedValue
+            : (utility - minUtility) / (maxUtility - minUtility);
     }
 
     public override string ToString()

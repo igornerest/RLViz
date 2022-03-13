@@ -63,26 +63,38 @@ public class MDP
 
     public void Reset()
     {
-        utility.Clear();
-        policy.Clear();
-        qFunction.Clear();
+        utility.Reset();
+        policy.Reset();
+        qFunction.Reset();
     }
 
     public void AddStates(List<State> states)
     {
         foreach (State state in states)
         {
-            grid[state.Position] = state;
+            AddState(state, evaluateProbabilities: false);
         }
 
         EvaluateProbabilities();
     }
 
-    public void AddState(State state)
+    public void AddState(State state, bool evaluateProbabilities = true)
     {
         grid[state.Position] = state;
 
-        EvaluateProbabilities();
+        // This is necessary to reinforce default value if
+        // no entry was previosuly computed
+        foreach (var action in ActionExtensions.GetValidActions())
+        {
+            qFunction[state, action] = qFunction[state, action];
+        }
+        utility[state] = utility[state];
+        policy[state] = policy[state];
+
+        if (evaluateProbabilities)
+        {
+            EvaluateProbabilities();
+        }
     }
 
     public void RemoveState(State state)

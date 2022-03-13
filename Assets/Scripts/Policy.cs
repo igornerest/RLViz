@@ -1,24 +1,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Policy : IEnumerable
 {
     private Dictionary<State, Action> pMap = new Dictionary<State, Action>();
 
+    private Action defaultAction = Action.UP;
+
     public Action this[State key]
     {
-        // TODO: Return default policy according to state attributes
-        get { return pMap.ContainsKey(key) ? pMap[key] : Action.UP; }
+        get { return pMap.ContainsKey(key) ? pMap[key] : defaultAction; }
 
         set { pMap[key] = value; }
     }
     
     public Policy() { }
 
-    public void Clear()
+    public void Reset()
     {
-        pMap.Clear();
+        foreach (var state in pMap.Keys.ToList())
+        {
+            pMap[state] = defaultAction;
+        }
     }
 
     public void Remove(State state)

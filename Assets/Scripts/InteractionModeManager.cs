@@ -141,7 +141,6 @@ public class InteractionModeManager : MonoBehaviour
     private Action GetPolicyActionFromDropdown()
     {
         string policyString = dropdownOptionKeys[policyDropdown.value];
-        Debug.Log(policyString);
         return ActionExtensions.GetActionFromStringKey(policyString);
     }
 
