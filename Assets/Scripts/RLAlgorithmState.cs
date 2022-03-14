@@ -9,42 +9,52 @@ public class RLAlgorithmState
 
     public State AgentState { get; set; }
 
-    public Stack<QFunction> qFunctionStack { get; } = new Stack<QFunction>();
-    public Stack<Utility> utilityStack { get; } = new Stack<Utility>();
-    public Stack<State> agentStateStack { get; } = new Stack<State>();
-    public Stack<Policy> policyStack { get; } = new Stack<Policy>();
+    public Stack<QFunction> QFunctionStack { get; } = new Stack<QFunction>();
+    public Stack<Utility> UtilityStack { get; } = new Stack<Utility>();
+    public Stack<State> AgentStateStack { get; } = new Stack<State>();
+    public Stack<Policy> PolicyStack { get; } = new Stack<Policy>();
+
+    private bool shouldStartFromInitialState = true;
 
     public void Reset(int maxIterations)
     {
         MaxIt = maxIterations;
         IsRunning = false;
         HasFinishedIterations = false;
-        qFunctionStack.Clear();
-        utilityStack.Clear();
-        agentStateStack.Clear();
-        policyStack.Clear();
+        shouldStartFromInitialState = true;
+        QFunctionStack.Clear();
+        UtilityStack.Clear();
+        AgentStateStack.Clear();
+        PolicyStack.Clear();
 
+    }
+
+    public bool StartFromInitialState()
+    {
+        bool answer = shouldStartFromInitialState;
+        shouldStartFromInitialState = false;
+        return answer;
     }
 
     public void AddIterationState(Utility utility, Policy policy)
     {
-        utilityStack.Push(utility);
-        policyStack.Push(policy);
+        UtilityStack.Push(utility);
+        PolicyStack.Push(policy);
     }
 
     public void AddIterationState(QFunction qFunction, State agentState)
     {
-        qFunctionStack.Push(qFunction);
-        agentStateStack.Push(agentState);
+        QFunctionStack.Push(qFunction);
+        AgentStateStack.Push(agentState);
     }
 
     public bool HasVFunctionStates()
     {
-        return utilityStack.Count > 0 && policyStack.Count > 0;
+        return UtilityStack.Count > 0 && PolicyStack.Count > 0;
     }
 
     public bool HasQFunctionStates()
     {
-        return qFunctionStack.Count > 0 && agentStateStack.Count > 0;
+        return QFunctionStack.Count > 0 && AgentStateStack.Count > 0;
     }
 }

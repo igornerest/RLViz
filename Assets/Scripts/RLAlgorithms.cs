@@ -58,8 +58,8 @@ public static class RLAlgorithms
 
         for (int it = 0; it < algorithmState.MaxIt && algorithmState.HasVFunctionStates(); it++)
         {
-            Utility previousUtility = algorithmState.utilityStack.Pop();
-            Policy previousPolicy = algorithmState.policyStack.Pop();
+            Utility previousUtility = algorithmState.UtilityStack.Pop();
+            Policy previousPolicy = algorithmState.PolicyStack.Pop();
 
             foreach (State state in mdp.GetAllStates())
             {
@@ -80,7 +80,9 @@ public static class RLAlgorithms
         int it = 0;
         while (it < algorithmState.MaxIt)
         {
-            State currState = mdp.InitialState;
+            State currState = algorithmState.StartFromInitialState()
+                ? mdp.InitialState
+                : algorithmState.AgentState;
 
             while (!currState.IsTerminal && it < algorithmState.MaxIt)
             {
@@ -114,7 +116,9 @@ public static class RLAlgorithms
         int it = 0;
         while (it < algorithmState.MaxIt)
         {
-            State currState = mdp.InitialState;
+            State currState = algorithmState.StartFromInitialState()
+                ? mdp.InitialState
+                : algorithmState.AgentState;
             Action currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
             
             while (!currState.IsTerminal && it < algorithmState.MaxIt)
@@ -148,8 +152,8 @@ public static class RLAlgorithms
 
         for (int it = 0; it < algorithmState.MaxIt && algorithmState.HasQFunctionStates(); it++)
         {
-            QFunction previousQFunction = algorithmState.qFunctionStack.Pop();
-            State previousState = algorithmState.agentStateStack.Pop();
+            QFunction previousQFunction = algorithmState.QFunctionStack.Pop();
+            State previousState = algorithmState.AgentStateStack.Pop();
 
             foreach (State state in mdp.GetAllStates())
             {
