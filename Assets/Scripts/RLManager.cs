@@ -59,7 +59,7 @@ public class RLManager : MonoBehaviour
     {
         if (IsCurrAlgorithmCoroutineActive())
         {
-            if (!MDPManager.Instance.AlgorithmState.HasFinishedIterations())
+            if (MDPManager.Instance.AlgorithmState.HasFinishedIterations)
             {
                 StopAndResetCurrAlgorithmCoroutine();
                 SetUIToIdleState();
@@ -152,7 +152,6 @@ public class RLManager : MonoBehaviour
     {
         SetUIToActiveState();
 
-        // We dont reset the state to keep iteration count
         MDPManager.Instance.AlgorithmState.MaxIt = (int)iterationSlider.getValue();
         MDPManager.Instance.AlgorithmState.IsRunning = true;
 
@@ -171,7 +170,25 @@ public class RLManager : MonoBehaviour
     {
         SetUIToActiveState();
 
-        // TODO
+        MDPManager.Instance.AlgorithmState.MaxIt = (int)iterationSlider.getValue();
+        MDPManager.Instance.AlgorithmState.IsRunning = true;
+
+        if (MDPManager.Instance.Mdp.IsUsingVFunction)
+        {
+            currAlgorithmCoroutine = RLAlgorithms.RevertVFunctionStates(
+                MDPManager.Instance.Mdp,
+                MDPManager.Instance.AlgorithmState
+            );
+        }
+        else
+        {
+            currAlgorithmCoroutine = RLAlgorithms.RevertQFunctionStates(
+                MDPManager.Instance.Mdp,
+                MDPManager.Instance.AlgorithmState
+            );
+        }
+
+        StartCoroutine(currAlgorithmCoroutine);
     }
 
     public void OnClickStopResetButton()
@@ -179,12 +196,15 @@ public class RLManager : MonoBehaviour
         if (resetStopButton.CompareTag("Reset"))
         {
             StopAndResetCurrAlgorithmCoroutine();
+
+            MDPManager.Instance.AlgorithmState.Reset((int)iterationSlider.getValue());
             MDPManager.Instance.Mdp.Reset();
         }
         else if (resetStopButton.CompareTag("Stop"))
         {
             SetUIToIdleState();
             StopCoroutine(currAlgorithmCoroutine);
+
             MDPManager.Instance.AlgorithmState.IsRunning = false;
         }
     }

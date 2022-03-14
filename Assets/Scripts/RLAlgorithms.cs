@@ -11,9 +11,10 @@ public static class RLAlgorithms
 
     public static IEnumerator ValueIteration(MDP mdp, RLAlgorithmState algorithmState)
     {
-        Debug.Log("Running Value Iteration algorithm");
+        algorithmState.HasFinishedIterations = false;
 
-        for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++) { 
+        for (int it = 0; it < algorithmState.MaxIt; it++) {
+            algorithmState.AddIterationState(mdp.Utility.Clone(), mdp.Policy.Clone());
 
             Utility newUtility = mdp.Utility.Clone();  
             foreach (State state in mdp.GetAllStates())
@@ -27,36 +28,63 @@ public static class RLAlgorithms
                 var (_, bestAction) = mdp.Utility.GetMaxExpectedValue(state);
                 mdp.Policy[state] = bestAction;
             }
-
-            algorithmState.ItCount++;
+            
             yield return new WaitForFixedUpdate();
         }
+
+        algorithmState.HasFinishedIterations = true;
     }
 
     public static IEnumerator PolicyIteration(MDP mdp, RLAlgorithmState algorithmState)
     {
-        Debug.Log("Running Policy Iteration algorithm");
+        algorithmState.HasFinishedIterations = false;
 
-        for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
+        for (int it = 0; it < algorithmState.MaxIt; it++)
         {
+            algorithmState.AddIterationState(mdp.Utility.Clone(), mdp.Policy.Clone());
+
             policyEvaluation(mdp);
             policyImprovement(mdp);
 
-            algorithmState.CurrIt++;
             yield return new WaitForFixedUpdate();
         }
+
+        algorithmState.HasFinishedIterations = true;
+    }
+
+    public static IEnumerator RevertVFunctionStates(MDP mdp, RLAlgorithmState algorithmState)
+    {
+        algorithmState.HasFinishedIterations = false;
+
+        for (int it = 0; it < algorithmState.MaxIt && algorithmState.HasVFunctionStates(); it++)
+        {
+            Utility previousUtility = algorithmState.utilityStack.Pop();
+            Policy previousPolicy = algorithmState.policyStack.Pop();
+
+            foreach (State state in mdp.GetAllStates())
+            {
+                mdp.Utility[state] = previousUtility[state];
+                mdp.Policy[state] = previousPolicy[state];
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        algorithmState.HasFinishedIterations = true;
     }
 
     public static IEnumerator QLearning(MDP mdp, RLAlgorithmState algorithmState)
     {
-        Debug.Log("Running Q-Learning algorithm");
+        algorithmState.HasFinishedIterations = false;
 
-        for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
+        int it = 0;
+        while (it < algorithmState.MaxIt)
         {
             State currState = mdp.InitialState;
 
-            while (!currState.IsTerminal)
+            while (!currState.IsTerminal && it < algorithmState.MaxIt)
             {
+                algorithmState.AddIterationState(mdp.QFunction.Clone(), currState);
                 algorithmState.AgentState = currState;
 
                 var currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
@@ -66,30 +94,32 @@ public static class RLAlgorithms
                 mdp.QFunction[currState, currAction] = mdp.QFunction[currState, currAction] + mdp.Alpha * (nextState.Reward + mdp.Gamma * nextStateMaxQ - mdp.QFunction[currState, currAction]);
 
                 currState = nextState;
+                it++;
 
                 yield return new WaitForFixedUpdate();
             }
 
-            algorithmState.CurrIt++;
             algorithmState.AgentState = currState;
+
             yield return new WaitForFixedUpdate();
         }
 
-        Policy policy = mdp.QFunction.GetPolicy();
-        mdp.UpdatePolicy(policy);
+        algorithmState.HasFinishedIterations = true;
     }
 
     public static IEnumerator Sarsa(MDP mdp, RLAlgorithmState algorithmState)
     {
-        Debug.Log("Running Sarsa algorithm");
+        algorithmState.HasFinishedIterations = false;
 
-        for (algorithmState.CurrIt = 0; algorithmState.CurrIt < algorithmState.MaxIt; algorithmState.CurrIt++)
+        int it = 0;
+        while (it < algorithmState.MaxIt)
         {
             State currState = mdp.InitialState;
             Action currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
             
-            while (!currState.IsTerminal)
+            while (!currState.IsTerminal && it < algorithmState.MaxIt)
             {
+                algorithmState.AddIterationState(mdp.QFunction.Clone(), currState);
                 algorithmState.AgentState = currState;
 
                 var nextState = currState.NextState(currAction);
@@ -99,17 +129,40 @@ public static class RLAlgorithms
 
                 currState = nextState;
                 currAction = nextAction;
+                it++;
 
                 yield return new WaitForFixedUpdate();
             }
 
-            algorithmState.CurrIt++;
             algorithmState.AgentState = currState;
+
             yield return new WaitForFixedUpdate();
         }
 
-        Policy policy = mdp.QFunction.GetPolicy();
-        mdp.UpdatePolicy(policy);
+        algorithmState.HasFinishedIterations = true;
+    }
+
+    public static IEnumerator RevertQFunctionStates(MDP mdp, RLAlgorithmState algorithmState)
+    {
+        algorithmState.HasFinishedIterations = false;
+
+        for (int it = 0; it < algorithmState.MaxIt && algorithmState.HasQFunctionStates(); it++)
+        {
+            QFunction previousQFunction = algorithmState.qFunctionStack.Pop();
+            State previousState = algorithmState.agentStateStack.Pop();
+
+            foreach (State state in mdp.GetAllStates())
+            {
+                foreach (Action action in ActionExtensions.GetValidActions()) {
+                    mdp.QFunction[state, action] = previousQFunction[state, action];
+                }
+            }
+            algorithmState.AgentState = previousState;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        algorithmState.HasFinishedIterations = true;
     }
 
     private static void policyEvaluation(MDP mdp)

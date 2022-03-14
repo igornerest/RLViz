@@ -149,7 +149,10 @@ public class QFunction : IEnumerable
     public QFunction Clone()
     {
         QFunction clonedQFunction = new QFunction();
-        clonedQFunction.qMap = new Dictionary<State, Dictionary<Action, float>>(this.qMap);
+        clonedQFunction.qMap = this.qMap.ToDictionary(
+            entry => entry.Key,
+            entry => new Dictionary<Action, float>(entry.Value)
+        );
         return clonedQFunction;
     }
 
