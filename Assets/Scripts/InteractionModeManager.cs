@@ -52,6 +52,22 @@ public class InteractionModeManager : MonoBehaviour
         GetPolicyActionFromDropdown();
     }
 
+    public void EnableToggles()
+    {
+        simulateToggle.interactable = true;
+        createToggle.interactable = true;
+        deleteToggle.interactable = true;
+        editToggle.interactable = true;
+    }
+
+    public void DisableToggles()
+    {
+        simulateToggle.interactable = false;
+        createToggle.interactable = false;
+        deleteToggle.interactable = false;
+        editToggle.interactable = false;
+    }
+
     private void EnableInteraction()
     {
         rewardInputField.interactable = true;

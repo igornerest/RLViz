@@ -11048,6 +11048,8 @@ MonoBehaviour:
   playButton: {fileID: 1037557846}
   backwardsButton: {fileID: 1672310510}
   resetStopButton: {fileID: 1358116995}
+  deviationProbManager: {fileID: 34280458}
+  interactionModeManager: {fileID: 983944445}
 --- !u!4 &1390374758
 Transform:
   m_ObjectHideFlags: 0

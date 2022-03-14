@@ -19,6 +19,9 @@ public class RLManager : MonoBehaviour
     [SerializeField] private Button backwardsButton;
     [SerializeField] private Button resetStopButton;
 
+    [SerializeField] private DeviationProbManager deviationProbManager;
+    [SerializeField] private InteractionModeManager interactionModeManager;
+
     private TMPro.TMP_Text resetStopButtonText;
 
     private List<string> supportedAlgorithms = new List<string>()
@@ -53,6 +56,7 @@ public class RLManager : MonoBehaviour
         Time.fixedDeltaTime = timeSlider.getValue()/1000;
 
         HandleAlgorithmStateUpdate();
+        UpdateButtonInteraction();
     }
 
     public void HandleAlgorithmStateUpdate()
@@ -64,6 +68,20 @@ public class RLManager : MonoBehaviour
                 StopAndResetCurrAlgorithmCoroutine();
                 SetUIToIdleState();
             }
+        }
+    }
+
+    public void UpdateButtonInteraction()
+    {
+        if (interactionModeManager.GetInteractionMode() != InteractionMode.Simulate)
+        {
+            playButton.interactable = false;
+            backwardsButton.interactable = false;
+        }
+        else if (resetStopButton.CompareTag("Reset"))
+        {
+            playButton.interactable = true;
+            backwardsButton.interactable = true;
         }
     }
 
@@ -120,6 +138,9 @@ public class RLManager : MonoBehaviour
         iterationSlider.UpdateSliderInteraction(true);
 
         algorithmDropdown.interactable = true;
+
+        deviationProbManager.EnableSliders();
+        interactionModeManager.EnableToggles();
     }
 
     private void SetUIToActiveState()
@@ -132,6 +153,9 @@ public class RLManager : MonoBehaviour
         algorithmDropdown.interactable = false;
 
         iterationSlider.UpdateSliderInteraction(false);
+
+        deviationProbManager.DisableSliders();
+        interactionModeManager.DisableToggles();
     }
 
     public void UpdateAlgorithmPanelLocalization()

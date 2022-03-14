@@ -10,6 +10,22 @@ public class DeviationProbManager : MonoBehaviour
     [SerializeField] private Slider backSlider;
     [SerializeField] private Slider leftSlider;
 
+    public void EnableSliders()
+    {
+        forwardSlider.interactable = true;
+        rightSlider.interactable = true;
+        backSlider.interactable = true;
+        leftSlider.interactable = true;
+    }
+
+    public void DisableSliders()
+    {
+        forwardSlider.interactable = false;
+        rightSlider.interactable = false;
+        backSlider.interactable = false;
+        leftSlider.interactable = false;
+    }
+
     public void OnForwardSliderValueChanged(float value)
     {
         float updatedValue = LimitProbSliderValue(forwardSlider, Deviation.FORWARD, value);
