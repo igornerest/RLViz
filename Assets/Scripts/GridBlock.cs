@@ -102,7 +102,7 @@ public class GridBlock : MonoBehaviour
         {
             UpdateFlickerEffect();
         }
-        else if (algorithmState.IsRunning && algorithmState.AgentState == this.state)
+        else if (mdp.IsUsingQFunction &&  algorithmState.AgentState == this.state)
         {
             UpdateAgentMaterial();
         }

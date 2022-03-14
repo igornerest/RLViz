@@ -14,26 +14,17 @@ public class RLAlgorithmState
     public Stack<State> AgentStateStack { get; } = new Stack<State>();
     public Stack<Policy> PolicyStack { get; } = new Stack<Policy>();
 
-    private bool shouldStartFromInitialState = true;
-
     public void Reset(int maxIterations)
     {
         MaxIt = maxIterations;
         IsRunning = false;
         HasFinishedIterations = false;
-        shouldStartFromInitialState = true;
+        AgentState = null;
         QFunctionStack.Clear();
         UtilityStack.Clear();
         AgentStateStack.Clear();
         PolicyStack.Clear();
 
-    }
-
-    public bool StartFromInitialState()
-    {
-        bool answer = shouldStartFromInitialState;
-        shouldStartFromInitialState = false;
-        return answer;
     }
 
     public void AddIterationState(Utility utility, Policy policy)

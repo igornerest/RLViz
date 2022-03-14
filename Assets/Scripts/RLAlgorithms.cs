@@ -80,7 +80,7 @@ public static class RLAlgorithms
         int it = 0;
         while (it < algorithmState.MaxIt)
         {
-            State currState = algorithmState.StartFromInitialState()
+            State currState = algorithmState.AgentState == null
                 ? mdp.InitialState
                 : algorithmState.AgentState;
 
@@ -116,7 +116,7 @@ public static class RLAlgorithms
         int it = 0;
         while (it < algorithmState.MaxIt)
         {
-            State currState = algorithmState.StartFromInitialState()
+            State currState = algorithmState.AgentState == null
                 ? mdp.InitialState
                 : algorithmState.AgentState;
             Action currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
