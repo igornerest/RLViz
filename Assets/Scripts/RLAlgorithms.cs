@@ -84,7 +84,7 @@ public static class RLAlgorithms
                 ? mdp.InitialState
                 : algorithmState.AgentState;
 
-            while (!currState.IsTerminal && it < algorithmState.MaxIt)
+            while (mdp.IsGridState(currState) && !currState.IsTerminal && it < algorithmState.MaxIt)
             {
                 algorithmState.AddIterationState(mdp.QFunction.Clone(), currState);
                 algorithmState.AgentState = currState;
@@ -121,7 +121,7 @@ public static class RLAlgorithms
                 : algorithmState.AgentState;
             Action currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
             
-            while (!currState.IsTerminal && it < algorithmState.MaxIt)
+            while (mdp.IsGridState(currState) && !currState.IsTerminal && it < algorithmState.MaxIt)
             {
                 algorithmState.AddIterationState(mdp.QFunction.Clone(), currState);
                 algorithmState.AgentState = currState;

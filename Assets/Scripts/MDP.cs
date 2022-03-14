@@ -97,6 +97,11 @@ public class MDP
         }
     }
 
+    public bool IsGridState(State state)
+    {
+        return grid.ContainsKey(state.Position);
+    }
+
     public void RemoveState(State state)
     {
         grid.Remove(state.Position);
