@@ -28,7 +28,7 @@ public class Tooltip : MonoBehaviour
 
     public void SetText(string content)
     {
-        contentField.text = content;
-        layoutElement.enabled = (content.Length > characterWrapLimit);
+        contentField.text = LocalizationLanguageManager.GetLocalizedName("UI Text", content);
+        layoutElement.enabled = (contentField.text.Length > characterWrapLimit);
     }
 }

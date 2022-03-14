@@ -138,5 +138,37 @@ MonoBehaviour:
     m_Localized: Stop
     m_Metadata:
       m_Items: []
+  - m_Id: 1316664310861824
+    m_Localized: Discount factor, which quantifies how much importance we give for
+      future rewards
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1316785375252480
+    m_Localized: Probability of taking a random action instead of the following the
+      current policy  (only for Q-Learning and SARSA)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1316867147403264
+    m_Localized: Learning rate, which represents the magnitude of step that is taken
+      towards the solution, or simply how much we should accept the new computed
+      value
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1321802337456128
+    m_Localized: Probability of moving forward, following the desired direction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1321897401356288
+    m_Localized: Probability of moving to the right of the desired direction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1322006247739392
+    m_Localized: Probability of moving in the opposite direction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1322078993747968
+    m_Localized: Probability of moving to the left of the desired direction
+    m_Metadata:
+      m_Items: []
   references:
     version: 1

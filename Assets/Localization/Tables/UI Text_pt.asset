@@ -138,5 +138,38 @@ MonoBehaviour:
     m_Localized: Parar
     m_Metadata:
       m_Items: []
+  - m_Id: 1316664310861824
+    m_Localized: "Fator de desconto, que quantifica a import\xE2ncia que damos para
+      recompensas futuras"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1316785375252480
+    m_Localized: "Probabilidade de realizar uma a\xE7\xE3o aleat\xF3ria em  vez de
+      seguir a pol\xEDtica atual (somente para Aprendizagem Q e SARSA)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1316867147403264
+    m_Localized: "Taxa de aprendizado, que representa a magnitude do passo que \xE9
+      dado em dire\xE7\xE3o \xE0 solu\xE7\xE3o, ou simplesmente o quanto devemos
+      aceitar o novo computado"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1321802337456128
+    m_Localized: "Probabilidade de se mover para frente, seguindo a dire\xE7\xE3o
+      desejada"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1321897401356288
+    m_Localized: "Probabilidade de se mover \xE0 direita da dire\xE7\xE3o desejada"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1322006247739392
+    m_Localized: "Probabilidade de se mover na dire\xE7\xE3o oposta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1322078993747968
+    m_Localized: "Probabilidade de se mover \xE0 esquerda da dire\xE7\xE3o desejada"
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
