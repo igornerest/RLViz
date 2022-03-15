@@ -99,7 +99,7 @@ public class MDP
 
     public bool IsGridState(State state)
     {
-        return grid.ContainsKey(state.Position);
+        return state != null && grid.ContainsKey(state.Position);
     }
 
     public void RemoveState(State state)

@@ -28,10 +28,12 @@ public class GridBlock : MonoBehaviour
     [SerializeField] private TMP_Text downQValueText;
     [SerializeField] private TMP_Text leftQValueText;
     [SerializeField] private TMP_Text rightQValueText;
+    [SerializeField] private TMP_Text noneQValueText;
     [SerializeField] private Image upQValueBackground;
     [SerializeField] private Image downQValueBackground;
     [SerializeField] private Image leftQValueBackground;
     [SerializeField] private Image rightQValueBackground;
+    [SerializeField] private Image noneQValueBackground;
 
     [SerializeField] private List<MeshRenderer> brickMeshRenderer;
     [SerializeField] private Material opaqueMaterial;
@@ -225,9 +227,12 @@ public class GridBlock : MonoBehaviour
     {
         DisableAllArrows();
 
-        foreach (var arrow in arrowDictionary[policy])
+        if (arrowDictionary.ContainsKey(policy))
         {
-            arrow.enabled = true;
+            foreach (var arrow in arrowDictionary[policy])
+            {
+                arrow.enabled = true;
+            }
         }
     }
 
@@ -280,15 +285,37 @@ public class GridBlock : MonoBehaviour
 
             SetPolicyArrow(action);
 
-            upQValueBackground.color = action == Action.UP ? coloredQ : defaultColor;
-            downQValueBackground.color = action == Action.DOWN ? coloredQ : defaultColor;
-            leftQValueBackground.color = action == Action.LEFT ? coloredQ : defaultColor;
-            rightQValueBackground.color = action == Action.RIGHT ? coloredQ : defaultColor;
+            if (!state.IsTerminal)
+            {
+                upQValueBackground.gameObject.SetActive(true);
+                downQValueBackground.gameObject.SetActive(true);
+                leftQValueBackground.gameObject.SetActive(true);
+                rightQValueBackground.gameObject.SetActive(true);
+                noneQValueBackground.gameObject.SetActive(false);
 
-            upQValueText.text = ToRoundedString(mdp.QFunction[state, Action.UP]);
-            downQValueText.text = ToRoundedString(mdp.QFunction[state, Action.DOWN]);
-            leftQValueText.text = ToRoundedString(mdp.QFunction[state, Action.LEFT]);
-            rightQValueText.text = ToRoundedString(mdp.QFunction[state, Action.RIGHT]);
+                upQValueBackground.color = action == Action.UP ? coloredQ : defaultColor;
+                downQValueBackground.color = action == Action.DOWN ? coloredQ : defaultColor;
+                leftQValueBackground.color = action == Action.LEFT ? coloredQ : defaultColor;
+                rightQValueBackground.color = action == Action.RIGHT ? coloredQ : defaultColor;
+
+                upQValueText.text = ToRoundedString(mdp.QFunction[state, Action.UP]);
+                downQValueText.text = ToRoundedString(mdp.QFunction[state, Action.DOWN]);
+                leftQValueText.text = ToRoundedString(mdp.QFunction[state, Action.LEFT]);
+                rightQValueText.text = ToRoundedString(mdp.QFunction[state, Action.RIGHT]);
+            }
+            else
+            {
+                upQValueBackground.gameObject.SetActive(false);
+                downQValueBackground.gameObject.SetActive(false);
+                leftQValueBackground.gameObject.SetActive(false);
+                rightQValueBackground.gameObject.SetActive(false);
+                noneQValueBackground.gameObject.SetActive(true);
+
+                noneQValueBackground.color = coloredQ;
+
+                noneQValueText.text = ToRoundedString(maxQ);
+            }
+
             qFunctionCanvas.SetActive(true);
         }
     }

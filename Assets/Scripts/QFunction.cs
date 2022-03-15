@@ -39,9 +39,16 @@ public class QFunction : IEnumerable
     {
         foreach (var state in qMap.Keys.ToList())
         {
-            foreach (var action in ActionExtensions.GetValidActions())
+            if (state.IsTerminal)
             {
-                this[state, action] = defaultValue;
+                this[state, Action.NONE] = defaultValue;
+            }
+            else
+            {
+                foreach (var action in ActionExtensions.GetValidActions())
+                {
+                    this[state, action] = defaultValue;
+                }
             }
         }
     }
@@ -69,6 +76,11 @@ public class QFunction : IEnumerable
 
     public (float, Action) MaxQ(State state)
     {
+        if (state.IsTerminal)
+        {
+            return (this[state, Action.NONE], Action.NONE);
+        }
+
         float maxQ = float.NegativeInfinity;
         Action bestAction = Action.NONE;
 
@@ -125,7 +137,14 @@ public class QFunction : IEnumerable
             List<float> currValues = new List<float>();
             foreach (var actionValuesMap in qMap)
             {
-                currValues.Add(actionValuesMap.Value.Values.Max());
+                if (actionValuesMap.Key.IsTerminal)
+                {
+                    currValues.Add(actionValuesMap.Value[Action.NONE]);
+                }
+                else
+                {
+                    currValues.Add(actionValuesMap.Value.Values.Max());
+                }
             }
 
             minQValue = currValues.Min();

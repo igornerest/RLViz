@@ -80,12 +80,18 @@ public static class RLAlgorithms
         int it = 0;
         while (it < algorithmState.MaxIt)
         {
-            State currState = algorithmState.AgentState == null
+            State currState = algorithmState.AgentState == null || algorithmState.AgentState.IsTerminal
                 ? mdp.InitialState
                 : algorithmState.AgentState;
 
-            while (mdp.IsGridState(currState) && !currState.IsTerminal && it < algorithmState.MaxIt)
+            while (mdp.IsGridState(currState) && it < algorithmState.MaxIt)
             {
+                if (currState.IsTerminal)
+                {
+                    mdp.QFunction[currState, Action.NONE] = currState.Reward;
+                    break;
+                }
+
                 algorithmState.AddIterationState(mdp.QFunction.Clone(), currState);
                 algorithmState.AgentState = currState;
 
@@ -93,7 +99,7 @@ public static class RLAlgorithms
                 var nextState = currState.NextState(currAction);
                 var (nextStateMaxQ, _) = mdp.QFunction.MaxQ(nextState);
                 
-                mdp.QFunction[currState, currAction] = mdp.QFunction[currState, currAction] + mdp.Alpha * (nextState.Reward + mdp.Gamma * nextStateMaxQ - mdp.QFunction[currState, currAction]);
+                mdp.QFunction[currState, currAction] = mdp.QFunction[currState, currAction] + mdp.Alpha * (currState.Reward + mdp.Gamma * nextStateMaxQ - mdp.QFunction[currState, currAction]);
 
                 currState = nextState;
                 it++;
@@ -101,6 +107,7 @@ public static class RLAlgorithms
                 yield return new WaitForFixedUpdate();
             }
 
+            algorithmState.AddIterationState(mdp.QFunction.Clone(), currState);
             algorithmState.AgentState = currState;
 
             yield return new WaitForFixedUpdate();
@@ -116,20 +123,26 @@ public static class RLAlgorithms
         int it = 0;
         while (it < algorithmState.MaxIt)
         {
-            State currState = algorithmState.AgentState == null
+            State currState = algorithmState.AgentState == null || algorithmState.AgentState.IsTerminal
                 ? mdp.InitialState
                 : algorithmState.AgentState;
             Action currAction = mdp.QFunction.EGreedy(currState, mdp.Epsilon);
             
-            while (mdp.IsGridState(currState) && !currState.IsTerminal && it < algorithmState.MaxIt)
+            while (mdp.IsGridState(currState) && it < algorithmState.MaxIt)
             {
+                if (currState.IsTerminal)
+                {
+                    mdp.QFunction[currState, Action.NONE] = currState.Reward;
+                    break;
+                }
+
                 algorithmState.AddIterationState(mdp.QFunction.Clone(), currState);
                 algorithmState.AgentState = currState;
 
                 var nextState = currState.NextState(currAction);
                 var nextAction = mdp.QFunction.EGreedy(nextState, mdp.Epsilon);
 
-                mdp.QFunction[currState, currAction] = mdp.QFunction[currState, currAction] + mdp.Alpha * (nextState.Reward + mdp.Gamma * mdp.QFunction[nextState, nextAction] - mdp.QFunction[currState, currAction]);
+                mdp.QFunction[currState, currAction] = mdp.QFunction[currState, currAction] + mdp.Alpha * (currState.Reward + mdp.Gamma * mdp.QFunction[nextState, nextAction] - mdp.QFunction[currState, currAction]);
 
                 currState = nextState;
                 currAction = nextAction;
@@ -138,6 +151,7 @@ public static class RLAlgorithms
                 yield return new WaitForFixedUpdate();
             }
 
+            algorithmState.AddIterationState(mdp.QFunction.Clone(), currState);
             algorithmState.AgentState = currState;
 
             yield return new WaitForFixedUpdate();
