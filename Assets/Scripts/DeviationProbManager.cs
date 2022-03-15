@@ -10,6 +10,8 @@ public class DeviationProbManager : MonoBehaviour
     [SerializeField] private Slider backSlider;
     [SerializeField] private Slider leftSlider;
 
+    private float stepSize = 0.05f;
+    
     public void EnableSliders()
     {
         forwardSlider.interactable = true;
@@ -62,9 +64,9 @@ public class DeviationProbManager : MonoBehaviour
             .Sum(x => x.Value);
 
         float remainingProb = 1 - probSum;
-        float updatedValue = Mathf.Min(value, remainingProb);
-        slider.value = updatedValue;
+        float updatedProbability = Mathf.Min(value * stepSize, remainingProb);
+        slider.value = updatedProbability / stepSize;
 
-        return updatedValue;
+        return updatedProbability;
     }
 }

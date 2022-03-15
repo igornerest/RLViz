@@ -11,6 +11,10 @@ public class CustomSlider : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private TMP_Text sliderText;
 
+    [SerializeField] private float scale = defaultScale;
+
+    private static float defaultScale = 1f;
+
     private void Start()
     {
         slider.value = defaultValue;
@@ -18,8 +22,10 @@ public class CustomSlider : MonoBehaviour
 
     private void Update()
     {
-        float value = slider.value;
-        string formattedValue = slider.wholeNumbers ? value.ToString() : value.ToString("0.00");
+        double value = Math.Round(slider.value * scale, 2);
+        string formattedValue = slider.wholeNumbers && scale == defaultScale
+            ? value.ToString()
+            : value.ToString("0.00");
         string sliderTextPrefix = "";
         if (componentName != "")
         {
