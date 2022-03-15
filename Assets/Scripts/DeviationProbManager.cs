@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +11,21 @@ public class DeviationProbManager : MonoBehaviour
     [SerializeField] private Slider backSlider;
     [SerializeField] private Slider leftSlider;
 
+    [SerializeField] private TMP_Text deviationProbText;
+
     private float stepSize = 0.05f;
-    
+
+    private void Start()
+    {
+        UpdateTextLocalization();
+    }
+
+    // Used by LanguagePanel
+    public void UpdateTextLocalization()
+    {
+        deviationProbText.text = LocalizationLanguageManager.Localize("key_Probabilities");
+    }
+
     public void EnableSliders()
     {
         forwardSlider.interactable = true;

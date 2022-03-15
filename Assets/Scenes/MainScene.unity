@@ -439,6 +439,7 @@ MonoBehaviour:
   rightSlider: {fileID: 1551234182}
   backSlider: {fileID: 1753541644}
   leftSlider: {fileID: 1582531191}
+  deviationProbText: {fileID: 508411623}
 --- !u!114 &34280459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1078,28 +1079,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 70124363681792
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 92724388}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 92724388}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!1 &104628531
@@ -1251,28 +1256,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 72636453982208
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114321011}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 114321011}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!224 &120294346 stripped
@@ -3661,28 +3670,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 70035779981312
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 557314710}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 557314710}, m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!1 &559302168
@@ -4788,28 +4801,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 71812654927872
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 683282443}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 683282443}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!1 &683373942
@@ -5313,8 +5330,8 @@ MonoBehaviour:
           m_CallState: 2
         - m_Target: {fileID: 983944445}
           m_TargetAssemblyTypeName: InteractionModeManager, Assembly-CSharp
-          m_MethodName: UpdateDropdownTextLocalization
-          m_Mode: 6
+          m_MethodName: UpdateTextLocalization
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5323,9 +5340,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 983944445}
-          m_TargetAssemblyTypeName: InteractionModeManager, Assembly-CSharp
-          m_MethodName: UpdateRewardInputInfoTextLocalization
+        - m_Target: {fileID: 34280458}
+          m_TargetAssemblyTypeName: DeviationProbManager, Assembly-CSharp
+          m_MethodName: UpdateTextLocalization
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5338,6 +5355,18 @@ MonoBehaviour:
         - m_Target: {fileID: 1390374757}
           m_TargetAssemblyTypeName: RLManager, Assembly-CSharp
           m_MethodName: UpdateAlgorithmPanelLocalization
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1330306910}
+          m_TargetAssemblyTypeName: DisplayModeManager, Assembly-CSharp
+          m_MethodName: UpdateTextLocalization
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7499,6 +7528,7 @@ MonoBehaviour:
   terminalStateToggle: {fileID: 691608685}
   nonTerminalStateToggle: {fileID: 160844327}
   initialStateToggle: {fileID: 1123181875}
+  interactionModeText: {fileID: 557314710}
 --- !u!1 &990869438
 GameObject:
   m_ObjectHideFlags: 0
@@ -9504,28 +9534,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 71859966676992
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1192777730}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 1192777730}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!1 &1207400769 stripped
@@ -10039,28 +10073,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 71659147595776
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1251795041}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 1251795041}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!1 &1261146301
@@ -10909,6 +10947,7 @@ MonoBehaviour:
   rewardToggle: {fileID: 949312305}
   policyToggle: {fileID: 739966486}
   valueToggle: {fileID: 434043926}
+  displayModeText: {fileID: 1347128435}
 --- !u!1 &1333243147
 GameObject:
   m_ObjectHideFlags: 0
@@ -11016,8 +11055,8 @@ MonoBehaviour:
           m_CallState: 2
         - m_Target: {fileID: 983944445}
           m_TargetAssemblyTypeName: InteractionModeManager, Assembly-CSharp
-          m_MethodName: UpdateDropdownTextLocalization
-          m_Mode: 6
+          m_MethodName: UpdateTextLocalization
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11026,9 +11065,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 983944445}
-          m_TargetAssemblyTypeName: InteractionModeManager, Assembly-CSharp
-          m_MethodName: UpdateRewardInputInfoTextLocalization
+        - m_Target: {fileID: 34280458}
+          m_TargetAssemblyTypeName: DeviationProbManager, Assembly-CSharp
+          m_MethodName: UpdateTextLocalization
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -11041,6 +11080,18 @@ MonoBehaviour:
         - m_Target: {fileID: 1390374757}
           m_TargetAssemblyTypeName: RLManager, Assembly-CSharp
           m_MethodName: UpdateAlgorithmPanelLocalization
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1330306910}
+          m_TargetAssemblyTypeName: DisplayModeManager, Assembly-CSharp
+          m_MethodName: UpdateTextLocalization
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -11200,28 +11251,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 68445069217792
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1347128435}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 1347128435}, m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!4 &1350617400 stripped
@@ -11677,28 +11732,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 70152348078080
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1392701022}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 1392701022}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!1 &1406984228
@@ -13071,28 +13130,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 70104327491584
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1622685970}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 1622685970}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!4 &1645943221 stripped
@@ -13328,28 +13391,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 70142382411776
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1674657373}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 1674657373}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!1001 &1683640409
@@ -13941,28 +14008,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 72786706534400
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1747315645}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 1747315645}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!1001 &1751611243
@@ -16327,28 +16398,32 @@ MonoBehaviour:
   m_StringReference:
     m_TableReference:
       m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
     m_TableEntryReference:
-      m_KeyId: 72702883368960
       m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_FallbackState: 0
     m_WaitForCompletion: 0
+    m_LocaleOverride: {fileID: 0}
+    m_CurrentTable:
+      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 1
+    m_CurrentTableEntry:
+      m_Key: 
+      m_Valid: 0
+      <ReferenceType>k__BackingField: 2
     m_LocalVariables: []
+    m_CurrentStringChangedValue: 
+    m_WaitingForVariablesEndUpdate: 0
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2138166273}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 2138166273}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
   references:
     version: 1
 --- !u!1001 &4529130811483234009

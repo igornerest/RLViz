@@ -1,29 +1,47 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
+
+enum Language
+{
+    English,
+    Portuguese,
+};
 
 public class LocalizationLanguageManager : MonoBehaviour
 {
     [SerializeField] private Image usFlagMaterial;
     [SerializeField] private Image brazilFlagMaterial;
 
+    private LocalizationTable localizationTable = new LocalizationTable();
+
+    private static Language selectedLanguage = Language.English;
+
+    private static LocalizationLanguageManager current;
+
+    public void Awake()
+    {
+        current = this;
+    }
+
     public void SetEnglishLanguage()
     {
-        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
+        selectedLanguage = Language.English;
         SetTransparency(usFlagMaterial, false);
         SetTransparency(brazilFlagMaterial, true);
     }
 
     public void SetPortugueseLanguage()
     {
-        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[1];
+        selectedLanguage = Language.Portuguese;
         SetTransparency(brazilFlagMaterial, false);
         SetTransparency(usFlagMaterial, true);
     }
 
-    public static string GetLocalizedName(string tableName, string key)
+    public static string Localize(string key)
     {
-        return LocalizationSettings.StringDatabase.GetLocalizedString(tableName, key);
+        LocalizationEntry entry = current.localizationTable[key];
+        return selectedLanguage == Language.Portuguese ? entry.PortugueseEntry : entry.EnglishEntry;
     }
 
     private void SetTransparency(Image image, bool isTransparent)

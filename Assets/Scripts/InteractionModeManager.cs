@@ -27,6 +27,8 @@ public class InteractionModeManager : MonoBehaviour
     [SerializeField] private Toggle nonTerminalStateToggle;
     [SerializeField] private Toggle initialStateToggle;
 
+    [SerializeField] private TMP_Text interactionModeText;
+
     private Dictionary<Toggle, InteractionMode> interactionToggleDictionary;
 
     private InteractionMode currInteractionMode;
@@ -35,6 +37,8 @@ public class InteractionModeManager : MonoBehaviour
 
     private void Start()
     {
+        interactionModeText.text = LocalizationLanguageManager.Localize("key_Interaction_mode");
+
         interactionToggleDictionary = new Dictionary<Toggle, InteractionMode>()
         {
             { simulateToggle, InteractionMode.Simulate },
@@ -44,6 +48,7 @@ public class InteractionModeManager : MonoBehaviour
         };
 
         ResetPanel();
+        UpdateTextLocalization();
     }
 
     private void Update()
@@ -89,14 +94,14 @@ public class InteractionModeManager : MonoBehaviour
     private void SetupDropdownOptions()
     {
         dropdownOptionKeys = ActionExtensions.GetValidActionStringKeys();
-        UpdateDropdownTextLocalization(true);
+        UpdateDropdownTextLocalization(resetSelectedValue: true);
     }
 
-    public void UpdateDropdownTextLocalization(bool resetSelectedValue = false)
+    private void UpdateDropdownTextLocalization(bool resetSelectedValue = false)
     {
         int previousSelectedValue = policyDropdown.value;
         policyDropdown.ClearOptions();
-        policyDropdown.AddOptions(dropdownOptionKeys.Select(key => LocalizationLanguageManager.GetLocalizedName("UI Text", key)).ToList());
+        policyDropdown.AddOptions(dropdownOptionKeys.Select(key => LocalizationLanguageManager.Localize(key)).ToList());
 
         if (resetSelectedValue == false)
         {
@@ -104,18 +109,32 @@ public class InteractionModeManager : MonoBehaviour
         }
     }
 
-    public void UpdateRewardInputInfoTextLocalization()
+    // Used by LanguagePanel
+    public void UpdateTextLocalization()
     {
+        interactionModeText.text = LocalizationLanguageManager.Localize("key_Interaction_mode");
+
+        simulateToggle.GetComponentInChildren<Text>().text = LocalizationLanguageManager.Localize("key_simulate");
+        createToggle.GetComponentInChildren<Text>().text = LocalizationLanguageManager.Localize("key_create");
+        deleteToggle.GetComponentInChildren<Text>().text = LocalizationLanguageManager.Localize("key_delete");
+        editToggle.GetComponentInChildren<Text>().text = LocalizationLanguageManager.Localize("key_edit");
+
+        terminalStateToggle.GetComponentInChildren<Text>().text = LocalizationLanguageManager.Localize("key_terminal_state");
+        nonTerminalStateToggle.GetComponentInChildren<Text>().text = LocalizationLanguageManager.Localize("key_non_terminal_state");
+        initialStateToggle.GetComponentInChildren<Text>().text = LocalizationLanguageManager.Localize("key_initial_state");
+
         if (!rewardInputField.IsInteractable())
         {
-            rewardInputField.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_No_reward");
+            rewardInputField.text = LocalizationLanguageManager.Localize("key_No_reward");
         }
+
+        UpdateDropdownTextLocalization(resetSelectedValue: false);
     }
 
     private void EmptyDropdownOptions()
     {
         dropdownOptionKeys = new List<string>() { "key_No_policy" };
-        UpdateDropdownTextLocalization(true);
+        UpdateDropdownTextLocalization(resetSelectedValue: true);
     }
 
     private void ResetPanel()
@@ -124,7 +143,6 @@ public class InteractionModeManager : MonoBehaviour
 
         EmptyDropdownOptions();
 
-        UpdateRewardInputInfoTextLocalization();
         policyDropdown.value = -1;
 
         interactionToggleGroup.allowSwitchOff = true;
@@ -179,7 +197,7 @@ public class InteractionModeManager : MonoBehaviour
 
         // TODO: fetch those data from a defined data structure 
         rewardInputField.text = (-0.04f).ToString("0.00");
-        string localizedDefaultPolicy = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Up");
+        string localizedDefaultPolicy = LocalizationLanguageManager.Localize("key_Up");
         policyDropdown.value = policyDropdown.options.FindIndex(option => option.text == localizedDefaultPolicy);
 
         interactionToggleGroup.allowSwitchOff = false;
@@ -196,7 +214,7 @@ public class InteractionModeManager : MonoBehaviour
 
         Action actualPolicy = mdp.Policy[state];
         string policyStr = ActionExtensions.GetStringKeyFromAction(actualPolicy);
-        string localizedPolicyStr = LocalizationLanguageManager.GetLocalizedName("UI Text", policyStr);
+        string localizedPolicyStr = LocalizationLanguageManager.Localize(policyStr);
         policyDropdown.value = policyDropdown.options.FindIndex(option => option.text == localizedPolicyStr);
 
         interactionToggleGroup.allowSwitchOff = false;

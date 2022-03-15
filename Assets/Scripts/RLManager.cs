@@ -41,7 +41,7 @@ public class RLManager : MonoBehaviour
 
         algorithmDropdown.ClearOptions();
         algorithmDropdown.AddOptions( supportedAlgorithms
-            .Select(value => LocalizationLanguageManager.GetLocalizedName("UI Text", value))
+            .Select(value => LocalizationLanguageManager.Localize(value))
             .ToList()
        );
         OnAlgorithmDropdownValueChanged();
@@ -133,7 +133,7 @@ public class RLManager : MonoBehaviour
         playButton.interactable = true;
         backwardsButton.interactable = true;
         resetStopButton.tag = "Reset";
-        resetStopButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Reset");
+        resetStopButtonText.text = LocalizationLanguageManager.Localize("key_Reset");
 
         iterationSlider.UpdateSliderInteraction(true);
 
@@ -148,7 +148,7 @@ public class RLManager : MonoBehaviour
         playButton.interactable = false;
         backwardsButton.interactable = false;
         resetStopButton.tag = "Stop";
-        resetStopButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", "key_Stop");
+        resetStopButtonText.text = LocalizationLanguageManager.Localize("key_Stop");
 
         algorithmDropdown.interactable = false;
 
@@ -161,12 +161,12 @@ public class RLManager : MonoBehaviour
     public void UpdateAlgorithmPanelLocalization()
     {
         string resetStopButtonKey = resetStopButton.CompareTag("Reset") ? "key_Reset" : "key_Stop";
-        resetStopButtonText.text = LocalizationLanguageManager.GetLocalizedName("UI Text", resetStopButtonKey);
+        resetStopButtonText.text = LocalizationLanguageManager.Localize(resetStopButtonKey);
 
         int previousSelectedValue = algorithmDropdown.value;
         algorithmDropdown.ClearOptions();
         algorithmDropdown.AddOptions(supportedAlgorithms
-            .Select(value => LocalizationLanguageManager.GetLocalizedName("UI Text", value))
+            .Select(value => LocalizationLanguageManager.Localize(value))
             .ToList()
        );
         algorithmDropdown.value = previousSelectedValue;

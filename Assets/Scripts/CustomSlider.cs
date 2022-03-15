@@ -29,7 +29,7 @@ public class CustomSlider : MonoBehaviour
         string sliderTextPrefix = "";
         if (componentName != "")
         {
-            string localizedComponentName = LocalizationLanguageManager.GetLocalizedName("UI Text", componentName);
+            string localizedComponentName = LocalizationLanguageManager.Localize(componentName);
             sliderTextPrefix = string.Format("{0}: ", localizedComponentName);
         }
         sliderText.text = sliderTextPrefix + formattedValue;
