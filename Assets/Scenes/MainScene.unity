@@ -1076,37 +1076,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 92724388}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!1 &104628531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,37 +1222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 114321011}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!224 &120294346 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4529130812831903357, guid: 30ae664f688def64580a6f68048144bf, type: 3}
@@ -3667,37 +3605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 557314710}, m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!1 &559302168
 GameObject:
   m_ObjectHideFlags: 0
@@ -4798,37 +4705,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 683282443}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!1 &683373942
 GameObject:
   m_ObjectHideFlags: 0
@@ -8662,6 +8538,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4529130812831903359, guid: 30ae664f688def64580a6f68048144bf, type: 3}
+      propertyPath: scale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4529130812831903359, guid: 30ae664f688def64580a6f68048144bf, type: 3}
       propertyPath: defaultValue
       value: 20
       objectReference: {fileID: 0}
@@ -9531,37 +9411,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 1192777730}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!1 &1207400769 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 66478547878350558, guid: 61cf51bf8e6a815418762055669559b6, type: 3}
@@ -10070,37 +9919,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 1251795041}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!1 &1261146301
 GameObject:
   m_ObjectHideFlags: 0
@@ -11248,37 +11066,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 1347128435}, m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!4 &1350617400 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2222111361405018444, guid: 88f2fd29f58b9734683512546acec310, type: 3}
@@ -11729,37 +11516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 1392701022}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!1 &1406984228
 GameObject:
   m_ObjectHideFlags: 0
@@ -13127,37 +12883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 1622685970}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!4 &1645943221 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1279437348525638701, guid: e2e682b966e3f644392ffbfab511e0e2, type: 3}
@@ -13388,37 +13113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 1674657373}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!1001 &1683640409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14005,37 +13699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 1747315645}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!1001 &1751611243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16395,37 +16058,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_TableEntryReference:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocaleOverride: {fileID: 0}
-    m_CurrentTable:
-      m_TableCollectionName: GUID:5e339d8f2582c834cbedff02fbb1877a
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 1
-    m_CurrentTableEntry:
-      m_Key: 
-      m_Valid: 0
-      <ReferenceType>k__BackingField: 2
-    m_LocalVariables: []
-    m_CurrentStringChangedValue: 
-    m_WaitingForVariablesEndUpdate: 0
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 2138166273}, m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI, m_MethodName: set_text, m_Mode: 0, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  references:
-    version: 1
 --- !u!1001 &4529130811483234009
 PrefabInstance:
   m_ObjectHideFlags: 0
