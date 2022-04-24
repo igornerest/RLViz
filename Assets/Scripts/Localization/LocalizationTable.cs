@@ -15,7 +15,7 @@ public class LocalizationTable
             { "key_Gamma", new LocalizationEntry
                 {
                     EnglishEntry = "Gamma" ,
-                    PortugueseEntry = "Gamma"
+                    PortugueseEntry = "Gama"
                 }
             },
             { "key_Epsilon", new LocalizationEntry
@@ -27,7 +27,7 @@ public class LocalizationTable
             { "key_Alpha", new LocalizationEntry
                 {
                     EnglishEntry = "Alpha",
-                    PortugueseEntry = "Alpha",
+                    PortugueseEntry = "Alfa",
                 }
             },
             { "key_Time_ms", new LocalizationEntry
